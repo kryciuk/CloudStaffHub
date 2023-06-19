@@ -1,0 +1,37 @@
+{% extends 'users/base.html' %}
+{% block content %}
+    <title>Logout</title>
+    <head>
+        <style>
+		    .user_card {
+			    width: 350px;
+                margin-top: 20px;
+                margin-bottom: auto;
+                background: #f8f9fa;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                padding: 10px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 30px 0 rgba(0, 0, 0, 0.19);
+                -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                border-radius: 5px;
+                }
+        </style>
+    </head>
+    <body>
+        <div class="d-flex justify-content-center">
+            <div class="user_card">
+                    <legend class="d-flex justify-content-center">LOGGED OUT</legend>
+                <div class="d-flex justify-content-center">
+                    <div class="border-top pt-2" style="text-align:center">
+                        <small class="text-muted">
+                            Log in again? <a class="justify-content-center" href="{% url 'login' %}">Log In</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+{% endblock %}
