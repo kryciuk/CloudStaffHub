@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic import View
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CreateUserForm
 
 
@@ -11,7 +12,7 @@ class WelcomeView(View):
         return render(request, 'users/welcome.html', context)
 
 
-class DashboardView(View):
+class DashboardView(LoginRequiredMixin, View):
 
     def get(self, request):
         context = {'title': 'Dashboard'}
@@ -33,6 +34,8 @@ class LoginView(View):
         return render(request, 'users/login.html', context)
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('dashboard')
         context = {'title': 'Login'}
         return render(request, 'users/login.html', context)
 
@@ -50,6 +53,8 @@ class RegisterView(View):
         return render(request, 'users/register.html', context)
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('dashboard')
         form = CreateUserForm()
         context = {'form': form, 'title': 'Register'}
         return render(request, 'users/register.html', context)
@@ -60,5 +65,3 @@ class LogoutView(View):
         logout(request)
         context = {'title': 'Logout'}
         return render(request, 'users/logout.html', context)
-
-# Kefiros1!
