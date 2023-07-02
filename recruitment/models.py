@@ -11,19 +11,21 @@ from .choices import (
 
 class Position(models.Model):
     title = models.CharField(max_length=100, help_text="title of the position")
-    description = models.TextField(help_text="description of the position")
+    level = models.IntegerField(choices=JOB_OFFER_LEVEL_CHOICES, default=0)
     departament = models.IntegerField(choices=POSITION_DEPARTMENT_CHOICES, default=0)
 
+    class Meta:
+        unique_together = ["title", "level", "departament"]
+
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.get_level_display()})"
 
 
 class JobOffer(models.Model):
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
-    description = models.TextField()
+    description = models.TextField(help_text="description of the position")
     status = models.BooleanField(help_text="is job offer active?")
     city = models.IntegerField(choices=JOB_OFFER_CITIES_CHOICES, default=0)
-    level = models.IntegerField(choices=JOB_OFFER_LEVEL_CHOICES, default=0)
     published_date = models.DateField()
     expiry_date = models.DateField()
 
@@ -31,7 +33,7 @@ class JobOffer(models.Model):
         return f"{self.position} (ID: {self.id})"
 
     def get_absolute_url(self):
-        return reverse("job_offer_detail", args=[str(self.id)])
+        return reverse("job-offer-detail", args=[str(self.id)])
 
 
 class JobApplication(models.Model):
@@ -56,4 +58,4 @@ class JobApplication(models.Model):
     )
 
     def get_absolute_url(self):
-        return reverse("job_offer_detail", args=[str(self.job_offer.id)])
+        return reverse("job-offer-detail", args=[str(self.job_offer.id)])

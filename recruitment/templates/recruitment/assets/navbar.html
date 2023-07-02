@@ -14,8 +14,8 @@
 {#            <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>#}
 {#            </li>#}
             <li>
-            {% url 'job_offers' as url %}
-            <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'job_offers' %}">Job Offers</a>
+            {% url 'job-offers' as url %}
+            <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'job-offers' %}">Job Offers</a>
             </li>
             <li>
             {% url 'logout' as url %}

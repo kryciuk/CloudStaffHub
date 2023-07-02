@@ -1,6 +1,7 @@
 {% extends 'recruitment/base.html' %}
 {% load static %}
 {% block content %}
+
     <title>{{ title }}</title>
     <head>
         <style>
@@ -32,7 +33,7 @@
                         <article class="media content-section">
                             <div class="media-body">
                                 <div class="article-metadata">
-                                    <a class="mb-5" href="#">{{ object.position.title }}</a>
+                                    <a class="mb-5" href="#">{{ object.position.title }} ({{object.position.get_level_display}}) - {{ object.get_city_display }}</a>
                                 </div>
                                 <div>
                                     <small class="text-muted">Offer posted: {{ object.published_date }}</small>
@@ -46,12 +47,12 @@
                                         </div>
                                     {% if not perms.recruitment.change_joboffer %}
                                         <div class = "card-group m-0">
-                                        <a href="{% url 'job_application' %}"><button class="btn btn-outline-info" type="submit">Submit your CV!</button></a>
+                                        <a href="{% url 'job-offer-apply' job_offer.id %}"><button class="btn btn-outline-info" type="submit">Submit your CV!</button></a>
                                         </div>
                                     {% endif %}
                                     {% if perms.recruitment.change_joboffer %}
                                         <div class = "card-group m-0">
-                                        <a href="{% url 'job_offer_update' job_offer.id %}"><button class="btn btn-outline-info" type="submit">Modify job offer!</button></a>
+                                        <a href="{% url 'job-offer-update' job_offer.id %}"><button class="btn btn-outline-info" type="submit">Modify job offer!</button></a>
                                         </div>
                                     {% endif %}
                                 {% endif %}

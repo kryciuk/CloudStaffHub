@@ -21,8 +21,8 @@
             {% url 'dashboard' as url %}
             <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'dashboard' %}">Profile</a>
             </li>
-            {% url 'candidate_default' as url %}
-            <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'candidate_default' %}">Canditate</a>
+            {% url 'candidate-default' as url %}
+            <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'candidate-default' %}">Canditate</a>
             </li>
             {% url 'logout' as url %}
           <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'logout' %}">Logout</a>

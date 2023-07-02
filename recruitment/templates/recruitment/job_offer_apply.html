@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
-
     <title>{{ title }}</title>
     <head>
         <style>
@@ -21,6 +20,7 @@
                     -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
                     border-radius: 5px;
                 }
+
         </style>
     </head>
     <body>
@@ -32,11 +32,11 @@
                             <form method="POST">
                                 {% csrf_token %}
                                 <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">{% if request.path == '/candidate/job-offers/create' %}Create{% else %}Update{% endif %} Job Offer</legend>
+                                    <legend class="border-bottom mb-4">Apply</legend>
                                     {{ form | crispy }}
                                 </fieldset>
                                 <div class="form-group">
-                                    <button class="btn btn-outline-info" type="submit">{% if request.path == '/candidate/job-offers/create' %}Publish{% else %}Update{% endif %}</button>
+                                    <button class="btn btn-outline-info" type="submit">Apply</button>
                                 </div>
                             </form>
                         </div>

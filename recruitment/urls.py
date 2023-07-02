@@ -9,14 +9,12 @@ from recruitment.views import (
 )
 
 urlpatterns = [
+    path("", CandidateDefaultView.as_view(), name="candidate-default"),
+    path("job-offers", JobOffersView.as_view(), name="job-offers"),
+    path("job-offers/<int:pk>", JobOfferView.as_view(), name="job-offer-detail"),
     path(
-        "", CandidateDefaultView.as_view(), name="candidate_default"
-    ),  # - instead of _
-    path("job-offers", JobOffersView.as_view(), name="job_offers"),
-    path("job-offer/<int:pk>", JobOfferView.as_view(), name="job_offer_detail"),
-    path(
-        "job-offer/update/<int:pk>", JobOfferUpdate.as_view(), name="job_offer_update"
+        "job-offers/update/<int:pk>", JobOfferUpdate.as_view(), name="job-offer-update"
     ),
-    path("job-offer/create", JobOfferCreate.as_view(), name="job_offer_create"),
-    path("job-offer/apply", ApplyJobOffer.as_view(), name="job_application"),
+    path("job-offers/create", JobOfferCreate.as_view(), name="job-offer-create"),
+    path("job-offers/apply/<int:pk>", ApplyJobOffer.as_view(), name="job-offer-apply"),
 ]

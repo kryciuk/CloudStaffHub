@@ -52,6 +52,8 @@ INSTALLED_APPS = [
 INSTALLED_EXTENSIONS = [
     "users.apps.UsersConfig",
     "recruitment.apps.RecruitmentConfig",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
@@ -152,3 +154,7 @@ LOGIN_URL = "login"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "/media/"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"

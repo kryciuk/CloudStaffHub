@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, View
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from .models import JobOffer, JobApplication
+from .models import JobOffer
+from .forms import JobApplicationForm, JobOfferForm
 
 
 class CandidateDefaultView(View):
@@ -30,38 +31,26 @@ class JobOfferUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = "recruitment.change_joboffer"
 
     model = JobOffer
+    form_class = JobOfferForm
     template_name = "recruitment/job_offer_update.html"
     context_object_name = "job_offer"
-    fields = "__all__"
 
 
 class JobOfferCreate(PermissionRequiredMixin, CreateView):
     permission_required = "recruitment.add_joboffer"
 
-    model = JobOffer
+    form_class = JobOfferForm
     template_name = "recruitment/job_offer_update.html"
     context_object_name = "job_offer"
-    fields = "__all__"
 
 
 class ApplyJobOffer(CreateView):
-    model = JobApplication
-    template_name = "recruitment/job_application.html"
+    form_class = JobApplicationForm
+    template_name = "recruitment/job_offer_apply.html"
     context_object_name = "job_application"
-    fields = "__all__"
 
     def form_valid(self, form):
+        form.instance.job_offer = JobOffer.objects.get(pk=self.kwargs.get("pk"))
         if self.request.user.is_authenticated:
             form.instance.candidate = self.request.user
         return super().form_valid(form)
-
-    # def form_valid(self, form):
-    #     # if not request.user.is_anonymous:
-    #     # if self.request.user.is_authenticated:
-    #     #     form.instance.candidate = self.request.user
-    #     try:
-    #         form.instance.candidate = self.request.user
-    #     except ValueError as e:
-    #         pass
-    #         # print(f'User creation failed reason {e}')
-    #     return super().form_valid(form)
