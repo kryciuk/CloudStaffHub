@@ -10,6 +10,7 @@ repos:
     rev: 6.0.0
     hooks:
     -   id: flake8
+        args: ['--ignore=E501, F401']
 -   repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
