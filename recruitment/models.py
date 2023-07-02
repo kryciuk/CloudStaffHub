@@ -42,12 +42,12 @@ class JobApplication(models.Model):
         JobOffer, on_delete=models.CASCADE, help_text="reply to job offer"
     )
     first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20, default="test")
+    last_name = models.CharField(max_length=20)
     phone_number = models.IntegerField(help_text="cellular number")
     email = models.EmailField()
     expected_salary = models.IntegerField(help_text="expected gross salary")
     cv = models.FileField(
-        upload_to="recrutitment/media/cv", default="bla.pdf", blank=True
+        upload_to="recruitment/media/cv", blank=True, null=True
     )  # recruitment
     # certificates = models.ImageField(upload_to='pdf')
     consent_processing_data = models.BooleanField(

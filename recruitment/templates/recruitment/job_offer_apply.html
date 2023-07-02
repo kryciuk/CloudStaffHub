@@ -29,7 +29,8 @@
                 <article class="media content-section">
                     <div class="media-body">
                         <div class="article-metadata">
-                            <form method="POST">
+                            <form  method="post" id="myform"  enctype="multipart/form-data">
+{#                                ważna linijka powyżej, bez niej nie będą się zapisywać pliki#}
                                 {% csrf_token %}
                                 <fieldset class="form-group">
                                     <legend class="border-bottom mb-4">Apply</legend>
