@@ -35,19 +35,25 @@
                                     <a class="mb-5" href="#">{{ object.position.title }}</a>
                                 </div>
                                 <div>
-                                    <small class="text-muted">Offer posted: {{ object.date_start }}</small>
+                                    <small class="text-muted">Offer posted: {{ object.published_date }}</small>
                                 </div>
                                 <div class="card-group m-2">
                                     <p class="article-content">{{ object.description }}</p>
                                 </div>
                                 {% if job_offer.status == True %}
-                                    <div class="mb-2">
-
-                                        <small class="text-muted">Recruitment ends: {{ object.date_stop }}</small>
-                                    </div>
-                                    <div class = "card-group m-0">
-                                        <button class="btn btn-outline-info" type="submit">Upload your CV!</button>
-                                    </div>
+                                        <div class="mb-2">
+                                        <small class="text-muted">Recruitment ends: {{ object.expiry_date }}</small>
+                                        </div>
+                                    {% if not perms.recruitment.change_joboffer %}
+                                        <div class = "card-group m-0">
+                                        <a href="{% url 'job_application' %}"><button class="btn btn-outline-info" type="submit">Submit your CV!</button></a>
+                                        </div>
+                                    {% endif %}
+                                    {% if perms.recruitment.change_joboffer %}
+                                        <div class = "card-group m-0">
+                                        <a href="{% url 'job_offer_update' job_offer.id %}"><button class="btn btn-outline-info" type="submit">Modify job offer!</button></a>
+                                        </div>
+                                    {% endif %}
                                 {% endif %}
                                 {% if object.status == False %}
                                     <div class = "card-group m-0">
@@ -60,3 +66,5 @@
             </div>
 
 {% endblock %}
+
+{#                                    {{ perms.app_name }}#}

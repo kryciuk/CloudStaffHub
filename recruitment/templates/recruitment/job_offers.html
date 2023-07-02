@@ -27,6 +27,12 @@
     </head>
     <body>
 
+    <div class="centered">
+        {% if perms.recruitment.add_joboffer %}
+            <a class="btn btn-info mb-0" href="{% url 'job_offer_create' %}">Create new job offer</a>
+        {% endif %}
+    </div>
+
 {#    <div class="centered">#}
 {##}
 {#        <div id="myDIV">#}
@@ -41,17 +47,13 @@
                         <article class="media content-section">
                             <div class="media-body">
                                 <div class="article-metadata">
-                                    <a class="mb-5" href="#">{{ job_offer.position.title }}</a>
+                                    <a class="mb-5" href="#">{{ job_offer.position.title }} - {{ job_offer.city }}</a>
                                 </div>
                                 <div>
-                                    <small class="text-muted">Offer posted: {{ job_offer.date_start }}</small>
-                                </div>
-{#                                <div class="card-group m-2">#}
-{#                                    <p class="article-content">{{ job_offer.description }}</p>#}
-{#                                </div>#}
+                                    <small class="text-muted">Offer posted: {{ job_offer.published_date }}</small>
                                 {% if job_offer.status == True %}
                                     <div class="mb-2">
-                                        <small class="text-muted">Recruitment ends: {{ job_offer.date_stop }}</small>
+                                        <small class="text-muted">Recruitment ends: {{ job_offer.expiry_date }}</small>
                                     </div>
                                     <div class = "card-group m-0">
                                         <a href="{% url 'job_offer_detail' job_offer.id %}"><button class="btn btn-outline-info" type="submit" href="{% url 'job_offer_detail' job_offer.id %}">View details and upload your CV!</button></a>
