@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.shortcuts import redirect, render
 from django.views.generic import View
+
 from users.forms import CreateUserForm
 
 

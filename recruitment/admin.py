@@ -1,5 +1,6 @@
 from django.contrib import admin
-from recruitment.models import Position, JobOffer, JobApplication
+
+from recruitment.models import JobApplication, JobOffer, Position
 
 admin.site.register(Position)
 admin.site.register(JobOffer)

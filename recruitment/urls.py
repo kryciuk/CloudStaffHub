@@ -1,11 +1,12 @@
 from django.urls import path
+
 from recruitment.views import (
+    ApplyJobOffer,
     CandidateDefaultView,
+    JobOfferCreate,
     JobOffersView,
     JobOfferUpdate,
     JobOfferView,
-    JobOfferCreate,
-    ApplyJobOffer,
 )
 
 urlpatterns = [

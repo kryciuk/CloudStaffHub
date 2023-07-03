@@ -1,11 +1,12 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
-from django.contrib.auth.models import User
+
 from .choices import (
-    POSITION_DEPARTMENT_CHOICES,
     JOB_APPLICATION_STATUS_CHOICES,
-    JOB_OFFER_LEVEL_CHOICES,
     JOB_OFFER_CITIES_CHOICES,
+    JOB_OFFER_LEVEL_CHOICES,
+    POSITION_DEPARTMENT_CHOICES,
 )
 
 

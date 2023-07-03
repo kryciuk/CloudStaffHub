@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, UpdateView, CreateView, View
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from .models import JobOffer
+from django.shortcuts import render
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
+
 from .forms import JobApplicationForm, JobOfferForm
+from .models import JobOffer
 
 
 class CandidateDefaultView(View):
