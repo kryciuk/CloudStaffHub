@@ -9,7 +9,7 @@ from .choices import (
     JOB_OFFER_LEVEL_CHOICES,
     POSITION_DEPARTMENT_CHOICES,
 )
-from .models import Position
+from .models import JobOffer, Position
 
 
 class PositionFactory(factory.django.DjangoModelFactory):
@@ -21,3 +21,15 @@ class PositionFactory(factory.django.DjangoModelFactory):
     departament = factory.fuzzy.FuzzyChoice(
         POSITION_DEPARTMENT_CHOICES, getter=lambda x: x[0]
     )
+
+
+class JobOfferFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = JobOffer
+
+    position = factory.SubFactory(PositionFactory)
+    description = factory.Faker("sentence", nb_words=100)
+    status = True
+    city = factory.fuzzy.FuzzyChoice(JOB_OFFER_CITIES_CHOICES, getter=lambda x: x[0])
+    published_date = factory.Faker("date")
+    expiry_date = factory.Faker("date")
