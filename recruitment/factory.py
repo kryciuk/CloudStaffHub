@@ -33,3 +33,8 @@ class JobOfferFactory(factory.django.DjangoModelFactory):
     city = factory.fuzzy.FuzzyChoice(JOB_OFFER_CITIES_CHOICES, getter=lambda x: x[0])
     published_date = factory.Faker("date")
     expiry_date = factory.Faker("date")
+
+
+# from recruitment.factory import PositionFactory, JobOfferFactory
+# x = PositionFactory.create_batch(10)
+# y = JobOfferFactory.create_batch(10)
