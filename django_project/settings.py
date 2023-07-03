@@ -53,6 +53,7 @@ INSTALLED_EXTENSIONS = [
     "recruitment.apps.RecruitmentConfig",
     "crispy_forms",
     "crispy_bootstrap5",
+    "widget_tweaks",
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
