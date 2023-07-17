@@ -22,6 +22,4 @@ POSITION_DEPARTMENT_CHOICES = (
 
 JOB_OFFER_LEVEL_CHOICES = ((0, "Junior"), (1, "Mid"), (2, "Senior"), (3, "Manager"))
 
-JOB_OFFER_CITIES_CHOICES = ((0, "Warsaw"), (1, "Cracow"), (2, "Seville"), (3, "Madrid"))
-
 JOB_APPLICATION_STATUS_CHOICES = ((0, "Received"), (1, "Accepted"))
