@@ -1,8 +1,5 @@
-<<<<<<< HEAD
        # Byte-compiled / optimized / DLL files
-=======
 # Byte-compiled / optimized / DLL files
->>>>>>> 6efb833 (Initial commit)
 __pycache__/
 *.py[cod]
 *$py.class
@@ -161,13 +158,12 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-<<<<<<< HEAD
 
 .idea/
 
 diagram_uml.drawio
 =======
 #.idea/
->>>>>>> 6efb833 (Initial commit)
 
 migrations/
+todo.md
