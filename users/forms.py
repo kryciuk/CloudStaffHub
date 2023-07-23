@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from recruitment.models import Company
+
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -14,3 +16,9 @@ class CreateUserForm(UserCreationForm):
             "password1",
             "password2",
         ]
+
+
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = "__all__"

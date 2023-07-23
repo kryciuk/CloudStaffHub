@@ -11,18 +11,21 @@ from users.models import Profile
 class RegisterView(View):
     def post(self, request):
         form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get("username")
-            domain = form.cleaned_data.get("email").rsplit(sep="@")[-1]
-            company = Company.objects.filter(email_domain=domain).first()
-            user1 = User.objects.get(username=username)
-            profile = Profile(user=user1, company=company)
-            profile.save()
-            messages.success(request, f"Account created for {username}")
-            return redirect("login")
-        context = {"form": form, "title": "Register"}
-        return render(request, "users/register.html", context)
+        if not form.is_valid():
+            return render(
+                request, "users/register.html", {"form": form, "title": "Register"}
+            )
+
+        user = form.save()
+        username = user.username
+        email_domain = user.email.split(sep="@")[-1]  # rsplit jak nie zadziała.
+        company = Company.objects.filter(email_domain=email_domain).first()
+
+        Profile.objects.create(user=user, company=company)
+
+        messages.success(request, f"Account created for {username}")
+
+        return redirect("login")
 
     def get(self, request):
         if request.user.is_authenticated:
