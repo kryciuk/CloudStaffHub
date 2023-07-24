@@ -70,8 +70,8 @@ class JobApplication(models.Model):
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    email_domain = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
+    email_domain = models.CharField(max_length=50)
 
     def __str__(self):
         return f"{self.name}"
