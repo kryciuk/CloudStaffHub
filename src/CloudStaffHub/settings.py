@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 INSTALLED_EXTENSIONS = [
     "users.apps.UsersConfig",
     "recruitment.apps.RecruitmentConfig",
+    "evaluation.apps.EvaluationConfig",
     "crispy_forms",
     "crispy_bootstrap5",
     "widget_tweaks",

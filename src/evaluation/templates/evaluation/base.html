@@ -1,0 +1,23 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/base.css' %}" />
+  </head>
+  <body>
+
+    {% include 'evaluation/assets/navbar.html' %}
+
+    {% if messages%}
+        {% for message in messages %}
+            <div class = "alert alert-{{ message.tags }}"> {{message}}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+  </body>
+</html>
