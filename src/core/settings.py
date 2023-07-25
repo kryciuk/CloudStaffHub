@@ -69,7 +69,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "CloudStaffHub.urls"
+ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
     {
@@ -87,7 +87,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "CloudStaffHub.wsgi.application"
+WSGI_APPLICATION = "core.wsgi.application"
 
 
 # Database
