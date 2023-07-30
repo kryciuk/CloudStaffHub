@@ -24,13 +24,19 @@
             {% url 'dashboard' as url %}
             <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'dashboard' %}">Profile</a>
             </li>
+            <li>
             {% url 'candidate-default' as url %}
             <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'candidate-default' %}">Canditate</a>
             </li>
+            <li>
+            {% url 'evaluation-dashboard' as url %}
+            <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'evaluation-dashboard' %}">Employee</a>
+            </li>
+            <li>
             {% url 'logout' as url %}
           <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'logout' %}">Logout</a>
+            </li>
         {% endif %}
-        </li>
       </ul>
     </div>
   </div>

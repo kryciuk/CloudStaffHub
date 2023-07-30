@@ -18,13 +18,10 @@ class RegisterView(View):
 
         user = form.save()
         username = user.username
-        email_domain = user.email.split(sep="@")[-1]  # rsplit jak nie zadziała.
+        email_domain = user.email.split(sep="@")[-1]
         company = Company.objects.filter(email_domain=email_domain).first()
-
         Profile.objects.create(user=user, company=company)
-
         messages.success(request, f"Account created for {username}")
-
         return redirect("login")
 
     def get(self, request):

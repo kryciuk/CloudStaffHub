@@ -12,21 +12,15 @@ class RegisterCompanyView(View):
     def post(self, request):
         form_company = CompanyForm(request.POST)
         form = CreateUserForm(request.POST)
-        if form_company.is_valid():
-            form_company.save()
-            if form.is_valid():
-                form.save()
-                username = form.cleaned_data.get("username")
-                domain = form.cleaned_data.get("email").rsplit(sep="@")[-1]
-                company = Company.objects.filter(email_domain=domain).first()
-                user1 = User.objects.get(username=username)
-                profile = Profile(user=user1, company=company)
-                profile.save()
-                company_name = form_company.cleaned_data.get("name")
-                messages.success(request, f"Company profile created for {company_name}")
-                return redirect("login")
-        context = {"form": form, "form_user": form, "title": "Register Company"}
-        return render(request, "users/register_company.html", context)
+        if not form_company.is_valid():
+            context = {"form": form, "form_user": form, "title": "Register Company"}
+            return render(request, "users/register_company.html", context)
+        company = form_company.save()
+        if form.is_valid():
+            user = form.save()
+            Profile.objects.create(user=user, company=company)
+            messages.success(request, f"Company profile created for {company.name}")
+            return redirect("login")
 
     def get(self, request):
         if request.user.is_authenticated:
