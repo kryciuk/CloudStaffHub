@@ -1,18 +1,29 @@
 from django.db import models
 from django.contrib.auth.models import User
-from evaluation.choices import ANSWERS_CHOICES
-
-
-class Question(models.Model):
-    prompt = models.TextField()
-
-
-class Response(models.Model):
-    response_opt = models.IntegerField(choices=ANSWERS_CHOICES, default=3)
 
 
 class Questionnaire(models.Model):
-    question = models.ManyToManyField(Question)
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Answer(models.Model):
+    answer = models.CharField(max_length=200)
+    score = models.IntegerField()
+    question = models.ForeignKey('Question', on_delete=models.CASCADE, related_name='answers')
+
+    def __str__(self):
+        return f"{self.answer} ({self.score})"
+
+
+class Question(models.Model):
+    text = models.CharField(max_length=200)
+    questionare = models.ForeignKey(Questionnaire, on_delete=models.CASCADE, related_name='questions')
+
+    def __str__(self):
+        return f"{self.text}"
 
 
 class Evaluation(models.Model):
