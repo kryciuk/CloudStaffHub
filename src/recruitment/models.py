@@ -2,11 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
 
-from .choices import (
-    JOB_APPLICATION_STATUS_CHOICES,
-    JOB_OFFER_LEVEL_CHOICES,
-    POSITION_DEPARTMENT_CHOICES,
-)
+from .choices import (JOB_APPLICATION_STATUS_CHOICES, JOB_OFFER_LEVEL_CHOICES,
+                      POSITION_DEPARTMENT_CHOICES)
 
 
 class Position(models.Model):
@@ -19,6 +16,9 @@ class Position(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.get_level_display()})"
+
+    def get_absolute_url(self):
+        return reverse("recruiter-default")
 
 
 class City(models.Model):

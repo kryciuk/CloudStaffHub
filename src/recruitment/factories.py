@@ -4,11 +4,8 @@ import factory
 from django.contrib.auth.models import User
 from factory.fuzzy import FuzzyChoice
 
-from .choices import (
-    JOB_APPLICATION_STATUS_CHOICES,
-    JOB_OFFER_LEVEL_CHOICES,
-    POSITION_DEPARTMENT_CHOICES,
-)
+from .choices import (JOB_APPLICATION_STATUS_CHOICES, JOB_OFFER_LEVEL_CHOICES,
+                      POSITION_DEPARTMENT_CHOICES)
 from .models import City, Company, JobApplication, JobOffer, Position
 
 

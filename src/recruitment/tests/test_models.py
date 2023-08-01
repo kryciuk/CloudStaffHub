@@ -3,11 +3,9 @@ from datetime import date
 
 from django.test import TestCase
 
-from recruitment.choices import (
-    JOB_OFFER_CITIES_CHOICES,
-    JOB_OFFER_LEVEL_CHOICES,
-    POSITION_DEPARTMENT_CHOICES,
-)
+from recruitment.choices import (JOB_OFFER_CITIES_CHOICES,
+                                 JOB_OFFER_LEVEL_CHOICES,
+                                 POSITION_DEPARTMENT_CHOICES)
 from recruitment.factories import JobOfferFactory, PositionFactory
 from recruitment.models import JobOffer, Position
 

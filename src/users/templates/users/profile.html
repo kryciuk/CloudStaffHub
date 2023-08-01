@@ -1,0 +1,54 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+{% load auth_extras %}
+{% block content %}
+
+
+<title>{{ title }}</title>
+
+<style>
+    .container {
+        width: 600px;
+        margin-top: 20px;
+        margin-bottom: auto;
+        background: #f8f9fa;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
+        -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+        -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+    }
+</style>
+    <body>
+        <div class="container">
+            <div class="card card-body">
+
+<div class="content-section">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="account-heading">{{ object.user.username }}</h2>
+            <p class="text-secondary">{{ object.user.email }}</p>
+        </div>
+            {% if user.company == object.user.company%}
+            {% if request.user|has_group:"creator" %}
+            <a class="btn" href="{% url 'profile-edit' user.profile.id %}">EDIT</a>
+            {% endif %}
+            {% endif %}
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Profile info</legend>
+
+            <div class="input-group mb-3">Phone number: {{form.phone_number}} </div>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

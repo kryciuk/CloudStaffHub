@@ -1,0 +1,45 @@
+{% extends 'recruitment/base.html' %}
+{% load static %}
+{% block content %}
+
+    <title>{{ title }}</title>
+    <head>
+        <style>
+		    .container {
+                    width: 600px;
+                    margin-top: 20px;
+                    margin-bottom: auto;
+                    background: #f8f9fa;
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    padding: 10px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
+                    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    border-radius: 5px;
+                }
+            .centered {
+                margin: 20px;
+                text-align: center;
+                    }
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+                <div class="card card-body">
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <h2 class="account-heading">Company {{user.profile.company}} employees:</h2>
+                                    {% for user in users %}
+                                    <a class="mb-5" href="{% url 'profile' user.profile.id %}">{{ user.username }}</a>
+                                    {% endfor %}
+                                </div>
+                        </article>
+                </div>
+            </div>
+
+{% endblock %}

@@ -52,6 +52,7 @@ INSTALLED_EXTENSIONS = [
     "users.apps.UsersConfig",
     "recruitment.apps.RecruitmentConfig",
     "evaluation.apps.EvaluationConfig",
+    "recruiter.apps.RecruiterConfig",
     "crispy_forms",
     "crispy_bootstrap5",
     "widget_tweaks",
