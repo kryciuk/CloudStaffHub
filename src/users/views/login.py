@@ -17,6 +17,7 @@ class LoginView(View):
         context = {"title": "Login"}
         return render(request, "users/login.html", context)
 
+
     def get(self, request):
         if request.user.is_authenticated:
             return redirect("dashboard")

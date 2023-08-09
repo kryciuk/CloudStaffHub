@@ -1,9 +1,18 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic import View, ListView
 
 from users.models import Profile
+
+
+# class AdminCompanyView(ListView):
+#     model = Profile
+#
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#         company_id = self.request.user.profile.company.id
+#         return queryset.filter(company=company)
 
 
 class AdminCompanyView(View):

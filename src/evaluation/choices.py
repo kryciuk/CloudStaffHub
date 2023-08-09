@@ -4,4 +4,4 @@ ANSWERS_CHOICES = (
     (3, "Not sure"),
     (4, "Somewhat agree"),
     (5, "Strongly agree"),
-                            )
+)

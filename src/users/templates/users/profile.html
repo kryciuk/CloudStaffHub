@@ -23,6 +23,7 @@
         border-radius: 5px;
     }
 </style>
+
     <body>
         <div class="container">
             <div class="card card-body">
@@ -33,9 +34,9 @@
             <h2 class="account-heading">{{ object.user.username }}</h2>
             <p class="text-secondary">{{ object.user.email }}</p>
         </div>
-            {% if user.company == object.user.company%}
+            {% if user.company == object.user.company %}
             {% if request.user|has_group:"creator" %}
-            <a class="btn" href="{% url 'profile-edit' user.profile.id %}">EDIT</a>
+                <a class="btn" href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
             {% endif %}
             {% endif %}
     </div>
@@ -45,10 +46,13 @@
             <legend class="border-bottom mb-4">Profile info</legend>
 
             <div class="input-group mb-3">Phone number: {{form.phone_number}} </div>
+
         </fieldset>
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Update</button>
         </div>
     </form>
 </div>
+            </div>
+        </div>
 {% endblock content %}

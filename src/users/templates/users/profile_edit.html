@@ -30,7 +30,7 @@
 <div class="content-section">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Profile info</legend>
+            <legend class="border-bottom mb-4">EDIT USER INFORMATION</legend>
 
             {{ form | crispy }}
 
@@ -38,6 +38,5 @@
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Update</button>
         </div>
-    </form>
 </div>
 {% endblock content %}
