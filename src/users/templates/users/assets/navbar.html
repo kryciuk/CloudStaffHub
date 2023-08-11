@@ -29,6 +29,7 @@
                 <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'profile' user.profile.id %}">Profile</a>
             </li>
             <li>
+                {% if user.profile.company is None or request.user.is_superuser %}
                 <div class="dropdown">
                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">Candidate</button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -36,28 +37,34 @@
                             <li><a class="dropdown-item" href="{% url 'job-offers' %}">Job Offers</a></li>
                         </ul>
                 </div>
+                {% endif %}
             </li>
             <li>
+                {% if user.profile.company is not None %}
                 <div class="dropdown">
                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">Employee</button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="{% url 'evaluation-dashboard' %}">Employee's Dashboard</a></li>
                         </ul>
                 </div>
+                {% endif %}
             </li>
             <li>
-                {% if perms.recruiter %}
+            {% for group in request.user.groups.all %}
+                {% if group.name == 'recruiter' or request.user.is_superuser %}
                  <div class="dropdown">
                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">Recruiter</button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="{% url 'recruiter-default' %}">Recruiter's Dashboard</a></li>
                             <li><a class="dropdown-item" href="{% url 'job-offers' %}">Job Offers</a></li>
+                            <li><a class="dropdown-item" href="{% url 'job-applications' %}">Job Applications</a></li>
                         </ul>
                 </div>
                  {% endif %}
+            {% endfor %}
             </li>
             <li>
-            {% if request.user|has_group:"creator" %}
+            {% if request.user|has_group:"Creator" or request.user.is_superuser %}
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">Company's Admin</button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

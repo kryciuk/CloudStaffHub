@@ -22,4 +22,4 @@ POSITION_DEPARTMENT_CHOICES = (
 
 JOB_OFFER_LEVEL_CHOICES = ((0, "Junior"), (1, "Mid"), (2, "Senior"), (3, "Manager"))
 
-JOB_APPLICATION_STATUS_CHOICES = ((0, "Received"), (1, "Accepted"))
+JOB_APPLICATION_STATUS_CHOICES = ((0, "Received"), (1, "Under review"), (2, "Closed"))

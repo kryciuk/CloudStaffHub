@@ -19,7 +19,6 @@ class RegisterCompanyView(View):
         company = form_company.save()
         if form.is_valid():
             user = form.save()
-            # creator_group = create_creator_group_and_give_permissions()
             creator_group = Group.objects.get(name="creator")
             creator_group.user_set.add(user)
             messages.success(request, f"Company profile created for {company.name}")

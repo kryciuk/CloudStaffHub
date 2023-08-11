@@ -1,7 +1,10 @@
 {% extends 'recruitment/base.html' %}
 {% load static %}
 {% block content %}
+{% load auth_extras %}
+
     <title>{{ title }}</title>
+
     <head>
         <style>
 		    .container {
@@ -25,6 +28,7 @@
                     }
         </style>
     </head>
+
     <body>
 
     <div class="centered">
@@ -41,14 +45,19 @@
 {##}
 {#    </div>#}
 
+    {% if request.user|has_group:"Recruiter" or request.user|has_group:"Creator"%}
+        {% for job_offer in job_offers %}
+            {% if job_offer.company == request.user.profile.company %}
 
-    {% for job_offer in job_offers %}
-        <div class="container">
+            <div class="container">
                 <div class="card card-body">
                         <article class="media content-section">
                             <div class="media-body">
                                 <div class="article-metadata">
                                     <a class="mb-5" href="#">{{ job_offer.position.title }} ({{job_offer.position.get_level_display}}) - {{ job_offer.city }}</a>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Company: {{ job_offer.company }}</small>
                                 </div>
                                 <div>
                                     <small class="text-muted">Offer posted: {{ job_offer.published_date }}</small>
@@ -69,7 +78,44 @@
                         </article>
                 </div>
             </div>
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if request.user.profile.company is None %}
+        {% for job_offer in job_offers %}
+
+        <div class="container">
+                <div class="card card-body">
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mb-5" href="#">{{ job_offer.position.title }} ({{job_offer.position.get_level_display}}) - {{ job_offer.city }}</a>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Company: {{ job_offer.company }}</small>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Offer posted: {{ job_offer.published_date }}</small>
+                                {% if job_offer.status == True %}
+                                    <div class="mb-2">
+                                        <small class="text-muted">Recruitment ends: {{ job_offer.expiry_date }}</small>
+                                    </div>
+                                    <div class = "card-group m-0">
+                                        <a href="{% url 'job-offer-detail' job_offer.id %}"><button class="btn btn-outline-info" type="submit" href="{% url 'job-offer-detail' job_offer.id %}">View details and upload your CV!</button></a>
+                                    </div>
+                                {% endif %}
+                                {% if job_offer.status == False %}
+                                    <div class = "card-group m-0">
+                                        <small class="alert-danger">Recruitment closed</small>
+                                    </div>
+                                {% endif %}
+                                </div>
+                        </article>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <div class="centered">
 

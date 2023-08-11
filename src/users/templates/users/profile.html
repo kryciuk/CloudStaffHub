@@ -35,7 +35,7 @@
             <p class="text-secondary">{{ object.user.email }}</p>
         </div>
             {% if user.company == object.user.company %}
-            {% if request.user|has_group:"creator" %}
+            {% if request.user|has_group:"Creator" or request.user.is_superuser %}
                 <a class="btn" href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
             {% endif %}
             {% endif %}

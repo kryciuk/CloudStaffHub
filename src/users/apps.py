@@ -7,11 +7,5 @@ class UsersConfig(AppConfig):
     name = "users"
 
     def ready(self):
-        from .signals import populate_models
-        from users.signals import create_profile
+        from users.signals import create_profile, populate_models
         post_migrate.connect(populate_models, sender=self)
-
-    #
-    # def ready(self):
-    #     from users.signals import create_profile, save_profile
-

@@ -33,7 +33,10 @@
                         <article class="media content-section">
                             <div class="media-body">
                                 <div class="article-metadata">
-                                    <a class="mb-5" href="#">{{ object.position.title }} ({{object.position.get_level_display}}) - {{ object.get_city_display }}</a>
+                                    <a class="mb-5" href="#">{{ object.position.title }} ({{object.position.get_level_display}}) - {{ object.city }}</a>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Company: {{ object.company }}</small>
                                 </div>
                                 <div>
                                     <small class="text-muted">Offer posted: {{ object.published_date }}</small>
@@ -57,9 +60,14 @@
                                     {% endif %}
                                 {% endif %}
                                 {% if object.status == False %}
-                                    <div class = "card-group m-0">
-                                        <small class="alert-danger">Recruitment closed</small>
-                                    </div>
+                                        <div class = "card-group m-2">
+                                            <small class="alert-danger">Recruitment closed</small>
+                                        </div>
+                                        {% if perms.recruitment.change_joboffer %}
+                                         <div class = "card-group m-0">
+                                            <a href="{% url 'job-offer-update' job_offer.id %}"><button class="btn btn-outline-info" type="submit">Modify job offer!</button></a>
+                                         </div>
+                                      {% endif %}
                                 {% endif %}
                                 </div>
                         </article>

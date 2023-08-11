@@ -26,7 +26,15 @@ class City(models.Model):
     country = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.name} ({self.country})"
+        return f"{self.name}"
+
+
+class Company(models.Model):
+    name = models.CharField(max_length=50)
+    email_domain = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class JobOffer(models.Model):
@@ -34,6 +42,7 @@ class JobOffer(models.Model):
     description = models.TextField(help_text="description of the position")
     status = models.BooleanField(help_text="is job offer active?")
     city = models.ForeignKey(City, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
     published_date = models.DateField()
     expiry_date = models.DateField()
 
@@ -67,11 +76,3 @@ class JobApplication(models.Model):
 
     def get_absolute_url(self):
         return reverse("job-offer-detail", args=[str(self.job_offer.id)])
-
-
-class Company(models.Model):
-    name = models.CharField(max_length=50)
-    email_domain = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.name}"

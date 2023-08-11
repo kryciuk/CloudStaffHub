@@ -1,10 +1,9 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.views.generic import View, ListView
+from django.views.generic import ListView, View
 
 from users.models import Profile
-
 
 # class AdminCompanyView(ListView):
 #     model = Profile
