@@ -1,0 +1,66 @@
+{% extends 'landing/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load auth_extras %}
+{% block content %}
+
+    <title>{{ title }}</title>
+    <head>
+        <style>
+		    .container {
+                    width: 600px;
+                    margin-top: 20px;
+                    margin-bottom: auto;
+                    background: #f8f9fa;
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    padding: 10px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
+                    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    border-radius: 5px;
+                }
+            .centered {
+                margin: 20px;
+                text-align: center;
+                    }
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+                <div class="card card-body">
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <b class="mb-5">{{ job_application.candidate.first_name }} {{job_application.candidate.last_name}}</b>
+                                </div>
+                                <div><small class="text-muted"> Applied for job offer ID:  <a class="justify-content-center" href="{% url 'job-offer-detail' job_application.job_offer.id %}">{{job_application.job_offer.id }} ({{job_application.job_offer.position }}, {{job_application.job_offer.company }})</a></small>
+                                </div>
+                                <div class="pt-4" style="text-align:left">
+                                    <a class="d-flex justify-content-left">CANDIDATE INFORMATION</a>
+                                    <div class="border-top pt-2" style="text-align:left">
+                                        <div style="text-align:left"> <small class="text-muted" style="text-align: left"> Phone number: {{ job_application.candidate.profile.phone_number }}</small> </div>
+                                        <div style="text-align:left"> <small class="text-muted" style="text-align: left"> Email: {{ job_application.candidate.email }}</small> </div>
+                                        <div style="text-align:left"> <small class="text-muted" style="text-align: left"> Expected salary: {{ job_application.expected_salary }}</small> </div>
+                                    </div>
+                                </div>
+                                <div class="pt-4" style="text-align:left">
+                                    <a class="d-flex justify-content-left">STATUS</a>
+                                    <div class="border-top pt-2" style="text-align:left">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <fieldset><div class="input-group mb-3" style="text-align:left"> <small class="text-muted" style="text-align: left"> Status: {{ form.status }}</small> </div> </fieldset>
+                                        <button class="btn btn-outline-info pt-2" type="submit">Update status</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                </div>
+                        </article>
+                </div>
+            </div>
+
+{% endblock %}
+

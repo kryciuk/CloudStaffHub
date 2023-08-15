@@ -46,3 +46,9 @@ class JobApplicationForm(ModelForm):
             "cv": None,
             "consent_processing_data": None,
         }
+
+
+class JobApplicationStatusForm(ModelForm):
+        class Meta:
+            model = JobApplication
+            fields = ["status"]

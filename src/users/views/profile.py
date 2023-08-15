@@ -1,18 +1,15 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import redirect, render, reverse
-from django.views.generic import DetailView, UpdateView
+from django.shortcuts import reverse
+from django.views.generic import UpdateView
 
 from users.forms import UserProfileForm
-# from users.forms import ProfileUpdateForm, UserRegisterForm, UserUpdateForm
 from users.models import Profile
 
 
 class ProfileDetailView(UpdateView):
     template_name = 'users/profile.html'
     model = Profile
-    fields = ["phone_number", "company"]
+    fields = ["phone_number", "interested_in"]
 
     def get_success_url(self):
         return reverse('profile', kwargs={"pk": self.object.id})
@@ -41,3 +38,6 @@ class UserProfileUpdateView(UpdateView):
         self.object.groups.clear()
         self.object.groups.add(form.cleaned_data['group'])
         return super(UserProfileUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('profile', kwargs={"pk": self.object.id})

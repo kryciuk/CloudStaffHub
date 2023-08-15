@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from django.shortcuts import redirect, render
 from django.views.generic import View
 
@@ -17,10 +17,17 @@ class RegisterView(View):
             )
 
         user = form.save()
-        # username = user.username
-        # email_domain = user.email.split(sep="@")[-1]
-        # company = Company.objects.filter(email_domain=email_domain).first()
-        # Profile.objects.create(user=user, company=company)
+        username = user.username
+        email_domain = user.email.split(sep="@")[-1]
+        company = Company.objects.filter(email_domain=email_domain).first()
+        if company is None:
+            candidate_group = Group.objects.get(name="Candidate")
+            candidate_group.user_set.add(user)
+        else:
+            employee_group = Group.objects.get(name="Employee")
+            employee_group.user_set.add(user)
+            profile = Profile.objects.filter(user=user).first()
+            profile.company = company
         messages.success(request, f"Account created for {user.username}")
         return redirect("login")
 

@@ -1,0 +1,133 @@
+{% extends 'landing/base.html' %}
+{% load static %}
+{% block content %}
+{% load auth_extras %}
+
+    <title>{{ title }}</title>
+
+    <head>
+        <style>
+		    .container {
+                    width: 600px;
+                    margin-top: 20px;
+                    margin-bottom: auto;
+                    background: #f8f9fa;
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    padding: 10px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
+                    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    border-radius: 5px;
+                }
+            .centered {
+                margin: 20px;
+                text-align: center;
+                    }
+        </style>
+    </head>
+
+    <body>
+
+    <div class="centered">
+        {% if perms.recruitment.add_joboffer %}
+            <a class="btn btn-info mb-0" href="{% url 'job-offer-create' %}">Create new job offer</a>
+        {% endif %}
+    </div>
+
+{#    <div class="centered">#}
+{##}
+{#        <div id="myDIV">#}
+{#            <a class="btn active" href="?status=True">Show only active</a>#}
+{#        </div>#}
+{##}
+{#    </div>#}
+
+    {% if request.user|has_group:"Recruiter" or request.user|has_group:"Creator"%}
+        {% for job_offer in job_offers %}
+            {% if job_offer.company == request.user.profile.company %}
+
+            <div class="container">
+                <div class="card card-body">
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mb-5" href="#">{{ job_offer.position.title }} ({{job_offer.position.get_level_display}}) - {{ job_offer.city }}</a>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Company: {{ job_offer.company }}</small>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Offer posted: {{ job_offer.published_date }}</small>
+                                {% if job_offer.status == True %}
+                                    <div class="mb-2">
+                                        <small class="text-muted">Recruitment ends: {{ job_offer.expiry_date }}</small>
+                                    </div>
+                                    <div class = "card-group m-0">
+                                        <a href="{% url 'job-offer-detail' job_offer.id %}"><button class="btn btn-outline-info" type="submit" href="{% url 'job-offer-detail' job_offer.id %}">View details and upload your CV!</button></a>
+                                    </div>
+                                {% endif %}
+                                {% if job_offer.status == False %}
+                                    <div class = "card-group m-0">
+                                        <small class="alert-danger">Recruitment closed</small>
+                                    </div>
+                                {% endif %}
+                                </div>
+                        </article>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if request.user.profile.company is None %}
+        {% for job_offer in job_offers %}
+
+        <div class="container">
+                <div class="card card-body">
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mb-5" href="#">{{ job_offer.position.title }} ({{job_offer.position.get_level_display}}) - {{ job_offer.city }}</a>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Company: {{ job_offer.company }}</small>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Offer posted: {{ job_offer.published_date }}</small>
+                                {% if job_offer.status == True %}
+                                    <div class="mb-2">
+                                        <small class="text-muted">Recruitment ends: {{ job_offer.expiry_date }}</small>
+                                    </div>
+                                    <div class = "card-group m-0">
+                                        <a href="{% url 'job-offer-detail' job_offer.id %}"><button class="btn btn-outline-info" type="submit" href="{% url 'job-offer-detail' job_offer.id %}">View details and upload your CV!</button></a>
+                                    </div>
+                                {% endif %}
+                                {% if job_offer.status == False %}
+                                    <div class = "card-group m-0">
+                                        <small class="alert-danger">Recruitment closed</small>
+                                    </div>
+                                {% endif %}
+                                </div>
+                        </article>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="centered">
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="btn btn-outline mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    </div>
+    </body>
+
+{% endblock %}

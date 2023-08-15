@@ -2,39 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
 
-from .choices import (JOB_APPLICATION_STATUS_CHOICES, JOB_OFFER_LEVEL_CHOICES,
-                      POSITION_DEPARTMENT_CHOICES)
-
-
-class Position(models.Model):
-    title = models.CharField(max_length=100, help_text="title of the position")
-    level = models.IntegerField(choices=JOB_OFFER_LEVEL_CHOICES, default=0)
-    departament = models.IntegerField(choices=POSITION_DEPARTMENT_CHOICES, default=0)
-
-    class Meta:
-        unique_together = ["title", "level", "departament"]
-
-    def __str__(self):
-        return f"{self.title} ({self.get_level_display()})"
-
-    def get_absolute_url(self):
-        return reverse("recruiter-default")
-
-
-class City(models.Model):
-    name = models.CharField(max_length=50)
-    country = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Company(models.Model):
-    name = models.CharField(max_length=50)
-    email_domain = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.name}"
+from organizations.models import City, Company, Position
 
 
 class JobOffer(models.Model):
@@ -54,6 +22,11 @@ class JobOffer(models.Model):
 
 
 class JobApplication(models.Model):
+    class Status(models.IntegerChoices):
+        RECEIVED = 0
+        UNDER_REVIEW = 1
+        CLOSED = 2
+
     candidate = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     job_offer = models.ForeignKey(
         JobOffer, on_delete=models.CASCADE, help_text="reply to job offer"
@@ -71,8 +44,8 @@ class JobApplication(models.Model):
         help_text="consent to processing of personal data"
     )
     status = models.IntegerField(
-        choices=JOB_APPLICATION_STATUS_CHOICES, default=0, blank=True
+        choices=Status.choices, default=0, blank=True
     )
 
     def get_absolute_url(self):
-        return reverse("job-offer-detail", args=[str(self.job_offer.id)])
+        return reverse("job-applications")

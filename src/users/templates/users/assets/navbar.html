@@ -51,7 +51,7 @@
             </li>
             <li>
             {% for group in request.user.groups.all %}
-                {% if group.name == 'recruiter' or request.user.is_superuser %}
+                {% if group.name == 'Recruiter' or request.user.is_superuser %}
                  <div class="dropdown">
                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">Recruiter</button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

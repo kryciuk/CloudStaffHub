@@ -4,8 +4,7 @@ from django.views.generic import CreateView
 from recruiter.forms import PositionForm
 
 
-class PositionCreate(PermissionRequiredMixin, CreateView):
-    permission_required = "recruiter"
+class PositionCreateView(CreateView):
 
     form_class = PositionForm
     template_name = "recruiter/position_create.html"

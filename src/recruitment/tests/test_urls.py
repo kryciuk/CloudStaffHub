@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import resolve, reverse
 
 from recruitment.views.candidate_default import CandidateDefaultView
-from recruitment.views.job_offers_list import JobOffersView
+from recruitment.views.job_offers.job_offers_list import JobOffersView
 
 
 class TestUrls(TestCase):

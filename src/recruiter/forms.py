@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from recruitment.models import City, Position, JobApplication
+from recruitment.models import City, JobApplication, Position
 
 
 class PositionForm(ModelForm):
@@ -18,9 +18,3 @@ class CityForm(ModelForm):
     class Meta:
         model = City
         fields = "__all__"
-
-
-class JobApplicationForm(ModelForm):
-    class Meta:
-        model = JobApplication
-        fields = ["status"]

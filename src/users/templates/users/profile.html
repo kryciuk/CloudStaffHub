@@ -1,4 +1,4 @@
-{% extends 'users/base.html' %}
+{% extends 'landing/base.html' %}
 {% load crispy_forms_tags %}
 {% load auth_extras %}
 {% block content %}
@@ -40,17 +40,13 @@
             {% endif %}
             {% endif %}
     </div>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Profile info</legend>
-
-            <div class="input-group mb-3">Phone number: {{form.phone_number}} </div>
-
+            {{ form | crispy }}
         </fieldset>
-        <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Update</button>
-        </div>
     </form>
 </div>
             </div>

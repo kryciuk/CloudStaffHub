@@ -1,15 +1,57 @@
-{% extends 'recruitment/base.html' %}
+{% extends 'landing/base.html' %}
 {% block content %}
-    <title>{{ title }}</title>
-    <head>
-    </head>
-    <body>
-        <div class="row">
-            <div class="col-md-2">
-                <div class="card card-body">
-                <h1>Placeholder</h1>
-                </div>
+<!DOCTYPE html>
+
+<head>
+    <title></title>
+    <style>
+        #content {
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+        .info-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .info-box {
+            width: calc(25% - 20px);
+            background-color: #f4f4f4;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="content">
+        <div class="info-container">
+            <div class="info-box">
+                <h3>Latest job offers in:</h3>
+                <h2>{{ request.user.profile.interested_in }}</h2>
+                <p>Some information here...</p>
+            </div>
+            <div class="info-box">
+                <h3>Info Box 2</h3>
+                <p>Some information here...</p>
+            </div>
+            <div class="info-box">
+                <h3>Info Box 3</h3>
+                <p>Some information here...</p>
+            </div>
+            <div class="info-box">
+                <h3>Info Box 4</h3>
+                <p>Some information here...</p>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+</html>
+
+
 {% endblock %}

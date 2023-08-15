@@ -1,0 +1,1 @@
+from .candidate_default import CandidateDefaultView

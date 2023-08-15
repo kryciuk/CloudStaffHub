@@ -1,10 +1,7 @@
-from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic import TemplateView
 
 
-class CandidateDefaultView(View):
+class CandidateDefaultView(TemplateView):
     template_name = "recruitment/candidate.html"
 
-    def get(self, request):
-        context = {"title": "Candidate"}
-        return render(request, self.template_name, context)
+

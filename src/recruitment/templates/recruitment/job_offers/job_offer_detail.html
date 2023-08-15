@@ -1,0 +1,79 @@
+{% extends 'landing/base.html' %}
+{% load static %}
+{% block content %}
+
+    <title>{{ title }}</title>
+    <head>
+        <style>
+		    .container {
+                    width: 600px;
+                    margin-top: 20px;
+                    margin-bottom: auto;
+                    background: #f8f9fa;
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    padding: 10px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
+                    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    border-radius: 5px;
+                }
+            .centered {
+                margin: 20px;
+                text-align: center;
+                    }
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+                <div class="card card-body">
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mb-5" href="#">{{ object.position.title }} ({{object.position.get_level_display}}) - {{ object.city }}</a>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Company: {{ object.company }}</small>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Offer posted: {{ object.published_date }}</small>
+                                </div>
+                                <div class="card-group m-2">
+                                    <a class="article-content">{{ object.description }}</a>
+                                </div>
+                                {% if job_offer.status == True %}
+                                        <div class="mb-2">
+                                        <small class="text-muted">Recruitment ends: {{ object.expiry_date }}</small>
+                                        </div>
+                                    {% if not perms.recruitment.change_joboffer %}
+                                        <div class = "card-group m-0">
+                                        <a href="{% url 'job-offer-apply' job_offer.id %}"><button class="btn btn-outline-info" type="submit">Submit your CV!</button></a>
+                                        </div>
+                                    {% endif %}
+                                    {% if perms.recruitment.change_joboffer %}
+                                        <div class = "card-group m-0">
+                                        <a href="{% url 'job-offer-update' job_offer.id %}"><button class="btn btn-outline-info" type="submit">Modify job offer!</button></a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                {% if object.status == False %}
+                                        <div class = "card-group m-2">
+                                            <small class="alert-danger">Recruitment closed</small>
+                                        </div>
+                                        {% if perms.recruitment.change_joboffer %}
+                                         <div class = "card-group m-0">
+                                            <a href="{% url 'job-offer-update' job_offer.id %}"><button class="btn btn-outline-info" type="submit">Modify job offer!</button></a>
+                                         </div>
+                                      {% endif %}
+                                {% endif %}
+                                </div>
+                        </article>
+                </div>
+            </div>
+
+{% endblock %}
+
+{#                                    {{ perms.app_name }}#}

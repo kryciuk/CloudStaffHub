@@ -23,7 +23,6 @@ env = environ.Env(DEBUG=(bool, False), SECRET_KEY=(str, get_random_secret_key())
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-print(env("DEBUG"))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -46,16 +45,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-]
-
-INSTALLED_EXTENSIONS = [
-    "users.apps.UsersConfig",
-    "recruitment.apps.RecruitmentConfig",
-    "evaluation.apps.EvaluationConfig",
-    "recruiter.apps.RecruiterConfig",
     "crispy_forms",
     "crispy_bootstrap5",
     "widget_tweaks",
+    'django_filters'
+]
+
+INSTALLED_EXTENSIONS = [
+    "users",
+    "recruitment",
+    "evaluation",
+    "recruiter",
+    "organizations",
+    "landing"
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
@@ -158,3 +160,56 @@ LOGIN_URL = "login"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "/media/"
+
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "formatters": {
+#         "verbose": {
+#             "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+#             "style": "{",
+#         },
+#         "simple": {
+#             "format": "{levelname} {message}",
+#             "style": "{",
+#         },
+#     },
+#     "filters": {
+#         "special": {
+#             "()": "project.logging.SpecialFilter",
+#             "foo": "bar",
+#         },
+#         "require_debug_true": {
+#             "()": "django.utils.log.RequireDebugTrue",
+#         },
+#     },
+#     "handlers": {
+#         "console": {
+#             "level": "INFO",
+#             "filters": ["require_debug_true"],
+#             "class": "logging.StreamHandler",
+#             "formatter": "simple",
+#         },
+#         "mail_admins": {
+#             "level": "ERROR",
+#             "class": "django.utils.log.AdminEmailHandler",
+#             "filters": ["special"],
+#         },
+#     },
+#     "loggers": {
+#         "django": {
+#             "handlers": ["console"],
+#             "propagate": True,
+#         },
+#         "django.request": {
+#             "handlers": ["mail_admins"],
+#             "level": "ERROR",
+#             "propagate": False,
+#         },
+#         "CSH": {
+#             "handlers": ["console", "mail_admins"],
+#             "level": "INFO",
+#             "filters": ["special"],
+#         },
+#     },
+# }
