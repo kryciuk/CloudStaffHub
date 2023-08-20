@@ -1,79 +1,104 @@
 {% load static %}
 {% load auth_extras %}
+
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'dashboard' %}">CloudStaffHub</a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
         {% if not user.is_authenticated %}
-            {% url 'login' as url %}
-          <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'login' %}">Login</a>
-        </li>
-        <li class="nav-item">
-            {% url 'register' as url %}
-          <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'register' %}">Register</a>
-            <li class="nav-item">
-            {% url 'register-company' as url %}
-          <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'register-company' %}">Register Company</a>
+          {% url 'login' as login_url %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == login_url %} active {% endif %}" aria-current="page" href="{% url 'login' %}">Login</a>
+          </li>
+
+          {% url 'register' as register_url %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == register_url %} active {% endif %}" aria-current="page" href="{% url 'register' %}">Register</a>
+          </li>
+
+          {% url 'register-company' as register_company_url %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == register_company_url %} active {% endif %}" aria-current="page" href="{% url 'register-company' %}">Register Company</a>
+          </li>
         {% endif %}
+
         {% if user.is_authenticated %}
+          {% url 'profile' as profile_url %}
+          <li>
+            <a class="nav-link {% if request.path == profile_url %} active {% endif %}" aria-current="page" href="{% url 'profile' request.user.profile.id %}">Profile</a>
+          </li>
+
+          {% if request.user|has_group:"Candidate" or request.user.is_superuser %}
             <li>
-                {% url 'profile' as url %}
-                <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'profile' user.profile.id %}">Profile</a>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="candidateDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Candidate</button>
+                <ul class="dropdown-menu" aria-labelledby="candidateDropdownMenuButton">
+                  <li><a class="dropdown-item" href="{% url 'candidate-dashboard' %}">Candidate's Dashboard</a></li>
+                  <li><a class="dropdown-item" href="{% url 'job-offers' %}">Job Offers</a></li>
+                </ul>
+              </div>
             </li>
+          {% endif %}
+
+          {% if request.user|has_group:"Employee" or request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
             <li>
-                {% if request.user|has_group:"Candidate" or request.user.is_superuser %}
-                <div class="dropdown">
-                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">Candidate</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="{% url 'candidate-default' %}">Candidate's Dashboard</a></li>
-                            <li><a class="dropdown-item" href="{% url 'job-offers' %}">Job Offers</a></li>
-                        </ul>
-                </div>
-                {% endif %}
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="employeeDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Employee</button>
+                <ul class="dropdown-menu" aria-labelledby="employeeDropdownMenuButton">
+                  <li><a class="dropdown-item" href="{% url 'evaluation-dashboard' %}">Employee's Dashboard</a></li>
+                </ul>
+              </div>
             </li>
+          {% endif %}
+
+          {% if request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
             <li>
-                {% if request.user|has_group:"Employee" or request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
-                <div class="dropdown">
-                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">Employee</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="{% url 'evaluation-dashboard' %}">Employee's Dashboard</a></li>
-                        </ul>
-                </div>
-                {% endif %}
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="recruiterDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Recruiter</button>
+                <ul class="dropdown-menu" aria-labelledby="recruiterDropdownMenuButton">
+                  <li><a class="dropdown-item" href="{% url 'recruiter-dashboard' %}">Recruiter's Dashboard</a></li>
+                  <li><a class="dropdown-item" href="{% url 'job-offers' %}">Job Offers</a></li>
+                  <li><a class="dropdown-item" href="{% url 'job-applications' %}">Job Applications</a></li>
+                </ul>
+              </div>
             </li>
+          {% endif %}
+
+          {% if request.user|has_group:"Manager" or request.user|has_group:"Creator" or request.user.is_superuser %}
             <li>
-                {% if request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
-                 <div class="dropdown">
-                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">Recruiter</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="{% url 'recruiter-default' %}">Recruiter's Dashboard</a></li>
-                            <li><a class="dropdown-item" href="{% url 'job-offers' %}">Job Offers</a></li>
-                            <li><a class="dropdown-item" href="{% url 'job-applications' %}">Job Applications</a></li>
-                        </ul>
-                </div>
-                 {% endif %}
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="managerDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Manager</button>
+                <ul class="dropdown-menu" aria-labelledby="managerDropdownMenuButton">
+                  <li><a class="dropdown-item" href="{% url 'manager-dashboard' %}">Manager's Dashboard</a></li>
+                </ul>
+              </div>
             </li>
+          {% endif %}
+
+          {% if request.user|has_group:"Creator" or request.user.is_superuser %}
             <li>
-            {% if request.user|has_group:"Creator" or request.user.is_superuser %}
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">Company's Admin</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="{% url 'company-admin' %}">Company Admin's Dashboard</a></li>
-                        </ul>
-                </div>
-                {% endif %}
-            <li>
-                {% url 'logout' as url %}
-                <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'logout' %}">Logout</a>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="adminDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Company's Admin</button>
+                <ul class="dropdown-menu" aria-labelledby="adminDropdownMenuButton">
+                  <li><a class="dropdown-item" href="{% url 'company-admin-dashboard' %}">Company Admin's Dashboard</a></li>
+                </ul>
+              </div>
             </li>
+          {% endif %}
+
+          {% url 'logout' as logout_url %}
+          <li>
+            <a class="nav-link {% if request.path == logout_url %} active {% endif %}" aria-current="page" href="{% url 'logout' %}">Logout</a>
+          </li>
         {% endif %}
       </ul>
     </div>

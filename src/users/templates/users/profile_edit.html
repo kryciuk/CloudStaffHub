@@ -2,40 +2,75 @@
 {% load crispy_forms_tags %}
 {% load auth_extras %}
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        .container {
+            width: 600px;
+            margin-top: 20px;
+            margin-bottom: auto;
+            background: #f8f9fa;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 5px 0 rgba(0, 0, 0, 0.19);
+            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+        }
 
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-<title xmlns="http://www.w3.org/1999/html">{{ title }}</title>
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
 
-<style>
-    .container {
-        width: 600px;
-        margin-top: 20px;
-        margin-bottom: auto;
-        background: #f8f9fa;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        padding: 10px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
-        -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-        -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-        border-radius: 5px;
-    }
-</style>
-    <body>
-        <div class="container">
-            <div class="card card-body">
-                <div class="content-section">
-                    <form action="" method="post"> {% csrf_token %}
-                        <fieldset class="form-group">
-                            <legend class="border-bottom mb-4">EDIT USER INFORMATION</legend>
-                            {{ form | crispy }}
-                        </fieldset>
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-group select {
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group select:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card card-body">
+            <div class="content-section">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Edit User Information</legend>
+                        {{ form | crispy }}
                         <button class="btn btn-outline-info" type="submit">Update</button>
-                    </form>
-                </div>
+                    </fieldset>
+                </form>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+</html>
 {% endblock content %}

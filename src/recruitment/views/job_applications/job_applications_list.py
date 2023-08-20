@@ -1,6 +1,5 @@
-from django.views.generic import ListView
-
 import django_filters
+from django.views.generic import ListView
 
 from recruitment.models import JobApplication
 

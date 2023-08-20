@@ -2,51 +2,112 @@
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
-{#{% load widget_tweaks %}#}
 
-    <title>{{ title }}</title>
-    <head>
-        <style>
-		    .container {
-                    width: 600px;
-                    margin-top: 20px;
-                    margin-bottom: auto;
-                    background: #f8f9fa;
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                    flex-direction: column;
-                    padding: 10px;
-                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
-                    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-                    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-                    border-radius: 5px;
-                }
+<title>{{ title }}</title>
+<head>
+    <style>
+        .container {
+            width: 600px;
+            margin-top: 20px;
+            margin-bottom: auto;
+            background: #f8f9fa;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
+            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+        }
 
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="card card-body">
-                <article class="media content-section">
-                    <div class="media-body">
-                        <div class="article-metadata">
-                            <form  method="post" id="myform"  enctype="multipart/form-data">
-{#                                ważna linijka powyżej, bez niej nie będą się zapisywać pliki#}
-                                {% csrf_token %}
-                                <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">Apply</legend>
-                                    {{ form | crispy }}
-                                </fieldset>
+        /* Stylizacja przycisku do wyboru pliku */
+        .file-input {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-input input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+        .file-input .btn {
+            background-color: #f06161;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Stylizacja nazwy wybranego pliku */
+        .file-name {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card card-body">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <form method="post" id="myform" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4">Applying for {{ job_offer }}</legend>
                                 <div class="form-group">
-                                    <button class="btn btn-outline-info" type="submit">Apply</button>
+                                    {{ form.first_name | as_crispy_field }}
                                 </div>
-                            </form>
-                        </div>
+                                <div class="form-group">
+                                    {{ form.last_name | as_crispy_field  }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.phone_number | as_crispy_field  }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.email | as_crispy_field  }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.expected_salary | as_crispy_field  }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.consent_processing_data | as_crispy_field  }}
+                                </div>
+                                <div class="file-input">
+                                    <input type="file" name="cv" id="cv" accept=".pdf">
+                                    <label for="cv" class="btn">Choose PDF File (CV)</label>
+                                </div>
+                                <div class="file-name" id="file-name"></div>
+                            </fieldset>
+                            <div class="form-group">
+                                <button class="btn btn-outline-info" type="submit">Apply</button>
+                            </div>
+                        </form>
                     </div>
-                </article>
-            </div>
+                </div>
+            </article>
         </div>
-    </body>
+    </div>
 
-    {% endblock %}
+    <script>
+        // Wyświetlanie nazwy wybranego pliku
+        document.getElementById("pdf_file").addEventListener("change", function () {
+            const fileName = this.value.split("\\").pop();
+            document.getElementById("file-name").textContent = "Selected File: " + fileName;
+        });
+    </script>
+</body>
+
+{% endblock %}

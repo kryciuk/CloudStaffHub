@@ -1,0 +1,59 @@
+{% extends 'landing/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+
+<head>
+    <title></title>
+    <style>
+        #content {
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+        .info-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center; /* Center the content horizontally */
+            align-items: flex-start; /* Align items to the top */
+        }
+        .info-box {
+            flex: 1; /* Distribute available space equally among info-boxes */
+            max-width: calc(25% - 20px); /* Set a maximum width for each box */
+            background-color: #f4f4f4;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="content">
+        <div class="info-container">
+            <div class="info-box">
+                <h3>Read new article about:</h3>
+                <h2>{{ request.user.profile.interested_in }}</h2>
+                <p>Some information here...</p>
+            </div>
+            <div class="info-box">
+                <h3>Read new article about:</h3>
+                <h2>{{ request.user.profile.interested_in }}</h2>
+                <p>Some information here...</p>
+            </div>
+            <div class="info-box">
+                <h3>Info Box 3</h3>
+                <p>Some information here...</p>
+            </div>
+            <div class="info-box">
+                <h3>Info Box 4</h3>
+                <p>Some information here...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}

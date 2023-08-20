@@ -48,4 +48,4 @@ class JobApplication(models.Model):
     )
 
     def get_absolute_url(self):
-        return reverse("job-applications")
+        return reverse("job-offers")

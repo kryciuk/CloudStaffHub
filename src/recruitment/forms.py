@@ -1,3 +1,4 @@
+from django import forms
 from django.forms import ModelForm
 
 from .models import JobApplication, JobOffer
@@ -7,6 +8,7 @@ class JobOfferForm(ModelForm):
     class Meta:
         model = JobOffer
         fields = "__all__"
+        exclude = ["company"]
         labels = {"status": "Is this job offer active?"}
         help_texts = {
             "position": None,
@@ -31,11 +33,10 @@ class JobApplicationForm(ModelForm):
             "consent_processing_data",
         )
         labels = {
-            "expected_salary": "Expected  gross salary",
+            "expected_salary": "Expected  Gross Salary",
             "cv": "CV",
-            "consent_processing_data": "I hereby give consent for my personal data to be processed by ["
-            "nazwa firmy] for the purpose of conducting recruitment for the "
-            "position for which I am applying.",
+            "consent_processing_data": "I hereby give consent for my personal data to be processed for the purpose of "
+                                       "conducting recruitment for the position for which I am applying.",
         }
         help_texts = {
             "first_name": None,
@@ -49,6 +50,6 @@ class JobApplicationForm(ModelForm):
 
 
 class JobApplicationStatusForm(ModelForm):
-        class Meta:
-            model = JobApplication
-            fields = ["status"]
+    class Meta:
+        model = JobApplication
+        fields = ["status"]

@@ -4,37 +4,37 @@ from django.shortcuts import reverse
 
 
 class Position(models.Model):
-    class Departament(models.IntegerChoices):
-        BOARD_OF_DIRECTORS = 0
-        MARKETING = 1
-        SALES = 2
-        PROJECT = 3
-        DESIGN = 4
-        PRODUCTION = 5
-        MAINTENANCE = 6
-        STORE = 7
-        PROCUREMENT = 8
-        QUALITY = 9
-        INSPECTION = 10
-        PACKAGING = 11
-        FINANCE = 12
-        ACCOUNTING = 13
-        INFORMATION_TECHNOLOGY = 14
-        RESEARCH_DEVELOPMENT = 15
-        HUMAN_RESOURCE = 16
-        SECURITY = 17
-        ADMINISTRATION = 18
+    class Departament(models.TextChoices):
+        BOARD_OF_DIRECTORS = 'Board of Directors'
+        MARKETING = 'Marketing'
+        SALES = 'Sales'
+        PROJECT = 'Project'
+        DESIGN = 'Design'
+        PRODUCTION = 'Production'
+        MAINTENANCE = 'Maintenance'
+        STORE = 'Store'
+        PROCUREMENT = 'Procurement'
+        QUALITY = 'Quality'
+        INSPECTION = 'Inspection'
+        PACKAGING = 'Packaging'
+        FINANCE = 'Finance'
+        ACCOUNTING = 'Accounting'
+        INFORMATION_TECHNOLOGY = 'Information Technology'
+        RESEARCH_DEVELOPMENT = 'Research Development'
+        HUMAN_RESOURCE = 'Human Resource'
+        SECURITY = 'Security'
+        ADMINISTRATION = 'Administration'
 
-    class Level(models.IntegerChoices):
-        ENTRY = 0
-        JUNIOR = 1
-        MID = 2
-        SENIOR = 3
-        MANAGER = 4
+    class Level(models.TextChoices):
+        ENTRY = "Entry"
+        JUNIOR = "Junior"
+        MID = "Mid"
+        SENIOR = "Senior"
+        MANAGER = "Manager"
 
     title = models.CharField(max_length=100, help_text="title of the position")
-    level = models.IntegerField(choices=Level.choices)
-    departament = models.IntegerField(choices=Departament.choices)
+    level = models.TextField(choices=Level.choices)
+    departament = models.TextField(choices=Departament.choices)
 
     class Meta:
         unique_together = ["title", "level", "departament"]
@@ -44,6 +44,9 @@ class Position(models.Model):
 
     def get_absolute_url(self):
         return reverse("recruiter-default")
+
+    def department_name(self):
+        return self.Departament(self.departament).label
 
 
 class City(models.Model):

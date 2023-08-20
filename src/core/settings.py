@@ -57,7 +57,10 @@ INSTALLED_EXTENSIONS = [
     "evaluation",
     "recruiter",
     "organizations",
-    "landing"
+    "landing",
+    "candidate",
+    "manager",
+    "creator"
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.views.generic import UpdateView
@@ -13,6 +14,10 @@ class ProfileDetailView(UpdateView):
 
     def get_success_url(self):
         return reverse('profile', kwargs={"pk": self.object.id})
+
+    def post(self, request, *args, **kwargs):
+        messages.success(request, f"Profile updated")
+        return super().post(request, *args, *kwargs)
 
 
 class UserProfileUpdateView(UpdateView):
@@ -41,3 +46,7 @@ class UserProfileUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('profile', kwargs={"pk": self.object.id})
+
+    def post(self, request, *args, **kwargs):
+        messages.success(request, f"User information updated")
+        return super().post(request, *args, *kwargs)

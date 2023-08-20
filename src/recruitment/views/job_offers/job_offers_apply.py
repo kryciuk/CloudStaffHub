@@ -1,6 +1,6 @@
-from django.views.generic import CreateView
-from django.shortcuts import get_object_or_404
 from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.views.generic import CreateView
 
 from recruitment.forms import JobApplicationForm
 from recruitment.models import JobOffer
@@ -20,3 +20,8 @@ class JobOffersApplyView(CreateView):
         if self.request.user.is_authenticated:
             form.instance.candidate = self.request.user
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['job_offer'] = get_object_or_404(JobOffer, pk=self.kwargs.get("pk"))
+        return context
