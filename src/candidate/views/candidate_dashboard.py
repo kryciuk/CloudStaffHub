@@ -1,10 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 
 from recruitment.models import JobOffer
 
 
-class CandidateDashboardView(TemplateView):
+class CandidateDashboardView(LoginRequiredMixin, TemplateView):
     model = User
     template_name = "candidate/candidate_dashboard.html"
 

@@ -29,5 +29,6 @@ urlpatterns = [
     path("recruiter/", include("recruiter.urls")),
     path("organizations/", include("organizations.urls")),
     path("manager/", include("manager.urls")),
-    path("company-admin/", include("creator.urls"))
+    path("company-admin/", include("creator.urls")),
+    path("employee/", include("employee.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

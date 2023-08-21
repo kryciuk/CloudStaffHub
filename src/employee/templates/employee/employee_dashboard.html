@@ -33,10 +33,9 @@
     <div id="content">
         <div class="info-container">
             <div class="info-box">
-                <h3 class="account-heading">Company {{ user.profile.company }} employees:</h3>
-                {% for employee in employees %}
-                <p style="text-align: left; margin-left: 27px;"><a class="mb-5" href="{% url 'profile' employee.profile.id %}">{{ employee.username }}</a></p>
-                {% endfor %}
+                <h3>Read a new article about:</h3>
+                <h2>{{ request.user.profile.interested_in }}</h2>
+                <p>Some information here...</p>
             </div>
             <div class="info-box">
                 <h3>Read a new article about:</h3>

@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "widget_tweaks",
-    'django_filters'
+    'django_filters',
+    'rest_framework'
 ]
 
 INSTALLED_EXTENSIONS = [
@@ -60,7 +61,8 @@ INSTALLED_EXTENSIONS = [
     "landing",
     "candidate",
     "manager",
-    "creator"
+    "creator",
+    "employee"
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
