@@ -15,4 +15,3 @@ class QuestionForm(ModelForm):
             "published_date": None,
             "expiry_date": None,
         }
-

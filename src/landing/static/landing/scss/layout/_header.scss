@@ -6,7 +6,7 @@
     background-size: cover;
     background-position: center;
     @include flex;
-    flex-direction: column; 
+    flex-direction: column;
 
     .overlay {
         position: absolute;
@@ -27,7 +27,7 @@
         align-items: center;
         margin-top: 100px;
 
-        .carousel-inner {           
+        .carousel-inner {
 
             .carousel-title {
                 font-size: calc(40px + (60 - 40) * ((100vw - 300px) / (1300 - 300)));
@@ -99,7 +99,7 @@
             margin-top: 20px;
         }
     }
-        
+
 }
 @include media-breakpoint-down(sm) {
 
@@ -110,11 +110,3 @@
         }
     }
 }
-
-
-
-
-
-
-
-

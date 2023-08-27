@@ -5,25 +5,25 @@ from django.shortcuts import reverse
 
 class Position(models.Model):
     class Departament(models.TextChoices):
-        BOARD_OF_DIRECTORS = 'Board of Directors'
-        MARKETING = 'Marketing'
-        SALES = 'Sales'
-        PROJECT = 'Project'
-        DESIGN = 'Design'
-        PRODUCTION = 'Production'
-        MAINTENANCE = 'Maintenance'
-        STORE = 'Store'
-        PROCUREMENT = 'Procurement'
-        QUALITY = 'Quality'
-        INSPECTION = 'Inspection'
-        PACKAGING = 'Packaging'
-        FINANCE = 'Finance'
-        ACCOUNTING = 'Accounting'
-        INFORMATION_TECHNOLOGY = 'Information Technology'
-        RESEARCH_DEVELOPMENT = 'Research Development'
-        HUMAN_RESOURCE = 'Human Resource'
-        SECURITY = 'Security'
-        ADMINISTRATION = 'Administration'
+        BOARD_OF_DIRECTORS = "Board of Directors"
+        MARKETING = "Marketing"
+        SALES = "Sales"
+        PROJECT = "Project"
+        DESIGN = "Design"
+        PRODUCTION = "Production"
+        MAINTENANCE = "Maintenance"
+        STORE = "Store"
+        PROCUREMENT = "Procurement"
+        QUALITY = "Quality"
+        INSPECTION = "Inspection"
+        PACKAGING = "Packaging"
+        FINANCE = "Finance"
+        ACCOUNTING = "Accounting"
+        INFORMATION_TECHNOLOGY = "Information Technology"
+        RESEARCH_DEVELOPMENT = "Research Development"
+        HUMAN_RESOURCE = "Human Resource"
+        SECURITY = "Security"
+        ADMINISTRATION = "Administration"
 
     class Level(models.TextChoices):
         ENTRY = "Entry"

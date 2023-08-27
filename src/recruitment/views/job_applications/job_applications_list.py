@@ -11,5 +11,3 @@ class JobApplicationsView(ListView):
     ordering = ["-id"]
     queryset = JobApplication.objects.filter(status=JobApplication.Status.RECEIVED)
     paginate_by = 5
-
-

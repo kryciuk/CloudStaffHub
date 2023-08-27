@@ -1,10 +1,10 @@
 //////////////////////////////////////////////
  // mixins
 @mixin flex() {
-	display: -webkit-box; 
+	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
-	display: -webkit-flex; 
+	display: -webkit-flex;
 	display: flex;
 }
 
@@ -17,5 +17,3 @@
 	-o-transition: $property $duration + s;
 	transition: $property $duration + s
 }
- 
- 

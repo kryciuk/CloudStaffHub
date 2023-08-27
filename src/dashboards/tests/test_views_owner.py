@@ -5,13 +5,12 @@ from rest_framework import status
 
 
 class TestCandidateViews(TestCase):
-
     @classmethod
     def setUpTestData(cls):
-        cls.client = Client(HTTP_HOST='localhost:8000')
+        cls.client = Client(HTTP_HOST="localhost:8000")
 
-        user = User.objects.create(username='test_user1', email='test_user1@test.com')
-        user.set_password('password')
+        user = User.objects.create(username="test_user1", email="test_user1@test.com")
+        user.set_password("password")
         user.save()
 
         creator, _ = Group.objects.get_or_create(name="Creator")
@@ -20,7 +19,9 @@ class TestCandidateViews(TestCase):
         cls.user = user
 
     def test_template_name_correct(self):
-        self.client.login(username=self.user.username, password='password')
-        response = self.client.get(reverse('dashboard-owner'), {'user_id': self.user.id})
+        self.client.login(username=self.user.username, password="password")
+        response = self.client.get(
+            reverse("dashboard-owner"), {"user_id": self.user.id}
+        )
         # self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTemplateUsed(response, 'dashboards/dashboard_dashboard.html')
+        self.assertTemplateUsed(response, "dashboards/dashboard_dashboard.html")

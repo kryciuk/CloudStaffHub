@@ -4,7 +4,7 @@ from django.views.generic import CreateView
 from evaluation.forms import QuestionForm
 
 
-class QuestionCreate(CreateView):          # PermissionRequiredMixin
+class QuestionCreate(CreateView):  # PermissionRequiredMixin
     # permission_required = "recruitment.add_joboffer"
 
     form_class = QuestionForm

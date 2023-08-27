@@ -23,5 +23,5 @@ class JobOffersApplyView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['job_offer'] = get_object_or_404(JobOffer, pk=self.kwargs.get("pk"))
+        context["job_offer"] = get_object_or_404(JobOffer, pk=self.kwargs.get("pk"))
         return context

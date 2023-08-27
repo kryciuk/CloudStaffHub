@@ -8,12 +8,12 @@ from users.models import Profile
 
 
 class ProfileDetailView(UpdateView):
-    template_name = 'users/profile.html'
+    template_name = "users/profile.html"
     model = Profile
     fields = ["phone_number", "interested_in"]
 
     def get_success_url(self):
-        return reverse('profile', kwargs={"pk": self.object.id})
+        return reverse("profile", kwargs={"pk": self.object.id})
 
     def post(self, request, *args, **kwargs):
         messages.success(request, f"Profile updated")
@@ -22,7 +22,7 @@ class ProfileDetailView(UpdateView):
 
 class UserProfileUpdateView(UpdateView):
     model = User
-    template_name = 'users/profile_edit.html'
+    template_name = "users/profile_edit.html"
 
     def get_initial(self):
         initial = super(UserProfileUpdateView, self).get_initial()
@@ -33,7 +33,7 @@ class UserProfileUpdateView(UpdateView):
             # or has more than one group
             pass
         else:
-            initial['group'] = current_group.pk
+            initial["group"] = current_group.pk
         return initial
 
     def get_form_class(self):
@@ -41,11 +41,11 @@ class UserProfileUpdateView(UpdateView):
 
     def form_valid(self, form):
         self.object.groups.clear()
-        self.object.groups.add(form.cleaned_data['group'])
+        self.object.groups.add(form.cleaned_data["group"])
         return super(UserProfileUpdateView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('profile', kwargs={"pk": self.object.id})
+        return reverse("profile", kwargs={"pk": self.object.id})
 
     def post(self, request, *args, **kwargs):
         messages.success(request, f"User information updated")

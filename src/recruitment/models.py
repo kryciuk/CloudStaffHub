@@ -43,9 +43,7 @@ class JobApplication(models.Model):
     consent_processing_data = models.BooleanField(
         help_text="consent to processing of personal data"
     )
-    status = models.IntegerField(
-        choices=Status.choices, default=0, blank=True
-    )
+    status = models.IntegerField(choices=Status.choices, default=0, blank=True)
 
     def get_absolute_url(self):
         return reverse("job-offers")

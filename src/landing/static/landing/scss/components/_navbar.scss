@@ -104,7 +104,7 @@
                   }
             }
       }
-      
+
       &-nav {
             .nav-link {
                   font-size: $navbar-link-font-size;
@@ -117,7 +117,7 @@
       }
 }
 
-@include media-breakpoint-down(sm) { 
+@include media-breakpoint-down(sm) {
     .navbar-expand-sm {
 
         .navbar-collapse {
@@ -126,7 +126,7 @@
     }
 }
 
-@include media-breakpoint-down(md) { 
+@include media-breakpoint-down(md) {
     .navbar-expand-md {
 
         .navbar-collapse {
@@ -135,7 +135,7 @@
     }
 }
 
-@include media-breakpoint-down(lg) { 
+@include media-breakpoint-down(lg) {
     .navbar-expand-lg {
 
         .navbar-collapse {
@@ -144,7 +144,7 @@
     }
 }
 
-@include media-breakpoint-down(xl) { 
+@include media-breakpoint-down(xl) {
     .navbar-expand-xl {
 
         .navbar-collapse {

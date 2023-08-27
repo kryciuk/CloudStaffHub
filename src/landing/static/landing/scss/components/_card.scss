@@ -77,7 +77,7 @@
 
 .blog-wrapper {
 	@include flex;
-	align-items: center; 
+	align-items: center;
 
 	.img-wrapper {
 		min-width: 350px;
@@ -92,9 +92,9 @@
 		}
 
 		.date-container	{
-			position: absolute; 
+			position: absolute;
 			top: 20px;
-			left: 20px;		
+			left: 20px;
 			color: white;
 			text-align: center;
 			font-weight: bold;
@@ -109,18 +109,18 @@
 				height: 50px;
 				line-height: 50px;
 				margin: 0;
-			}  
+			}
 
 			.mun {
 				font-size: 20px;
-				background: lighten($primary, 7%);		
+				background: lighten($primary, 7%);
 				margin: 0;
-				padding: 5px 0;		
-			}  
+				padding: 5px 0;
+			}
 		}
 	}
 	.txt-wrapper {
-		flex-grow: 1; 
+		flex-grow: 1;
 		padding-right: 20px;
 
 		.badge {
@@ -135,7 +135,7 @@
 			a {
 				display: inline-block;
 				margin: 0 10px;
-				color: $gray-700;	
+				color: $gray-700;
 
 				i {
 					display: inline-block;
@@ -144,7 +144,7 @@
 
 				&:first-child {
 					margin-left: 0;
-				}		
+				}
 			}
 		}
 	}

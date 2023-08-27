@@ -5,11 +5,12 @@ from core.base import _get_perms_for_models
 
 
 class LandingConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'landing'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "landing"
 
     def ready(self):
         from users.signals import create_profile
+
         post_migrate.connect(self.populate_models, sender=self)
 
     def populate_models(self, sender, **kwargs):

@@ -36,7 +36,7 @@ class JobApplicationForm(ModelForm):
             "expected_salary": "Expected  Gross Salary",
             "cv": "CV",
             "consent_processing_data": "I hereby give consent for my personal data to be processed for the purpose of "
-                                       "conducting recruitment for the position for which I am applying.",
+            "conducting recruitment for the position for which I am applying.",
         }
         help_texts = {
             "first_name": None,

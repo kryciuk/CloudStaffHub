@@ -27,5 +27,5 @@ urlpatterns = [
     path("evaluation/", include("evaluation.urls")),
     path("recruiter/", include("recruiter.urls")),
     path("organizations/", include("organizations.urls")),
-    path("dashboard/", include("dashboards.urls"))
+    path("dashboard/", include("dashboards.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

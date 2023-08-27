@@ -8,7 +8,7 @@ from django.views.generic import View
 from organizations.forms import CompanyForm
 from users.forms import CreateUserForm
 
-logger = logging.getLogger('CSH')
+logger = logging.getLogger("CSH")
 
 
 class RegisterCompanyView(View):
@@ -16,7 +16,7 @@ class RegisterCompanyView(View):
         form_company = CompanyForm(request.POST)
         form = CreateUserForm(request.POST)
         if not form_company.is_valid():
-            logger.info(f'Failed to validate form_company form:  {form_company.errors}')
+            logger.info(f"Failed to validate form_company form:  {form_company.errors}")
             context = {"form": form, "form_user": form, "title": "Register Company"}
             return render(request, "organizations/register_company.html", context)
         company = form_company.save()
@@ -40,4 +40,3 @@ class RegisterCompanyView(View):
             "title": "Register Company",
         }
         return render(request, "organizations/register_company.html", context)
-

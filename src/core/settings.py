@@ -48,9 +48,9 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "widget_tweaks",
-    'django_filters',
-    'rest_framework',
-    ]
+    "django_filters",
+    "rest_framework",
+]
 
 INSTALLED_EXTENSIONS = [
     "users",
@@ -59,7 +59,7 @@ INSTALLED_EXTENSIONS = [
     "recruiter",
     "organizations",
     "landing",
-    "dashboards"
+    "dashboards",
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
@@ -102,8 +102,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "CloudStaffHub",
-        "USER": 'admin',
-        "PASSWORD": 'Molly9!'
+        "USER": "admin",
+        "PASSWORD": "Molly9!",
     }
 }
 
@@ -164,7 +164,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
 GROUPS_MANAGER = {
-    'AUTH_MODELS_SYNC': True,
+    "AUTH_MODELS_SYNC": True,
 }
 
 # LOGGING = {
@@ -220,4 +220,7 @@ GROUPS_MANAGER = {
 #     },
 # }
 
-AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'guardian.backends.ObjectPermissionBackend')
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "guardian.backends.ObjectPermissionBackend",
+)

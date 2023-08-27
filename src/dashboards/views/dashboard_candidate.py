@@ -12,5 +12,7 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         departament = self.request.user.profile.interested_in
-        context["newest_entries"] = JobOffer.objects.filter(position__departament=departament).order_by('-id')[:10]
+        context["newest_entries"] = JobOffer.objects.filter(
+            position__departament=departament
+        ).order_by("-id")[:10]
         return context
