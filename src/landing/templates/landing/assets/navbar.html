@@ -42,7 +42,7 @@
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="candidateDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Candidate</button>
                 <ul class="dropdown-menu" aria-labelledby="candidateDropdownMenuButton">
-                  <li><a class="dropdown-item" href="{% url 'candidate-dashboard' %}">Candidate's Dashboard</a></li>
+                  <li><a class="dropdown-item" href="{% url 'dashboard-candidate' %}">Candidate's Dashboard</a></li>
                   <li><a class="dropdown-item" href="{% url 'job-offers' %}">Job Offers</a></li>
                 </ul>
               </div>
@@ -54,7 +54,7 @@
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="employeeDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Employee</button>
                 <ul class="dropdown-menu" aria-labelledby="employeeDropdownMenuButton">
-                  <li><a class="dropdown-item" href="{% url 'employee-dashboard' %}">Employee's Dashboard</a></li>
+                  <li><a class="dropdown-item" href="{% url 'dashboard-employee' %}">Employee's Dashboard</a></li>
                 </ul>
               </div>
             </li>
@@ -65,7 +65,7 @@
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="recruiterDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Recruiter</button>
                 <ul class="dropdown-menu" aria-labelledby="recruiterDropdownMenuButton">
-                  <li><a class="dropdown-item" href="{% url 'recruiter-dashboard' %}">Recruiter's Dashboard</a></li>
+                  <li><a class="dropdown-item" href="{% url 'dashboard-recruiter' %}">Recruiter's Dashboard</a></li>
                   <li><a class="dropdown-item" href="{% url 'job-offers' %}">Job Offers</a></li>
                   <li><a class="dropdown-item" href="{% url 'job-applications' %}">Job Applications</a></li>
                 </ul>
@@ -78,7 +78,7 @@
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="managerDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Manager</button>
                 <ul class="dropdown-menu" aria-labelledby="managerDropdownMenuButton">
-                  <li><a class="dropdown-item" href="{% url 'manager-dashboard' %}">Manager's Dashboard</a></li>
+                  <li><a class="dropdown-item" href="{% url 'dashboard-manager' %}">Manager's Dashboard</a></li>
                 </ul>
               </div>
             </li>
@@ -89,7 +89,7 @@
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="adminDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Company's Admin</button>
                 <ul class="dropdown-menu" aria-labelledby="adminDropdownMenuButton">
-                  <li><a class="dropdown-item" href="{% url 'company-admin-dashboard' %}">Company Admin's Dashboard</a></li>
+                  <li><a class="dropdown-item" href="{% url 'dashboard-owner' %}">Owner's Dashboard</a></li>
                 </ul>
               </div>
             </li>

@@ -49,8 +49,8 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "widget_tweaks",
     'django_filters',
-    'rest_framework'
-]
+    'rest_framework',
+    ]
 
 INSTALLED_EXTENSIONS = [
     "users",
@@ -59,10 +59,7 @@ INSTALLED_EXTENSIONS = [
     "recruiter",
     "organizations",
     "landing",
-    "candidate",
-    "manager",
-    "creator",
-    "employee"
+    "dashboards"
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
@@ -166,6 +163,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "/media/"
 
+GROUPS_MANAGER = {
+    'AUTH_MODELS_SYNC': True,
+}
+
 # LOGGING = {
 #     "version": 1,
 #     "disable_existing_loggers": False,
@@ -218,3 +219,5 @@ MEDIA_URL = "/media/"
 #         },
 #     },
 # }
+
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'guardian.backends.ObjectPermissionBackend')

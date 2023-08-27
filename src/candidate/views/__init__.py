@@ -1,1 +1,0 @@
-from .candidate_dashboard import CandidateDashboardView
