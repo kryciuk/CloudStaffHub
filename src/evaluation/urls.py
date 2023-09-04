@@ -1,7 +1,11 @@
 from django.urls import path
 
-from evaluation.views import (AnswerCreateView, QuestionCreateView,
-                              QuestionnaireCreateView, QuestionnaireDetailView)
+from evaluation.views import (
+    AnswerCreateView,
+    QuestionCreateView,
+    QuestionnaireCreateView,
+    QuestionnaireDetailView,
+)
 
 urlpatterns = [
     path(

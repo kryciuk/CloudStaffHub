@@ -1,8 +1,13 @@
 from django.urls import path
 
-from users.views import (DashboardView, LoginView, LogoutView,
-                         ProfileDetailView, RegisterView,
-                         UserProfileUpdateView)
+from users.views import (
+    DashboardView,
+    LoginView,
+    LogoutView,
+    ProfileDetailView,
+    RegisterView,
+    UserProfileUpdateView,
+)
 
 urlpatterns = [
     path("", DashboardView.as_view(), name="dashboard"),

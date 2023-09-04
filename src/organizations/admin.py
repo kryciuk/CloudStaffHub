@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from organizations.models import (City, Company, CompanyProfile, Industry,
-                                  Position)
+from organizations.models import City, Company, CompanyProfile, Industry, Position
 
 admin.site.register(Position)
 admin.site.register(Company)
