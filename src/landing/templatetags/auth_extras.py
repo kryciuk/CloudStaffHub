@@ -10,7 +10,7 @@ def has_group(user, group_name):
     return True if group in user.groups.all() else False
 
 
-@register.filter('get_value_from_dict')
+@register.filter("get_value_from_dict")
 def get_value_from_dict(dict_data, key):
     """
     usage example {{ your_dict|get_value_from_dict:your_key }}

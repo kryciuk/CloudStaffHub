@@ -1,7 +1,7 @@
 from django.views.generic import ListView
 
-from recruitment.models import JobOffer
 from recruitment.filters import JobOfferFilter
+from recruitment.models import JobOffer
 
 
 class JobOffersListView(ListView):
@@ -11,7 +11,7 @@ class JobOffersListView(ListView):
     ordering = ["-status", "-published_date"]
     paginate_by = 5
 
-    def get_queryset(self):             #napisać fancy
+    def get_queryset(self):  # napisać fancy
         company = self.request.user.profile.company
         queryset = JobOffer.objects.filter(status=True)
         if company is not None:
@@ -21,5 +21,5 @@ class JobOffersListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = self.filterset.form
+        context["form"] = self.filterset.form
         return context

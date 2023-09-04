@@ -1,18 +1,14 @@
 from django.urls import path
 
-from recruitment.views.job_applications import (
-    JobApplicationsClosedView,
-    JobApplicationsDetailView,
-    JobApplicationsUnderReviewView,
-    JobApplicationsView,
-)
-from recruitment.views.job_offers import (
-    JobOffersApplyView,
-    JobOffersCreateView,
-    JobOffersDetailView,
-    JobOffersListView,
-    JobOffersUpdateView,
-)
+from recruitment.views.job_applications import (JobApplicationsClosedView,
+                                                JobApplicationsDetailView,
+                                                JobApplicationsUnderReviewView,
+                                                JobApplicationsView)
+from recruitment.views.job_offers import (JobOffersApplyView,
+                                          JobOffersCreateView,
+                                          JobOffersDetailView,
+                                          JobOffersListView,
+                                          JobOffersUpdateView)
 
 urlpatterns = []
 

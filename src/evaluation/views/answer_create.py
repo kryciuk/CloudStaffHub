@@ -1,9 +1,9 @@
 from django.http import Http404
-from django.views.generic import CreateView
-from evaluation.forms import AnswerForm
 from django.shortcuts import get_object_or_404, reverse
+from django.views.generic import CreateView
 
-from evaluation.models import Questionnaire, Question, Answer
+from evaluation.forms import AnswerForm
+from evaluation.models import Answer, Question, Questionnaire
 
 
 class AnswerCreateView(CreateView):
@@ -21,10 +21,15 @@ class AnswerCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('answer-create',
-                       kwargs={'id_questionnaire': self.object.question.questionnaire.id, "id_question": self.object.question.id})
+        return reverse(
+            "answer-create",
+            kwargs={
+                "id_questionnaire": self.object.question.questionnaire.id,
+                "id_question": self.object.question.id,
+            },
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['id_questionnaire'] = self.kwargs.get("id_questionnaire")
+        context["id_questionnaire"] = self.kwargs.get("id_questionnaire")
         return context

@@ -10,11 +10,13 @@ class PositionListView(ListView):
     queryset = Position.objects.all()
 
     def get_queryset(self):
-        queryset = Position.objects.filter(company=self.request.user.profile.company).all()
+        queryset = Position.objects.filter(
+            company=self.request.user.profile.company
+        ).all()
         self.filterset = PositionFilter(self.request.GET, queryset=queryset)
         return self.filterset.qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = self.filterset.form
+        context["form"] = self.filterset.form
         return context

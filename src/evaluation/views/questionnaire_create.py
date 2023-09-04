@@ -1,6 +1,7 @@
-from django.views.generic import CreateView
-from evaluation.forms import QuestionnaireForm
 from django.shortcuts import reverse
+from django.views.generic import CreateView
+
+from evaluation.forms import QuestionnaireForm
 
 
 class QuestionnaireCreateView(CreateView):
@@ -13,4 +14,4 @@ class QuestionnaireCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('question-create', kwargs={'id_questionnaire': self.object.id})
+        return reverse("question-create", kwargs={"id_questionnaire": self.object.id})

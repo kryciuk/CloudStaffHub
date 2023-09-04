@@ -1,8 +1,8 @@
-from django.forms import ModelForm, Form
 from django import forms
+from django.forms import Form, ModelForm
 
-from recruitment.models import JobApplication
 from organizations.models import City, Position
+from recruitment.models import JobApplication
 
 
 class PositionsForm(ModelForm):

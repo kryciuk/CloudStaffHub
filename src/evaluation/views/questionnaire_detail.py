@@ -1,6 +1,8 @@
-from django.views.generic import DetailView
-from evaluation.models import Questionnaire
 from itertools import chain
+
+from django.views.generic import DetailView
+
+from evaluation.models import Questionnaire
 
 
 class QuestionnaireDetailView(DetailView):
@@ -18,5 +20,6 @@ class QuestionnaireDetailView(DetailView):
         context["questions"] = questions
         context["answers"] = answers
         return context
+
 
 # list(chain(*permissions))

@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.views.generic import UpdateView
 
-from users.forms import UserProfileForm
 from organizations.models import CompanyProfile
+from users.forms import UserProfileForm
 
 
 class CompanyProfileView(UpdateView):
