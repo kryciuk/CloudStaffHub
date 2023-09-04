@@ -10,7 +10,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.IntegerField(null=True, blank=True)
-    interested_in = models.TextField(choices=Position.Departament.choices)
+    interested_in = models.TextField(choices=Position.Department.choices)
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, null=True, blank=True
     )

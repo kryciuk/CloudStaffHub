@@ -32,12 +32,12 @@
                             <form method="POST">
                                 {% csrf_token %}
                                 <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">Add Question</legend>
+                                    <legend class="border-bottom mb-4">Add answer</legend>
                                     {{ form | crispy }}
                                 </fieldset>
                                 <div class="form-group">
-                                    <button class="btn btn-outline-info" type="submit">Add</button>
-                                    <a class="btn-info" href="{% url 'dashboard-manager' %}">Finish creating questionnaire</a>
+                                    <button class="btn btn-outline-info" type="submit">Add answer</button>
+                                    <a class="btn-info" href="{% url 'question-create' id_questionnaire %}">Add more questions</a>
                                 </div>
                             </form>
                         </div>

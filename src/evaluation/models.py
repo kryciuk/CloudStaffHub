@@ -1,12 +1,16 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.shortcuts import reverse
+
+from organizations.models import Company
 
 
 class Questionnaire(models.Model):
     name = models.CharField(max_length=200)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} {self.id}"
 
 
 class Answer(models.Model):
@@ -22,12 +26,15 @@ class Answer(models.Model):
 
 class Question(models.Model):
     text = models.CharField(max_length=200)
-    questionare = models.ForeignKey(
+    questionnaire = models.ForeignKey(
         Questionnaire, on_delete=models.CASCADE, related_name="questions"
     )
 
     def __str__(self):
         return f"{self.text}"
+
+    def get_absolute_url(self):
+        reverse("dashboard-manager")
 
 
 class Evaluation(models.Model):

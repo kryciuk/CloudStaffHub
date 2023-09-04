@@ -1,17 +1,24 @@
 from django.forms import ModelForm
 
-from .models import Question
+from .models import Questionnaire, Question, Answer
+
+
+class QuestionnaireForm(ModelForm):
+    class Meta:
+        model = Questionnaire
+        fields = "__all__"
+        exclude = ["company"]
 
 
 class QuestionForm(ModelForm):
     class Meta:
         model = Question
         fields = "__all__"
-        help_texts = {
-            "position": None,
-            "description": None,
-            "status": None,
-            "city": None,
-            "published_date": None,
-            "expiry_date": None,
-        }
+        exclude = ["questionnaire"]
+
+
+class AnswerForm(ModelForm):
+    class Meta:
+        model = Answer
+        fields = "__all__"
+        exclude = ["question"]

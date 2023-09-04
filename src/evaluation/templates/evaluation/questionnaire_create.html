@@ -1,6 +1,7 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% block content %}
+{% load crispy_forms_tags %}
 
     <title>{{ title }}</title>
     <head>
@@ -20,26 +21,30 @@
                     -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
                     border-radius: 5px;
                 }
-            .centered {
-                margin: 20px;
-                text-align: center;
-                    }
         </style>
     </head>
     <body>
-
         <div class="container">
-                <div class="card card-body">
-                        <article class="media content-section">
-                            <div class="media-body">
-                                <div class="article-metadata">
-                                    <h2 class="account-heading">Company {{user.profile.company}} employees:</h2>
-                                    {% for user in users %}
-                                    <a class="mb-5" href="{% url 'profile' user.profile.id %}">{{ user.username }}</a>
-                                    {% endfor %}
+            <div class="card card-body">
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <fieldset class="form-group">
+                                    <legend class="border-bottom mb-4">New Questionnaire</legend>
+                                    {{ form | crispy }}
+{#                                    {{ form.name | as_crispy_field }}#}
+                                </fieldset>
+                                <div class="form-group">
+                                    <button class="btn btn-outline-info" type="submit">Confirm</button>
                                 </div>
-                        </article>
-                </div>
+                            </form>
+                        </div>
+                    </div>
+                </article>
             </div>
+        </div>
+    </body>
 
-{% endblock %}
+    {% endblock %}

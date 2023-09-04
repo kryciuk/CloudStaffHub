@@ -1,9 +1,10 @@
 from django.urls import path
 
-from evaluation.views.evaluation_dashboard import EvaluationDashboard
-from evaluation.views.question_create import QuestionCreate
+from evaluation.views import QuestionnaireCreateView, QuestionCreateView, AnswerCreateView, QuestionnaireDetailView
 
 urlpatterns = [
-    path("", EvaluationDashboard.as_view(), name="evaluation-dashboard"),
-    path("question", QuestionCreate.as_view(), name="question-create"),
+    path("questionnaire/create", QuestionnaireCreateView.as_view(), name="questionnaire-create"),
+    path("questionnaire/<int:id_questionnaire>/question/create", QuestionCreateView.as_view(), name="question-create"),
+    path("questionnaire/<int:id_questionnaire>/question/<int:id_question>/answer/create", AnswerCreateView.as_view(), name="answer-create"),
+    path("questionnaire/<int:pk>", QuestionnaireDetailView.as_view(), name="questionnaire-detail")
 ]

@@ -1,9 +1,18 @@
 from django.urls import path
 
-from recruiter.views.city_create import CityCreateView
-from recruiter.views.position_create import PositionCreateView
+from recruiter.views import CityCreateView
+from recruiter.views.positions import PositionCreateView, PositionListView, PositionDeleteView
 
-urlpatterns = [
-    path("position-create", PositionCreateView.as_view(), name="position-create"),
-    path("city-create", CityCreateView.as_view(), name="city-create"),
+urlpatterns_positions = [
+    path("positions/create", PositionCreateView.as_view(), name="positions-create"),
+    path("positions/list", PositionListView.as_view(), name="positions-list"),
+    path("positions/delete/<int:pk>", PositionDeleteView.as_view(), name="positions-delete")
 ]
+
+urlpatterns_cities = [
+    path("city/create", CityCreateView.as_view(), name="city-create"),
+    ]
+
+urlpatterns = []
+
+urlpatterns += urlpatterns_positions + urlpatterns_cities

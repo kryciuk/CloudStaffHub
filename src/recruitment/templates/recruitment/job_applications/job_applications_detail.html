@@ -47,6 +47,9 @@
                                         <div style="text-align:left"> <small class="text-muted" style="text-align: left"> Expected salary: {{ job_application.expected_salary }}</small> </div>
                                     </div>
                                 </div>
+                                <div>
+                                    <embed src="{{ job_application.cv }}" type="application/pdf" width="535px" height="700px" />
+                                </div>
                                 <div class="pt-4" style="text-align:left">
                                     <a class="d-flex justify-content-left">STATUS</a>
                                     <div class="border-top pt-2" style="text-align:left">

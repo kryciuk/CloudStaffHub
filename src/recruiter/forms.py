@@ -1,12 +1,14 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
+from django import forms
 
-from recruitment.models import City, JobApplication, Position
+from recruitment.models import JobApplication
+from organizations.models import City, Position
 
 
-class PositionForm(ModelForm):
+class PositionsForm(ModelForm):
     class Meta:
         model = Position
-        fields = "__all__"
+        fields = ["title", "level", "department"]
         help_texts = {
             "title": None,
             "level": None,

@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
+{% load auth_extras %}
 
     <title>{{ title }}</title>
     <head>
@@ -29,17 +30,14 @@
                 <article class="media content-section">
                     <div class="media-body">
                         <div class="article-metadata">
-                            <form method="POST">
-                                {% csrf_token %}
-                                <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">Add Question</legend>
-                                    {{ form | crispy }}
-                                </fieldset>
-                                <div class="form-group">
-                                    <button class="btn btn-outline-info" type="submit">Add</button>
-                                    <a class="btn-info" href="{% url 'dashboard-manager' %}">Finish creating questionnaire</a>
+                            <legend class="border-bottom mb-4">Questionnaire: {{ questionnaire }}</legend>
+                            {% for question in questions %}
+                                <div>
+                                <p>{{ question }}</p>
+                                <p>{{ answers.question }}</p>
+                                <p>{{ answers|get_value_from_dict:question }}</p>
                                 </div>
-                            </form>
+                            {% endfor %}
                         </div>
                     </div>
                 </article>
