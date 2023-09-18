@@ -10,8 +10,9 @@ from evaluation.views import (
     QuestionCreateView,
     QuestionnaireCreateView,
     QuestionnaireFillView,
-    QuestionnaireListView,
+    QuestionnaireListByUserView,
     QuestionnaireUpdateView,
+    QuestionnaireDetailView
 )
 
 urlpatterns_questionnaire = [
@@ -27,11 +28,11 @@ urlpatterns_questionnaire = [
     ),
     path(
         "questionnaire/list",
-        QuestionnaireListView.as_view(),
+        QuestionnaireListByUserView.as_view(),
         name="questionnaire-list",
-    )
-    # path("questionnaire/<int:pk>", QuestionnaireDetailView.as_view(),
-    #      name="questionnaire-detail"),
+    ),
+    path("questionnaire/<int:pk>", QuestionnaireDetailView.as_view(),
+         name="questionnaire-detail"),
 ]
 
 urlpatterns_question = [

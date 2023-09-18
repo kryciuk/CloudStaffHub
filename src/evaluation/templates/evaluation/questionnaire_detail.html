@@ -34,19 +34,16 @@
                     <div class="article-metadata">
                         <legend class="border-bottom mb-4">Questionnaire: {{ questionnaire }}</legend>
                         <div>
-                            <form action="{% url 'evaluation-update' id_evaluation %}" method="post">
-                                {% csrf_token %}
+                            <fieldset class="form-group">
                                 {% for question, possible_answers in answers.items %}
                                     <label>{{ question }}</label>
                                     {% for answer in possible_answers %}
                                         <li>
-                                            <input type="radio" id="{{ forloop.parentloop.counter }}_{{ forloop.counter }}" name="answer_{{ forloop.parentloop.counter }}" value="{{ answer.id }}">
-                                            <label for="{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer }}</label>
+                                            <a>{{ answer }}</a>
                                         </li>
                                     {% endfor %}
                                 {% endfor %}
-                                <input type="submit" value="Send" class="btn btn-primary">
-                            </form>
+                            </fieldset>
                         </div>
                     </div>
                 </div>

@@ -38,7 +38,7 @@
                 <h3>Manager's tools:</h3>
                 </div>
                 <div>
-                <h5>Evaluations:</h5>
+                <h5>Questionnaires:</h5>
                 {% url 'questionnaire-create' as url %}
                 <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'questionnaire-create' %}">Create new questionnaire</a>
                 {% url 'questionnaire-list' as url %}
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="info-box">
-                <h3>Read new article about:</h3>
+                <h3>Evaluations:</h3>
                 <h2>{{ request.user.profile.interested_in }}</h2>
                 <p>Some information here...</p>
             </div>
