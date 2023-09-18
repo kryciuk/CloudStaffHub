@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
-{% load auth_extras %}
 
     <title>{{ title }}</title>
     <head>
@@ -30,14 +29,14 @@
                 <article class="media content-section">
                     <div class="media-body">
                         <div class="article-metadata">
-                            <legend class="border-bottom mb-4">Questionnaire: {{ questionnaire }}</legend>
-                            {% for question in questions %}
-                                <div>
-                                <p>{{ question }}</p>
-                                <p>{{ answers.question }}</p>
-                                <p>{{ answers|get_value_from_dict:question }}</p>
-                                </div>
-                            {% endfor %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                <fieldset class="form-group">
+                                    <legend class="border-bottom mb-4">Pick Answer</legend>
+                                    {{ form | crispy }}
+                                    <button class="btn btn-outline-info" type="submit">Pick</button>
+                                    </fieldset>
+                            </form>
                         </div>
                     </div>
                 </article>

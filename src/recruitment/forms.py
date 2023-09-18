@@ -8,7 +8,7 @@ class JobOfferForm(ModelForm):
     class Meta:
         model = JobOffer
         fields = "__all__"
-        exclude = ["company"]
+        exclude = ["company", "published_date"]
         labels = {"status": "Is this job offer active?"}
         help_texts = {
             "position": None,

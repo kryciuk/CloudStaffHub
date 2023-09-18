@@ -38,9 +38,22 @@
                 <p>Some information here...</p>
             </div>
             <div class="info-box">
-                <h3>Read a new article about:</h3>
-                <h2>{{ request.user.profile.interested_in }}</h2>
-                <p>Some information here...</p>
+                <h3>View assigned evaluations:</h3>
+                {% if not assigned_evaluations %}
+                <p>There are no assigned evaluations...</p>
+                {% else %}
+                {% for evaluation in assigned_evaluations %}
+                    <p><a class="mb-5" href="{% url 'evaluation-detail' evaluation.id %}">{{ evaluation }}</a></p>
+                {%  endfor %}
+                {% endif %}
+                <h3>View completed evaluations:</h3>
+                {% if not completed_evaluations %}
+                <p>There are no completed evaluations...</p>
+                {% else %}
+                {% for evaluation in completed_evaluations %}
+                    <p><a class="mb-5" href="{% url 'evaluation-complete' evaluation.id %}">{{ evaluation }}</a></p>
+                {%  endfor %}
+                {% endif %}
             </div>
             <div class="info-box">
                 <h3>Info Box 3</h3>

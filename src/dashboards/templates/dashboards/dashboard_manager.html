@@ -41,6 +41,11 @@
                 <h5>Evaluations:</h5>
                 {% url 'questionnaire-create' as url %}
                 <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'questionnaire-create' %}">Create new questionnaire</a>
+                {% url 'questionnaire-list' as url %}
+                <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'questionnaire-list' %}">Created questionnaires</a>
+                <h5>Evaluations:</h5>
+                {% url 'questionnaire-create' as url %}
+                <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'evaluation-create' %}">Create new evaluation</a>
                 </div>
             </div>
             <div class="info-box">

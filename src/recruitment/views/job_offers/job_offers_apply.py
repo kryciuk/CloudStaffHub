@@ -11,6 +11,15 @@ class JobOffersApplyView(CreateView):
     template_name = "recruitment/job_offers/job_offer_apply.html"
     context_object_name = "job_application"
 
+    def get_initial(self):
+        initial = super(JobOffersApplyView, self).get_initial()
+        initial = initial.copy()
+        initial["first_name"] = self.request.user.first_name
+        initial["last_name"] = self.request.user.last_name
+        initial["phone_number"] = self.request.user.profile.phone_number
+        initial["email"] = self.request.user.email
+        return initial
+
     def form_valid(self, form):
         try:
             obj = get_object_or_404(JobOffer, pk=self.kwargs.get("pk"))
@@ -25,3 +34,9 @@ class JobOffersApplyView(CreateView):
         context = super().get_context_data(**kwargs)
         context["job_offer"] = get_object_or_404(JobOffer, pk=self.kwargs.get("pk"))
         return context
+
+    # def get_initial(self):
+    #     initial = super(EvaluationCreateView, self).get_initial()
+    #     initial = initial.copy()
+    #     initial['employee'] = self.request.user.pk
+    #     return initial

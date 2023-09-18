@@ -11,6 +11,8 @@ class QuestionnaireCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.company = self.request.user.profile.company
+        form.instance.created_by = self.request.user
+        form.instance.status = True
         return super().form_valid(form)
 
     def get_success_url(self):

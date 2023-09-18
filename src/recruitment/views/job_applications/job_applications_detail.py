@@ -1,3 +1,4 @@
+from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import UpdateView
 
 from recruitment.forms import JobApplicationStatusForm

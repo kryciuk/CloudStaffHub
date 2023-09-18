@@ -2,30 +2,79 @@ from django.urls import path
 
 from evaluation.views import (
     AnswerCreateView,
+    AnswerUpdateView,
+    EvaluationCompleteView,
+    EvaluationCreateView,
+    EvaluationDetailView,
+    EvaluationUpdateView,
     QuestionCreateView,
     QuestionnaireCreateView,
-    QuestionnaireDetailView,
+    QuestionnaireFillView,
+    QuestionnaireListView,
+    QuestionnaireUpdateView,
 )
 
-urlpatterns = [
+urlpatterns_questionnaire = [
     path(
         "questionnaire/create",
         QuestionnaireCreateView.as_view(),
         name="questionnaire-create",
     ),
     path(
+        "questionnaire/<int:pk>/update",
+        QuestionnaireUpdateView.as_view(),
+        name="questionnaire-update",
+    ),
+    path(
+        "questionnaire/list",
+        QuestionnaireListView.as_view(),
+        name="questionnaire-list",
+    )
+    # path("questionnaire/<int:pk>", QuestionnaireDetailView.as_view(),
+    #      name="questionnaire-detail"),
+]
+
+urlpatterns_question = [
+    path(
         "questionnaire/<int:id_questionnaire>/question/create",
         QuestionCreateView.as_view(),
         name="question-create",
-    ),
+    )
+]
+
+urlpatterns_answer = [
     path(
         "questionnaire/<int:id_questionnaire>/question/<int:id_question>/answer/create",
         AnswerCreateView.as_view(),
         name="answer-create",
     ),
     path(
-        "questionnaire/<int:pk>",
-        QuestionnaireDetailView.as_view(),
-        name="questionnaire-detail",
+        "questionnaire/<int:id_questionnaire>/question/<int:id_question>/answer/<int:pk>/update",
+        AnswerUpdateView.as_view(),
+        name="answer-update",
     ),
 ]
+
+urlpatterns_evaluation = [
+    path("create", EvaluationCreateView.as_view(), name="evaluation-create"),
+    path("detail/<int:pk>", EvaluationDetailView.as_view(), name="evaluation-detail"),
+    path(
+        "detail/<int:id_evaluation>/questionnaire/<int:pk>",
+        QuestionnaireFillView.as_view(),
+        name="questionnaire-fill",
+    ),
+    path("update/<int:pk>", EvaluationUpdateView.as_view(), name="evaluation-update"),
+    path(
+        "complete/<int:pk>",
+        EvaluationCompleteView.as_view(),
+        name="evaluation-complete",
+    ),
+]
+
+urlpatterns = []
+urlpatterns += (
+    urlpatterns_questionnaire
+    + urlpatterns_answer
+    + urlpatterns_question
+    + urlpatterns_evaluation
+)

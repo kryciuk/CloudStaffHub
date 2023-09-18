@@ -261,6 +261,9 @@ class City(models.Model):
     name = models.CharField(max_length=50)
     country = models.TextField(choices=Country.choices)
 
+    class Meta:
+        unique_together = ["name", "country"]
+
     def __str__(self):
         return f"{self.name}"
 
@@ -321,7 +324,6 @@ class Industry(models.Model):
 
 
 class CompanyProfile(models.Model):
-
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     industries = models.ManyToManyField(Industry, blank=True)
     info = models.TextField(help_text="few words about company", null=True, blank=True)
