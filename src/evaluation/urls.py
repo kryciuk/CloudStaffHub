@@ -12,35 +12,29 @@ from evaluation.views import (
     QuestionnaireFillView,
     QuestionnaireListByUserView,
     QuestionnaireUpdateView,
-    QuestionnaireDetailView
+    QuestionnaireDetailView,
 )
 
 urlpatterns_questionnaire = [
-    path(
-        "questionnaire/create",
-        QuestionnaireCreateView.as_view(),
-        name="questionnaire-create",
-    ),
-    path(
-        "questionnaire/<int:pk>/update",
-        QuestionnaireUpdateView.as_view(),
-        name="questionnaire-update",
-    ),
-    path(
-        "questionnaire/list",
-        QuestionnaireListByUserView.as_view(),
-        name="questionnaire-list",
-    ),
-    path("questionnaire/<int:pk>", QuestionnaireDetailView.as_view(),
-         name="questionnaire-detail"),
+    path("questionnaire/create", QuestionnaireCreateView.as_view(), name="questionnaire-create"),
+    path("questionnaire/<int:pk>/update", QuestionnaireUpdateView.as_view(), name="questionnaire-update"),
+    path("questionnaire/list", QuestionnaireListByUserView.as_view(), name="questionnaire-list"),
+    path("questionnaire/<int:pk>", QuestionnaireDetailView.as_view(), name="questionnaire-detail"),
 ]
 
 urlpatterns_question = [
+    path("questionnaire/<int:id_questionnaire>/question/create", QuestionCreateView.as_view(), name="question-create")
+]
+
+
+urlpatterns_evaluation = [
+    path("create", EvaluationCreateView.as_view(), name="evaluation-create"),
+    path("<int:pk>/detail", EvaluationDetailView.as_view(), name="evaluation-detail"),
     path(
-        "questionnaire/<int:id_questionnaire>/question/create",
-        QuestionCreateView.as_view(),
-        name="question-create",
-    )
+        "<int:id_evaluation>/detail/questionnaire/<int:pk>", QuestionnaireFillView.as_view(), name="questionnaire-fill"
+    ),
+    path("<int:pk>/update", EvaluationUpdateView.as_view(), name="evaluation-update"),
+    path("<int:pk>/complete", EvaluationCompleteView.as_view(), name="evaluation-complete"),
 ]
 
 urlpatterns_answer = [
@@ -56,26 +50,5 @@ urlpatterns_answer = [
     ),
 ]
 
-urlpatterns_evaluation = [
-    path("create", EvaluationCreateView.as_view(), name="evaluation-create"),
-    path("detail/<int:pk>", EvaluationDetailView.as_view(), name="evaluation-detail"),
-    path(
-        "detail/<int:id_evaluation>/questionnaire/<int:pk>",
-        QuestionnaireFillView.as_view(),
-        name="questionnaire-fill",
-    ),
-    path("update/<int:pk>", EvaluationUpdateView.as_view(), name="evaluation-update"),
-    path(
-        "complete/<int:pk>",
-        EvaluationCompleteView.as_view(),
-        name="evaluation-complete",
-    ),
-]
-
 urlpatterns = []
-urlpatterns += (
-    urlpatterns_questionnaire
-    + urlpatterns_answer
-    + urlpatterns_question
-    + urlpatterns_evaluation
-)
+urlpatterns += urlpatterns_questionnaire + urlpatterns_answer + urlpatterns_question + urlpatterns_evaluation

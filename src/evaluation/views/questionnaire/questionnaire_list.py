@@ -10,5 +10,6 @@ class QuestionnaireListByUserView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
-        context["questionnaires"] = Questionnaire.objects.filter(created_by=self.request.user)
+        context["questionnaires_evaluation"] = Questionnaire.objects.filter(created_by=self.request.user).filter(type=Questionnaire.Type.EVALUATION)
+        context["questionnaires_polls"] = Questionnaire.objects.filter(created_by=self.request.user).filter(type=Questionnaire.Type.POLL)
         return context

@@ -4,7 +4,6 @@
 {% load crispy_forms_tags %}
 
     <title>{{ title }}</title>
-    <head>
     <style>
         .container {
             width: 600px;
@@ -25,7 +24,6 @@
             border-radius: 5px;
         }
 
-        /* Styl dla formularza */
         .form-group {
             margin-bottom: 20px;
         }
@@ -46,39 +44,33 @@
         }
 
         .form-group select {
-            /* Dodatkowe style dla listy rozwijanej (zainteresowania) */
         }
 
         .form-group input[type="text"]:focus,
         .form-group select:focus {
-            outline: none; /* Usunięcie pogrubionego obramowania po kliknięciu */
+            outline: none;
         }
 
-
     </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="card card-body">
-                <article class="media content-section">
-                    <div class="media-body">
-                        <div class="article-metadata">
-                            <form method="POST">
-                                {% csrf_token %}
-                                <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">New Questionnaire</legend>
-                                    {{ form | crispy }}
-{#                                    {{ form.name | as_crispy_field }}#}
-                                </fieldset>
-                                <div class="form-group">
-                                    <button class="btn btn-outline-info" type="submit">Confirm</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </body>
 
-    {% endblock %}
+    <div class="container">
+        <div class="card card-body">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="d-flex justify-content-center">Add City</legend>
+                                <div class="form-group">
+                                    <button class="btn btn-outline-info" type="submit">Add</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+{% endblock %}

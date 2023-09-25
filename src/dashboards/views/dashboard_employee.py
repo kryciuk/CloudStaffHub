@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 
 from evaluation.models import Evaluation
+from polls.models import Poll
 
 
 class UserHasEmployeeOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
@@ -28,4 +29,11 @@ class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
         )
         context["assigned_evaluations"] = assigned_evaluations
         context["completed_evaluations"] = completed_evaluations
+        open_polls = Poll.objects.filter(status=True, questionnaire__company=self.request.user.profile.company)
+        for poll in open_polls:
+            answers = poll.related_poll.all()
+            for answer in answers:
+                if answer.respondent == self.request.user:
+                    open_polls = open_polls.exclude(id=poll.id)
+        context["open_polls"] = open_polls
         return context

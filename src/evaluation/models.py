@@ -6,12 +6,17 @@ from organizations.models import Company
 
 
 class Questionnaire(models.Model):
+    class Type(models.TextChoices):
+        EVALUATION = "Evaluation"
+        POLL = "Poll"
+
     name = models.CharField(max_length=200)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.BooleanField(
         default=True, help_text="will this questionnaire be ever used again"
     )
+    type = models.TextField(choices=Type.choices)
 
     def __str__(self):
         return f"{self.name} ID:{self.id}"
@@ -39,7 +44,7 @@ class Question(models.Model):
     )
 
     def __str__(self):
-        return f"{self.text} ID:{self.id}"
+        return f"{self.text}"
 
     def get_absolute_url(self):
         reverse("dashboard-manager")

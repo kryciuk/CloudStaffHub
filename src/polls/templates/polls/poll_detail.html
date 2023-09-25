@@ -1,0 +1,171 @@
+{% extends 'landing/base.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<title>{{ title }}</title>
+    <style>
+        .container {
+            width: 600px;
+            margin-top: 20px;
+            margin-bottom: auto;
+            background: #f8f9fa;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 5px 0 rgba(0, 0, 0, 0.19);
+            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+        }
+
+        /* Styl dla formularza */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-group select {
+            /* Dodatkowe style dla listy rozwijanej (zainteresowania) */
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group select:focus {
+            outline: none; /* Usunięcie pogrubionego obramowania po kliknięciu */
+        }
+
+
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="card card-body">
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <form method="GET">
+                                <fieldset class="form-group">
+                                    <legend class="border-bottom mb-4">Poll ID:{{ poll.id }}</legend>
+                                        <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Deadline: {{ poll.date_end }}</a> </div>
+                                        <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Questionnaire: {{ poll.questionnaire }}</a> </div>
+                                        <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Poll status: {{ poll.status }}</a> </div>
+                                     </fieldset>
+                                    </form>
+                                        <form method="POST" action="{% url 'poll-close' poll.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">CLOSE</button>
+                                        </form>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </body>
+
+    {% endblock %}
+
+
+
+{#{% extends 'landing/base.html' %}#}
+{#{% load static %}#}
+{#{% block content %}#}
+{#{% load crispy_forms_tags %}#}
+{##}
+{#<title>{{ title }}</title>#}
+{#    <style>#}
+{#        .container {#}
+{#            width: 600px;#}
+{#            margin-top: 20px;#}
+{#            margin-bottom: auto;#}
+{#            background: #f8f9fa;#}
+{#            position: relative;#}
+{#            display: flex;#}
+{#            justify-content: center;#}
+{#            flex-direction: column;#}
+{#            padding: 10px;#}
+{#            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),#}
+{#                0 6px 5px 0 rgba(0, 0, 0, 0.19);#}
+{#            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),#}
+{#                0 6px 10px 0 rgba(0, 0, 0, 0.19);#}
+{#            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),#}
+{#                0 6px 10px 0 rgba(0, 0, 0, 0.19);#}
+{#            border-radius: 5px;#}
+{#        }#}
+{##}
+{#        /* Styl dla formularza */#}
+{#        .form-group {#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{##}
+{#        .form-group label {#}
+{#            display: block;#}
+{#            font-weight: bold;#}
+{#            margin-bottom: 5px;#}
+{#        }#}
+{##}
+{#        .form-group input[type="text"],#}
+{#        .form-group select {#}
+{#            width: 100%;#}
+{#            padding: 8px;#}
+{#            border: 1px solid #ccc;#}
+{#            border-radius: 4px;#}
+{#            font-size: 16px;#}
+{#        }#}
+{##}
+{#        .form-group select {#}
+{#            /* Dodatkowe style dla listy rozwijanej (zainteresowania) */#}
+{#        }#}
+{##}
+{#        .form-group input[type="text"]:focus,#}
+{#        .form-group select:focus {#}
+{#            outline: none; /* Usunięcie pogrubionego obramowania po kliknięciu */#}
+{#        }#}
+{##}
+{##}
+{#    </style>#}
+{#    </head>#}
+{#    <body>#}
+{#        <div class="container">#}
+{#            <div class="card card-body">#}
+{#                <article class="media content-section">#}
+{#                    <div class="media-body">#}
+{#                        <div class="article-metadata">#}
+{#                            <form method="GET">#}
+{#                                <fieldset class="form-group">#}
+{#                                    <legend class="border-bottom mb-4">Poll ID:{{ poll.id }}</legend>#}
+{#                                        <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Deadline: {{ poll.date_end }}</a> </div>#}
+{#                                        <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Questionnaire: {{ poll.questionnaire }}</a> </div>#}
+{#                                        <form method="post">#}
+{##}
+{#                                        </form>#}
+{#                                        <div><a class="text-muted"> Questionnaire:  <a class="justify-content-center" href="{% url 'questionnaire-fill' evaluation.id evaluation.questionnaire.id %}">CLICK</a></a>#}
+{#                                        </div>#}
+{#                                </fieldset>#}
+{#                            </form>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </article>#}
+{#            </div>#}
+{#        </div>#}
+{#    </body>#}
+{##}
+{#    {% endblock %}#}

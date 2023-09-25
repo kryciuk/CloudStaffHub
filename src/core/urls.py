@@ -28,4 +28,5 @@ urlpatterns = [
     path("recruiter/", include("recruiter.urls")),
     path("organizations/", include("organizations.urls")),
     path("dashboard/", include("dashboards.urls")),
+    path("polls/", include("polls.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,6 +4,7 @@ from django.views.generic import UpdateView
 
 from evaluation.forms import EvaluationUpdateForm
 from evaluation.models import Evaluation
+from django.urls import reverse
 
 
 class EvaluationUpdateView(UpdateView):
@@ -17,3 +18,6 @@ class EvaluationUpdateView(UpdateView):
         form.instance.result = result
         form.instance.status = True
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('evaluation-complete', kwargs={'pk': self.object.pk})

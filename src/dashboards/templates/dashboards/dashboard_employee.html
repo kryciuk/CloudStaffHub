@@ -34,7 +34,13 @@
         <div class="info-container">
             <div class="info-box">
                 <h3>View available polls:</h3>
+                {% if not open_polls %}
                 <p>There are no available polls...</p>
+                {% else %}
+                {% for poll in open_polls %}
+                <p><a class="mb-5" href="{% url 'poll-fill' poll.id %}">{{ poll }}</a></p>
+                {%  endfor %}
+                {% endif %}
             </div>
             <div class="info-box">
                 <h3>View assigned evaluations:</h3>
