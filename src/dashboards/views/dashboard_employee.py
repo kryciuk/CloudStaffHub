@@ -1,3 +1,4 @@
+import calendar
 from datetime import date, timedelta
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -48,5 +49,14 @@ class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
         today = date.today()
         poll_results = PollResults.objects.filter(poll__questionnaire__company=self.request.user.profile.company, close_date__lte=today + timedelta(7))
         context["poll_results"] = poll_results
+
+        # calendar, events
+
+        year = date.today().year
+        month_number = date.today().month
+        month_name = list(calendar.month_name)[month_number]
+
+        context["year"] = year
+        context["month"] = month_name
 
         return context

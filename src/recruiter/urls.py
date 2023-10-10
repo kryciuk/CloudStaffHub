@@ -7,11 +7,7 @@ from recruiter.views.positions import (PositionCreateView, PositionDeleteView,
 urlpatterns_positions = [
     path("positions/create", PositionCreateView.as_view(), name="positions-create"),
     path("positions/list", PositionListView.as_view(), name="positions-list"),
-    path(
-        "positions/delete/<int:pk>",
-        PositionDeleteView.as_view(),
-        name="positions-delete",
-    ),
+    path("positions/delete/<int:pk>", PositionDeleteView.as_view(), name="positions-delete"),
 ]
 
 urlpatterns_cities = [

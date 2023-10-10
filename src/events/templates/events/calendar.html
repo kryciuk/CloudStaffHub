@@ -1,0 +1,48 @@
+{% extends 'landing/base.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+    <title>{{ title }}</title>
+    <head>
+        <style>
+		    .container {
+                    width: 600px;
+                    margin-top: 20px;
+                    margin-bottom: auto;
+                    background: #f8f9fa;
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    padding: 10px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
+                    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+                    border-radius: 5px;
+                }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="card card-body">
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata" style="text-align: center;">
+                            <legend class="border-bottom mb-4">{{ user }}'s events for {{ month }} {{ year }}</legend>
+                            <div style="text-align: center;">
+                                <div style="display: inline-block; text-align: left;">
+                                    {{ cal|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </body>
+
+
+
+    {% endblock %}

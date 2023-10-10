@@ -12,3 +12,7 @@ def _get_perms_for_models(models):
         permissions.append(perms)
     permissions_combined = list(chain(*permissions))
     return permissions_combined
+
+
+def has_group(user, group):
+    return user.groups.filter(name=group).exists()

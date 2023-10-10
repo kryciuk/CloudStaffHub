@@ -61,7 +61,8 @@ INSTALLED_EXTENSIONS = [
     "organizations",
     "landing",
     "dashboards",
-    "polls"
+    "polls",
+    "events"
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS

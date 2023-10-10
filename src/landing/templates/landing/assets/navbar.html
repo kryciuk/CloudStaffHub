@@ -50,7 +50,7 @@
             </li>
           {% endif %}
 
-          {% if request.user|has_group:"Employee" or request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
+          {% if request.user|has_group:"Employee" or request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Creator" or request.user.is_superuser %}
             <li>
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="employeeDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Employee</button>
@@ -61,7 +61,7 @@
             </li>
           {% endif %}
 
-          {% if request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
+          {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Creator" or request.user.is_superuser %}
             <li>
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="recruiterDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Recruiter</button>

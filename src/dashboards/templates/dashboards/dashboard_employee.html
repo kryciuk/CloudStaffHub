@@ -69,13 +69,15 @@
                 {% endif %}
             </div>
             <div class="info-box">
-                <h3>Read a new article about:</h3>
-                <h2>{{ request.user.profile.interested_in }}</h2>
+                <h3>Info Box 4</h3>
                 <p>Some information here...</p>
             </div>
             <div class="info-box">
-                <h3>Info Box 4</h3>
-                <p>Some information here...</p>
+                <h3>{{ user.first_name }}'s calendar for:</h3>
+                <p><a href="{% url 'calendar' year month %}">{{ month }} {{ year }}</a></p>
+                <h2>Assignments</h2>
+                <p><a href="{% url 'assignments' %}">Assigment list</a></p>
+                <p><a href="{% url 'assignments-create' %}">New assignment</a></p>
             </div>
         </div>
     </div>
