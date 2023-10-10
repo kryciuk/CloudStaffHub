@@ -2,7 +2,6 @@ from django.urls import path
 
 from evaluation.views import (
     AnswerCreateView,
-    AnswerUpdateView,
     EvaluationCompleteView,
     EvaluationCreateView,
     EvaluationDetailView,
@@ -43,11 +42,11 @@ urlpatterns_answer = [
         AnswerCreateView.as_view(),
         name="answer-create",
     ),
-    path(
-        "questionnaire/<int:id_questionnaire>/question/<int:id_question>/answer/<int:pk>/update",
-        AnswerUpdateView.as_view(),
-        name="answer-update",
-    ),
+    # path(
+    #     "questionnaire/<int:id_questionnaire>/question/<int:id_question>/answer/<int:pk>/update",
+    #     AnswerUpdateView.as_view(),
+    #     name="answer-update",
+    # ),
 ]
 
 urlpatterns = []

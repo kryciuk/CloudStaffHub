@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
+from datetime import date, timedelta
 
 from evaluation.models import Evaluation
-from polls.models import Poll
+from polls.models import Poll, PollResults
 
 
 class UserHasEmployeeOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
@@ -21,6 +22,9 @@ class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # evaluations
+
         assigned_evaluations = Evaluation.objects.filter(
             employee=self.request.user, status=False
         ).order_by("-date_end")[:5]
@@ -29,11 +33,19 @@ class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
         )
         context["assigned_evaluations"] = assigned_evaluations
         context["completed_evaluations"] = completed_evaluations
+
+        # polls
+
         open_polls = Poll.objects.filter(status=True, questionnaire__company=self.request.user.profile.company)
         for poll in open_polls:
-            answers = poll.related_poll.all()
+            answers = poll.user_answer_to_poll.all()
             for answer in answers:
                 if answer.respondent == self.request.user:
                     open_polls = open_polls.exclude(id=poll.id)
         context["open_polls"] = open_polls
+
+        today = date.today()
+        poll_results = PollResults.objects.filter(poll__questionnaire__company=self.request.user.profile.company, close_date__lte=today + timedelta(7))
+        context["poll_results"] = poll_results
+
         return context

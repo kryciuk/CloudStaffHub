@@ -19,22 +19,27 @@ class Questionnaire(models.Model):
     type = models.TextField(choices=Type.choices)
 
     def __str__(self):
-        return f"{self.name} ID:{self.id}"
+        return f"{self.name}"
 
 
 class Answer(models.Model):
     answer = models.CharField(max_length=200)
-    score = models.IntegerField()
+    score = models.IntegerField(null=True, blank=True)
     question = models.ForeignKey(
         "Question", on_delete=models.CASCADE, related_name="answers"
     )
-    picked = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.answer} ({self.score})"
+        if self.score is None:
+            return f"{self.answer}"
+        else:
+            return f"{self.answer} ({self.score})"
 
     def __repr__(self):
-        return f"{self.answer} ({self.score})"
+        if self.score is None:
+            return f"{self.answer}"
+        else:
+            return f"{self.answer} ({self.score})"
 
 
 class Question(models.Model):

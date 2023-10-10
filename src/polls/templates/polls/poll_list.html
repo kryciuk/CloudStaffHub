@@ -63,15 +63,16 @@
       <h2 class="centered">POLLS</h2>
       {% csrf_token %}
       <div class="row">
-        <div class="col-md-3">
-          <!-- Left Side Options -->
-          <fieldset class="form-group">
-            <form method="GET" action="">
+{#        <div class="col-md-3">#}
+{#          <!-- Left Side Options -->#}
+{#          <fieldset class="form-group">#}
+{#            <form method="GET" action="">#}
               {# <div><button class="btn btn-outline-info" type="submit">Submit</button></div> #}
-            </form>
-          </fieldset>
-        </div>
-        <div class="col-md-9">
+{#            </form>#}
+{#          </fieldset>#}
+{#        </div>#}
+{#        <div class="col-md-9">#}
+          <div class="m-sm-auto">
           <!-- Table -->
           <table class="table table-submit">
             <thead>
@@ -80,7 +81,6 @@
                 <th>Created by</th>
                 <th>Date of creation</th>
                 <th>Deadline</th>
-                <th>Status</th>
                 <th>Close</th>
               </tr>
             </thead>
@@ -91,11 +91,10 @@
                   <td>{{ poll.created_by }}</td>
                   <td>{{ poll.date_created }}</td>
                   <td>{{ poll.date_end }}</td>
-                  <td>{{ poll.status }}</td>
                   <td>
                     <form method="POST" action="{% url 'poll-close' poll.id %}">
                       {% csrf_token %}
-                      <button type="submit" class="btn btn-danger">CLOSE</button>
+                      {%  if poll.status == True %}<button type="submit" class="btn btn-danger">CLOSE</button>{% else %}<p>CLOSED</p>{% endif %}
                     </form>
                   </td>
                 </tr>

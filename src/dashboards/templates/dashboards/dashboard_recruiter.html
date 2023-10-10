@@ -38,17 +38,20 @@
                 <h3>Recruiter's tools:</h3>
                 </div>
                 <div>
+                <br>
                 <h5>Positions:</h5>
                 {% url 'positions-list' as url %}
                 <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'positions-list' %}">View positions</a>
                 {% url 'positions-create' as url %}
                 <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'positions-create' %}">Add positions</a>
                 </div>
+                <br>
                 <h5>Cities:</h5>
                 <div class="d-flex justify-content-center">
                 {% url 'city-create' as url %}
                 <a class="nav-link {% if request.path == url %} active" {% endif %} aria-current="page" href="{% url 'city-create' %}">Add cities</a>
                 </div>
+                <br>
                 <h5>Job offers:</h5>
                 <div class="d-flex justify-content-center">
                 {% url 'job-offer-create' as url %}

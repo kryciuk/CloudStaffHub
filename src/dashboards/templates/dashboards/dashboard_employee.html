@@ -41,6 +41,14 @@
                 <p><a class="mb-5" href="{% url 'poll-fill' poll.id %}">{{ poll }}</a></p>
                 {%  endfor %}
                 {% endif %}
+                <h3>View results for recently closed polls:</h3>
+                {% if not poll_results %}
+                <p>There are no recently closed polls...</p>
+                {% else %}
+                {% for poll_result in poll_results %}
+                <p><a class="mb-5" href="{% url 'poll-results' poll_result.id %}">{{ poll_result }}</a></p>
+                {%  endfor %}
+                {% endif %}
             </div>
             <div class="info-box">
                 <h3>View assigned evaluations:</h3>

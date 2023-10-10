@@ -22,13 +22,7 @@ class AnswerForm(ModelForm):
     class Meta:
         model = Answer
         fields = "__all__"
-        exclude = ["question", "picked"]
-
-
-class AnswerPickedForm(ModelForm):
-    class Meta:
-        model = Answer
-        fields = ["picked"]
+        exclude = ["question"]
 
 
 class EvaluationCreateForm(ModelForm):

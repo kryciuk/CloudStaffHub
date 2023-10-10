@@ -1,5 +1,4 @@
 from evaluation.views.answer.answer_create import AnswerCreateView
-from evaluation.views.answer.answer_update import AnswerUpdateView
 from evaluation.views.evaluation.evaluation_complete import EvaluationCompleteView
 from evaluation.views.evaluation.evaluation_create import EvaluationCreateView
 from evaluation.views.evaluation.evaluation_detail import EvaluationDetailView

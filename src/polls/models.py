@@ -14,7 +14,7 @@ class Poll(models.Model):
     status = models.BooleanField(default=True, help_text="true if poll open")
 
     def __str__(self):
-        return f"Poll: {self.questionnaire}"
+        return f"{self.questionnaire} (poll ID: {self.id})"
 
     def get_absolute_url(self):
         reverse("dashboard-manager")
@@ -25,7 +25,7 @@ class PollAnswer(models.Model):
         User, on_delete=models.CASCADE, related_name="respondent"
     )
     date_filled = models.DateField(null=True, blank=True)
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="related_poll")
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="user_answer_to_poll")
     result = models.JSONField("", null=True, blank=True)
 
     class Meta:
@@ -36,3 +36,12 @@ class PollAnswer(models.Model):
 
     def get_absolute_url(self):
         reverse("dashboard-manager")
+
+
+class PollResults(models.Model):
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name="results_for_closed_poll")
+    results = models.JSONField("", null=True, blank=True)
+    close_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Results for {self.poll}"

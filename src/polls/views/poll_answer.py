@@ -8,10 +8,9 @@ from django.contrib import messages
 from polls.models import PollAnswer, Poll
 
 
-class PollAnswerCreateView(RedirectView):
+class PollAnswerView(RedirectView):
     model = PollAnswer
     context_object_name = "poll"
-    template_name = "polls/poll_answer_create.html"
 
     def get(self, request, *args, **kwargs):
         poll_id = kwargs['pk']
