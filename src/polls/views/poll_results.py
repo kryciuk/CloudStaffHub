@@ -1,10 +1,10 @@
-from itertools import chain
 from collections import Counter
+from itertools import chain
 
 from django.views.generic import DetailView
 
-from polls.models import PollResults
 from evaluation.models import Answer
+from polls.models import PollResults
 
 
 class PollResultsView(DetailView):

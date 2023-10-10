@@ -1,7 +1,8 @@
+from datetime import date, timedelta
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
-from datetime import date, timedelta
 
 from evaluation.models import Evaluation
 from polls.models import Poll, PollResults

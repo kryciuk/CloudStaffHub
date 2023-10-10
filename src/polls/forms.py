@@ -1,6 +1,8 @@
-from django.forms import ModelForm
-from polls.models import Poll, PollAnswer
 from datetime import date
+
+from django.forms import ModelForm
+
+from polls.models import Poll, PollAnswer
 
 
 class PollCreateForm(ModelForm):

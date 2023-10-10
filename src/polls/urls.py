@@ -1,6 +1,8 @@
 from django.urls import path
-from polls.views import PollCreateView, PollFillView, PollListView, PollUpdateView, PollCloseView, PollAnswerView, \
-    PollResultsView
+
+from polls.views import (PollAnswerView, PollCloseView, PollCreateView,
+                         PollFillView, PollListView, PollResultsView,
+                         PollUpdateView)
 
 urlpatterns = [path("create", PollCreateView.as_view(), name="poll-create"),
                path("<int:pk>/fill", PollFillView.as_view(), name="poll-fill"),

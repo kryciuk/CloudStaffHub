@@ -1,11 +1,8 @@
 from django.urls import path
 
 from recruiter.views import CityCreateView
-from recruiter.views.positions import (
-    PositionCreateView,
-    PositionDeleteView,
-    PositionListView,
-)
+from recruiter.views.positions import (PositionCreateView, PositionDeleteView,
+                                       PositionListView)
 
 urlpatterns_positions = [
     path("positions/create", PositionCreateView.as_view(), name="positions-create"),

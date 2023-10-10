@@ -1,9 +1,8 @@
 from django.contrib.auth.models import Group, User
-from django.test import Client, TestCase
+from django.test import Client, TestCase, tag
 from django.urls import reverse
 from rest_framework import status
 
-from django.test import tag
 
 class TestCandidateViews(TestCase):
     def setUp(self):

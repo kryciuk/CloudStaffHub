@@ -1,13 +1,13 @@
 import datetime
 import json
 
-from funcy import join_with
+from django.shortcuts import reverse
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
-from django.shortcuts import reverse
+from funcy import join_with
 
-from polls.models import Poll, PollAnswer, PollResults
 from polls.forms import PollUpdateForm
+from polls.models import Poll, PollAnswer, PollResults
 
 
 class PollCloseView(UpdateView):

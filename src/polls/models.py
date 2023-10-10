@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
 
+from evaluation.models import Answer, Question, Questionnaire
 from organizations.models import Company
-from evaluation.models import Questionnaire, Question, Answer
 
 
 class Poll(models.Model):

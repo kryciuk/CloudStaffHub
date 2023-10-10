@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.views.generic import CreateView
 
-from polls.forms import PollCreateForm
 from evaluation.models import Questionnaire
+from polls.forms import PollCreateForm
 from polls.models import Poll
 
 

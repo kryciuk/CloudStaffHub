@@ -1,11 +1,11 @@
 import json
 from datetime import datetime
 
-from django.views.generic import RedirectView
-from django.shortcuts import reverse
 from django.contrib import messages
+from django.shortcuts import reverse
+from django.views.generic import RedirectView
 
-from polls.models import PollAnswer, Poll
+from polls.models import Poll, PollAnswer
 
 
 class PollAnswerView(RedirectView):

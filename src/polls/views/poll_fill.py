@@ -1,8 +1,7 @@
 from itertools import chain
 
-from django.shortcuts import redirect
+from django.shortcuts import HttpResponse, redirect
 from django.views.generic import DetailView
-from django.shortcuts import HttpResponse
 
 from evaluation.models import Questionnaire
 from polls.models import Poll

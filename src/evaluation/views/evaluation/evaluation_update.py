@@ -1,10 +1,10 @@
 import json
 
+from django.urls import reverse
 from django.views.generic import UpdateView
 
 from evaluation.forms import EvaluationUpdateForm
 from evaluation.models import Evaluation
-from django.urls import reverse
 
 
 class EvaluationUpdateView(UpdateView):
