@@ -4,138 +4,153 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  <style>
-    /* Styl CSS */
-    .container {
-      width: auto;
-      margin: 20px auto;
-      background: #f8f9fa;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      padding: 10px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-      border-radius: 5px;
-    }
+<style>
+  /* Styl CSS */
+  .container {
+    width: auto;
+    margin: 20px auto;
+    background: #f8f9fa;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+  }
 
-    .centered {
-      margin: 20px;
-      text-align: center;
-    }
+  .centered {
+    margin: 20px;
+    text-align: center;
+  }
 
-    .table-submit {
-      margin-top: 20px;
-    }
+  .table-submit {
+    margin-top: 20px;
+  }
 
-    /* Styl formularza */
-    .form-group {
-      margin-bottom: 20px;
-    }
+  /* Styl formularza */
+  .form-group {
+    margin-bottom: 20px;
+  }
 
-    .form-group label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
 
-    .form-group input[type="text"],
-    .form-group select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
+  .form-group input[type="text"],
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
 
-    .form-group select {
-      /* Dodaj ewentualne style dla selecta */
-    }
+  .form-group select {
+    /* Dodaj ewentualne style dla selecta */
+  }
 
-    .form-group input[type="text"]:focus,
-    .form-group select:focus {
-      outline: none;
-    }
+  .form-group input[type="text"]:focus,
+  .form-group select:focus {
+    outline: none;
+  }
 
-    /* Styl ofert pracy */
-    .job-offer {
-      margin-bottom: 20px;
-    }
+  /* Styl ofert pracy */
+  .job-offer {
+    margin-bottom: 20px;
+  }
 
-    .job-offer .card-body {
-      padding: 20px;
-    }
-  </style>
+  .job-offer .card-body {
+    padding: 20px;
+  }
 
-  <div class="container">
-    <div class="card card-body">
-      <h2 class="centered">JOB OFFERS</h2>
-      {% csrf_token %}
-      <div class="row">
-        <div class="col-md-3">
-          <div class="centered">
-            {% if request.user|has_group:"Recruiter" %}
-              <a class="btn btn-info mb-0" href="{% url 'job-offer-create' %}">Create new job offer</a>
-            {% endif %}
-          </div>
-          <fieldset class="form-group">
-            <form method="GET" action="{% url 'job-offers' %}">
-              {{ form | crispy }}
-              <div><button class="btn btn-outline-info" type="submit">Submit</button></div>
-            </form>
-          </fieldset>
-        </div>
-        <div class="col-md-9">
-          {% for job_offer in job_offers %}
-            {% if request.user.profile.company is None or job_offer.company == request.user.profile.company %}
-              <div class="job-offer">
-                <div class="container">
-                  <div class="card card-body">
-                    <article class="media content-section">
-                      <div class="media-body">
-                        <div class="article-metadata">
-                          <a class="mb-5" href="#">{{ job_offer.position.title }} ({{job_offer.position.get_level_display}}) - {{ job_offer.city }}</a>
-                        </div>
-                        <div>
-                          <small class="text-muted">Company: {{ job_offer.company }}</small>
-                        </div>
-                        <div>
-                          <small class="text-muted">Offer posted: {{ job_offer.published_date }}</small>
-                        </div>
-                        {% if job_offer.status == True %}
-                          <div class="mb-2">
-                            <small class="text-muted">Recruitment ends: {{ job_offer.expiry_date }}</small>
-                          </div>
-                          <div class="card-group m-0">
-                            <a href="{% url 'job-offer-detail' job_offer.id %}">
-                              <button class="btn btn-outline-info" type="submit">View details and upload your CV!</button>
-                            </a>
-                          </div>
-                        {% elif job_offer.status == False %}
-                          <div class="card-group m-0">
-                            <small class="alert-danger">Recruitment closed</small>
-                          </div>
-                        {% endif %}
-                      </div>
-                    </article>
-                  </div>
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-          <div class="centered">
-          {% if page_obj.paginator %}
-            {% for num in page_obj.paginator.page_range %}
-              {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-outline mb-4" href="?page={{ num }}">{{ num }}</a>
-              {% endif %}
-            {% endfor %}
+</style>
+
+<div class="container">
+  <div class="card card-body">
+    <h2 class="centered">JOB OFFERS</h2>
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-3">
+        <div class="centered">
+          {% if request.user|has_group:"Recruiter" %}
+          <a class="btn btn-info mb-0" href="{% url 'job-offer-create' %}">Create new job offer</a>
           {% endif %}
+        </div>
+        <fieldset class="form-group">
+          <form method="GET" action="{% url 'job-offers' %}">
+            {{ form | crispy }}
+            <div>
+              <button class="btn btn-outline-info" type="submit">Submit</button>
+            </div>
+          </form>
+        </fieldset>
+      </div>
+      <div class="col-md-9">
+        {% for job_offer in job_offers %}
+        {% if request.user.profile.company is None or job_offer.company == request.user.profile.company %}
+        <div class="job-offer">
+          <div class="container">
+            <div class="card card-body">
+              <article class="media content-section">
+                <div class="media-body">
+                  <div class="article-metadata">
+                    <a class="mb-5" href="#">{{ job_offer.position.title }} ({{job_offer.position.get_level_display}}) - {{ job_offer.city }}</a>
+                  </div>
+                  <div>
+                    <small class="text-muted">Company: {{ job_offer.company }}</small>
+                  </div>
+                  <div>
+                    <small class="text-muted">Offer posted: {{ job_offer.published_date }}</small>
+                  </div>
+                  {% if job_offer.status == True %}
+                  <div class="mb-2">
+                    <small class="text-muted">Recruitment ends: {{ job_offer.expiry_date }}</small>
+                  </div>
+                  <div class="card-group m-0">
+                    <a href="{% url 'job-offer-detail' job_offer.id %}">
+                      <button class="btn btn-outline-info" type="submit">View details and upload your CV!</button>
+                    </a>
+                  </div>
+                  {% elif job_offer.status == False %}
+                  <div class="card-group m-0">
+                    <small class="alert-danger">Recruitment closed</small>
+                  </div>
+                  {% endif %}
+                </div>
+              </article>
+            </div>
           </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        <div class="centered">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <li class="page-item">
+                <a class="btn btn-info mb-4" href="?page=1">
+                  <span aria-hidden="true">&laquo; First</span>
+                </a>
+              </li>
+              {% if page_obj.has_previous %}
+              <li class="page-item"><a class="btn btn-info mb-4" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+              {% endif %}
+              <li class="page-item"><a class="btn btn-primary mb-4" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+              {% if page_obj.has_next %}
+              <li class="page-item"><a class="btn btn-info mb-4" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+              {% endif %}
+              <li class="page-item">
+                <a class="btn btn-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">
+                  <span aria-hidden="true">Last &raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}

@@ -9,3 +9,10 @@ class AssigmentForm(ModelForm):
         model = Assignment
         fields = "__all__"
         exclude = ['manager', 'status']
+
+
+class AssigmentStatusForm(ModelForm):
+
+    class Meta:
+        model = Assignment
+        fields = ['status']

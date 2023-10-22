@@ -1,15 +1,12 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% block content %}
-{% load crispy_forms_tags %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-    <style>
+    {% load crispy_forms_tags %}
+    {% block head %}
+        {% block title %}
+            {{ title }}
+        {% endblock title %}
+        <style>
         .container {
             width: 600px;
             margin-top: 20px;
@@ -31,27 +28,38 @@
             margin: 10px;
             background-color: #f9f9f9;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card card-body">
-            <article class="media content-section">
-                <div class="media-body">
-                    <div class="article-metadata" style="text-align: center;">
-                        <legend class="border-bottom mb-4">Assignments List</legend>
-                        {% for assignment in assignment_for_user %}
-                            <div class="event-box">
-                                <strong>{{ assignment }}</strong>
-                                <br>
-                                <small>Deadline: {{ assignment.event_date }}</small>{% if assignment.manager is not None %}<small> Assigned by {{ assignment.manager }}</small>{% endif %}
-                            </div>
-                        {% endfor %}
+        </style>
+    {% endblock head %}
+    <body>
+        <div class="container">
+            <div class="card card-body">
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata" style="text-align: center;">
+                            <legend class="border-bottom mb-4">Assignments List</legend>
+                            {% for assignment in open_assignment_for_user %}
+                                <div class="event-box">
+                                    <strong>{{ assignment }}</strong>
+                                    <br>
+                                    <small>Deadline: {{ assignment.event_date }}</small>
+                                    <small>
+                                        {% if assignment.is_past %}
+                                            | Days over deadline:
+                                        {% else %}
+                                            | Days until deadline:
+                                        {% endif %}
+                                    {{ assignment.days_till }}</small>
+                                    {% if assignment.manager is not None %}<small>| Assigned by {{ assignment.manager }}</small>{% endif %}
+                                    <form method="POST" action="{% url 'assignments-close' assignment.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-dark">Mark as complete</button>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
-    </div>
-</body>
-</html>
+    </body>
 {% endblock %}

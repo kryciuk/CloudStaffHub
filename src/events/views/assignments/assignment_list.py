@@ -10,6 +10,6 @@ class AssignmentListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        assignment_for_user = Assignment.objects.filter(employee=self.request.user).distinct()
-        context['assignment_for_user'] = assignment_for_user
+        open_assignment_for_user = Assignment.objects.filter(employee=self.request.user, status=False).distinct() # TODO get_queryset
+        context['open_assignment_for_user'] = open_assignment_for_user
         return context

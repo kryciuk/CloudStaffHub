@@ -21,9 +21,9 @@ class LandingConfig(AppConfig):
 
         models_to_fetch = [JobOffer, JobApplication, City, Company, Position]
 
-        creator, _ = Group.objects.get_or_create(name="Creator")
+        owner, _ = Group.objects.get_or_create(name="Owner")
         perms = _get_perms_for_models(models_to_fetch)
-        creator.permissions.set(perms)
+        owner.permissions.set(perms)
 
         recruiter, _ = Group.objects.get_or_create(name="Recruiter")
         recruiter.permissions.set(perms)

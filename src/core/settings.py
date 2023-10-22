@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "django_filters",
     "rest_framework",
+    "django_extensions",
 ]
 
 INSTALLED_EXTENSIONS = [
@@ -164,6 +165,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_URL = "login"
 
+LOGIN_REDIRECT_URL = "dashboard"
+
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "/media/"
@@ -171,6 +174,22 @@ MEDIA_URL = "/media/"
 GROUPS_MANAGER = {
     "AUTH_MODELS_SYNC": True,
 }
+
+# SMTP Configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'django.testing.klaudia@gmail.com'
+EMAIL_HOST_PASSWORD = 'ewlg pnkh maki wjxr'
+
+# automatic logout
+
+SESSION_COOKIE_AGE = 180
+
+SESSION_SAVE_EVERY_REQUEST = True
+
 
 # LOGGING = {
 #     "version": 1,

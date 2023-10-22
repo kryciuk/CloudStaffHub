@@ -41,6 +41,7 @@
                 <p><a class="mb-5" href="{% url 'poll-fill' poll.id %}">{{ poll }}</a></p>
                 {%  endfor %}
                 {% endif %}
+                <br>
                 <h3>View results for recently closed polls:</h3>
                 {% if not poll_results %}
                 <p>There are no recently closed polls...</p>
@@ -59,6 +60,7 @@
                     <p><a class="mb-5" href="{% url 'evaluation-detail' evaluation.id %}">{{ evaluation }}</a></p>
                 {%  endfor %}
                 {% endif %}
+                <br>
                 <h3>View completed evaluations:</h3>
                 {% if not completed_evaluations %}
                 <p>There are no completed evaluations...</p>
@@ -73,9 +75,11 @@
                 <p>Some information here...</p>
             </div>
             <div class="info-box">
-                <h3>{{ user.first_name }}'s calendar for:</h3>
-                <p><a href="{% url 'calendar' year month %}">{{ month }} {{ year }}</a></p>
-                <h2>Assignments</h2>
+                <h3>{{ user.first_name }}'s Calendar for:</h3>
+                <a href="{% url 'calendar' year month_number %}"><button class="btn btn-dark" type="submit">{{ month_name }} {{ year }}</button></a>
+                <br>
+                <br>
+                <h2>Assignments:</h2>
                 <p><a href="{% url 'assignments' %}">Assigment list</a></p>
                 <p><a href="{% url 'assignments-create' %}">New assignment</a></p>
             </div>

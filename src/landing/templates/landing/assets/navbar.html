@@ -29,9 +29,8 @@
           <li class="nav-item">
             <a class="nav-link {% if request.path == register_company_url %} active {% endif %}" aria-current="page" href="{% url 'register-company' %}">Register Company</a>
           </li>
-        {% endif %}
 
-        {% if user.is_authenticated %}
+        {% elif user.is_authenticated %}
           {% url 'profile' as profile_url %}
           <li>
             <a class="nav-link {% if request.path == profile_url %} active {% endif %}" aria-current="page" href="{% url 'profile' request.user.profile.id %}">Profile</a>
@@ -50,7 +49,7 @@
             </li>
           {% endif %}
 
-          {% if request.user|has_group:"Employee" or request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Creator" or request.user.is_superuser %}
+          {% if request.user|has_group:"Employee" or request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Owner" or request.user.is_superuser %}
             <li>
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="employeeDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Employee</button>
@@ -61,7 +60,7 @@
             </li>
           {% endif %}
 
-          {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Creator" or request.user.is_superuser %}
+          {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Owner" or request.user.is_superuser %}
             <li>
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="recruiterDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Recruiter</button>
@@ -74,7 +73,7 @@
             </li>
           {% endif %}
 
-          {% if request.user|has_group:"Manager" or request.user|has_group:"Creator" or request.user.is_superuser %}
+          {% if request.user|has_group:"Manager" or request.user|has_group:"Owner" or request.user.is_superuser %}
             <li>
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="managerDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Manager</button>
@@ -85,7 +84,7 @@
             </li>
           {% endif %}
 
-          {% if request.user|has_group:"Creator" or request.user.is_superuser %}
+          {% if request.user|has_group:"Owner" or request.user.is_superuser %}
             <li>
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="adminDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Company's Admin</button>

@@ -1,48 +1,88 @@
 {% extends 'landing/base.html' %}
 {% load static %}
-{% block content %}
 {% load crispy_forms_tags %}
 
-    <title>{{ title }}</title>
-    <head>
-        <style>
-		    .container {
-                    width: 600px;
-                    margin-top: 20px;
-                    margin-bottom: auto;
-                    background: #f8f9fa;
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                    flex-direction: column;
-                    padding: 10px;
-                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
-                    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-                    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-                    border-radius: 5px;
-                }
-        </style>
-    </head>
+{% block title %}{{ title }}{% endblock %}
 
-    <body>
-        <div class="container">
-            <div class="card card-body">
-                <article class="media content-section">
-                    <div class="media-body">
-                        <div class="article-metadata" style="text-align: center;">
-                            <legend class="border-bottom mb-4">{{ user }}'s events for {{ month }} {{ year }}</legend>
-                            <div style="text-align: center;">
-                                <div style="display: inline-block; text-align: left;">
-                                    {{ cal|safe }}
-                                </div>
+{% block head %}
+    <style>
+        .container {
+            width: 700px;
+            margin-top: 20px;
+            margin-bottom: auto;
+            background: #f8f9fa;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
+            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card card-body">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata" style="text-align: center;">
+                        <legend class="border-bottom mb-4">
+                            <div class="d-flex align-items-center">
+                                {% if month_number == 1 %}
+                                    <a href="{% url 'calendar' previous_year 12 %}" class="mr-auto">
+                                        <button class="btn btn-light" type="submit">&larr;</button>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'calendar' year previous_month %}" class="mr-auto">
+                                        <button class="btn btn-light" type="submit">&larr;</button>
+                                    </a>
+                                {% endif %}
+
+                                {{ username }}'s Calendar for {{ month_name }} {{ year }}
+
+                                {% if month_number == 12 %}
+                                    <a href="{% url 'calendar' next_year 1 %}" class="ml-auto">
+                                        <button class="btn btn-light" type="submit">&rarr;</button>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'calendar' year next_month %}" class="ml-auto">
+                                        <button class="btn btn-light" type="submit">&rarr;</button>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </legend>
+
+                        <div style="text-align: center;">
+                            <div style="display: inline-block; text-align: left;">
+                                {{ cal|safe }}
                             </div>
                         </div>
+
+                        <br>
+
+                        <legend>Assignments for this month</legend>
+                        {% if not assignments %}
+                            <strong>No assignments for this month...</strong>
+                        {% else %}
+                            {% for assignment in assignments %}
+                                <div class>
+                                    <strong>{{ assignment }}</strong>
+                                    <br>
+                                    <small>Deadline: {{ assignment.event_date }} |
+                                        {% if assignment.is_past %}Days over deadline: {% else %}Days until deadline: {% endif %}
+                                        {{ assignment.days_till }}
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
-                </article>
-            </div>
+                </div>
+            </article>
         </div>
-    </body>
-
-
-
-    {% endblock %}
+    </div>
+</body>
+{% endblock %}

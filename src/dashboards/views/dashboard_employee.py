@@ -40,7 +40,7 @@ class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
 
         open_polls = Poll.objects.filter(status=True, questionnaire__company=self.request.user.profile.company)
         for poll in open_polls:
-            answers = poll.user_answer_to_poll.all()
+            answers = poll.answers.all()
             for answer in answers:
                 if answer.respondent == self.request.user:
                     open_polls = open_polls.exclude(id=poll.id)
@@ -57,6 +57,7 @@ class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
         month_name = list(calendar.month_name)[month_number]
 
         context["year"] = year
-        context["month"] = month_name
+        context["month_number"] = month_number
+        context["month_name"] = month_name
 
         return context

@@ -15,12 +15,11 @@ class PollCreateView(CreateView):
     template_name = "polls/poll_create.html"
     context_object_name = "poll"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["form"].fields["questionnaire"].queryset = Questionnaire.objects.filter(
-            created_by=self.request.user
-        ).filter(type=Questionnaire.Type.POLL)
-        return context
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields["questionnaire"].queryset = Questionnaire.objects.filter(
+            created_by=self.request.user).filter(type=Questionnaire.Type.POLL)
+        return form
 
     def form_valid(self, form):
         form.instance.status = True

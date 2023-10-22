@@ -48,15 +48,29 @@
     {% endif %}
 {% endfor %}
 
-<div class="centered">
-    {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-            <a class="btn btn-info mb-1" href="?page={{ num }}">{{ num }}</a>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-            <a class="btn btn-outline mb-1" href="?page={{ num }}">{{ num }}</a>
-        {% endif %}
-    {% endfor %}
-</div>
+        <div class="centered">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <li class="page-item">
+                <a class="btn btn-info mb-4" href="?page=1">
+                  <span aria-hidden="true">&laquo; First</span>
+                </a>
+              </li>
+              {% if page_obj.has_previous %}
+              <li class="page-item"><a class="btn btn-info mb-4" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+              {% endif %}
+              <li class="page-item"><a class="btn btn-primary mb-4" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+              {% if page_obj.has_next %}
+              <li class="page-item"><a class="btn btn-info mb-4" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+              {% endif %}
+              <li class="page-item">
+                <a class="btn btn-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">
+                  <span aria-hidden="true">Last &raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
 {% if request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
 <div class="centered">
