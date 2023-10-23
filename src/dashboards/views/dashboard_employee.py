@@ -13,9 +13,10 @@ class UserHasEmployeeOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
         return self.request.user.is_authenticated and (
             self.request.user.groups.filter(name="Employee").exists()
-            or self.request.user.groups.filter(name="Manager").exists()
             or self.request.user.groups.filter(name="Recruiter").exists()
-            or self.request.user.groups.filter(name="Creator").exists()
+            or self.request.user.groups.filter(name="Manager").exists()
+            or self.request.user.groups.filter(name="Owner").exists()
+            or self.request.user.is_superuser
         )
 
 

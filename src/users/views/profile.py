@@ -3,14 +3,14 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.views.generic import UpdateView
 
-from users.forms import UserProfileForm
+from users.forms import UserProfileForm, UserProfileFormChange
 from users.models import Profile
 
 
 class ProfileDetailView(UpdateView):
     template_name = "users/profile.html"
     model = Profile
-    fields = ["phone_number", "interested_in"]
+    form_class = UserProfileFormChange
 
     def get_success_url(self):
         return reverse("profile", kwargs={"pk": self.object.id})
@@ -23,6 +23,7 @@ class ProfileDetailView(UpdateView):
 class UserProfileUpdateView(UpdateView):
     model = User
     template_name = "users/profile_edit.html"
+    form_class = UserProfileForm
 
     def get_initial(self):
         initial = super(UserProfileUpdateView, self).get_initial()
@@ -36,9 +37,6 @@ class UserProfileUpdateView(UpdateView):
             initial["group"] = current_group.pk
         return initial
 
-    def get_form_class(self):
-        return UserProfileForm
-
     def form_valid(self, form):
         self.object.groups.clear()
         self.object.groups.add(form.cleaned_data["group"])
@@ -48,5 +46,5 @@ class UserProfileUpdateView(UpdateView):
         return reverse("profile", kwargs={"pk": self.object.id})
 
     def post(self, request, *args, **kwargs):
-        messages.success(request, f"User information updated")
+        messages.success(request, f"User Information Updated")
         return super().post(request, *args, *kwargs)

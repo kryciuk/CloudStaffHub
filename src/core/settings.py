@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "django_filters",
     "rest_framework",
     "django_extensions",
+    "phonenumber_field",
 ]
 
 INSTALLED_EXTENSIONS = [
@@ -186,9 +187,13 @@ EMAIL_HOST_PASSWORD = 'ewlg pnkh maki wjxr'
 
 # automatic logout
 
-SESSION_COOKIE_AGE = 180
+SESSION_COOKIE_AGE = 1000
 
 SESSION_SAVE_EVERY_REQUEST = True
+
+# phone number
+
+PHONENUMBER_DEFAULT_REGION = "PL"
 
 
 # LOGGING = {

@@ -5,17 +5,15 @@ from django.db.models import Q
 from django.views.generic import TemplateView
 
 
-class UserHasCreatorGroup(LoginRequiredMixin, UserPassesTestMixin):
+class UserHasOwnerOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
-        return (
-            self.request.user.is_authenticated
-            and self.request.user.groups.filter(
-                Q(name="Creator") | Q(name="Manager")
-            ).exists()
+        return self.request.user.is_authenticated and (
+                self.request.user.groups.filter(name="Owner").exists()
+                or self.request.user.is_superuser
         )
 
 
-class OwnerDashboardView(UserHasCreatorGroup, TemplateView):
+class OwnerDashboardView(UserHasOwnerOrHigherGroup, TemplateView):
     template_name = "dashboards/dashboard_owner.html"
 
     def get_context_data(self, **kwargs):

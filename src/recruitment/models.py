@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
 
+from phonenumber_field.modelfields import PhoneNumberField
+
 from organizations.models import City, Company, Position
 
 
@@ -33,7 +35,7 @@ class JobApplication(models.Model):
     )
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    phone_number = models.IntegerField(help_text="cellular number")
+    phone_number = PhoneNumberField(help_text="cellular number")
     email = models.EmailField()
     expected_salary = models.IntegerField(help_text="expected gross salary")
     cv = models.FileField(
