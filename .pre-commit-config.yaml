@@ -22,3 +22,8 @@ repos:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
         name: isort (python)
+-   repo: https://github.com/Riverside-Healthcare/djLint
+    rev: v1.33.0
+    hooks:
+      - id: djlint-reformat-django
+      - id: djlint-django
