@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 import environ
+from django.urls import reverse_lazy
 
 from .env import env
 
@@ -53,6 +54,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_extensions",
     "phonenumber_field",
+    "bootstrap_datepicker_plus",
+    'bootstrap4'
 ]
 
 INSTALLED_EXTENSIONS = [
@@ -166,8 +169,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_URL = "login"
 
-LOGIN_REDIRECT_URL = "dashboard"
-
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "/media/"
@@ -194,6 +195,20 @@ SESSION_SAVE_EVERY_REQUEST = True
 # phone number
 
 PHONENUMBER_DEFAULT_REGION = "PL"
+
+
+# datepicker
+
+BOOTSTRAP_DATEPICKER_PLUS = {
+    "options": {
+        "locale": "en",
+    },
+    "variant_options": {
+        "datetime": {
+            "format": "DD.MM.YYYY HH:mm",
+        },
+    }
+}
 
 
 # LOGGING = {

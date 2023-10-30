@@ -45,7 +45,7 @@ urlpatterns_job_applications = [
         name="job-applications-review",
     ),
     path(
-        "job-applications/detail/<int:pk>",
+        "job-applications/<int:pk>/detail",
         JobApplicationsDetailView.as_view(),
         name="job-applications-detail",
     ),

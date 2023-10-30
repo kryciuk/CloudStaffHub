@@ -1,7 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.views.generic import TemplateView
 
 

@@ -2,6 +2,9 @@
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,25 +14,36 @@
     <title>{{ title }}</title>
     <style>
         .container {
-            width: 600px;
-            margin-top: 20px;
-            margin-bottom: auto;
+            width: 80%;
+            margin: 20px auto;
             background: #f8f9fa;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
+            padding: 20px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
                 0 6px 5px 0 rgba(0, 0, 0, 0.19);
-            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 10px 0 rgba(0, 0, 0, 0.19);
             border-radius: 5px;
         }
 
-        /* Styl dla formularza */
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .media-body {
+            margin-left: 20px;
+        }
+
+        .account-heading {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .text-secondary {
+            font-size: 18px;
+            color: #777;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -50,17 +64,19 @@
         }
 
         .form-group select {
-            /* Dodatkowe style dla listy rozwijanej (zainteresowania) */
+            /* Additional styles for select dropdown (if applicable) */
         }
 
         .form-group input[type="text"]:focus,
         .form-group select:focus {
-            outline: none; /* Usunięcie pogrubionego obramowania po kliknięciu */
+            outline: none;
+        }
+        .asteriskField {
+        display: none;
         }
 
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="card card-body">
@@ -70,24 +86,20 @@
                         <form method="POST">
                             {% csrf_token %}
                             <fieldset class="form-group">
-                                <legend class="border-bottom mb-4">Create New Assignment</legend>
+                                <legend class="border-bottom mb-4">
+                                    <span style="color: #f06161;">Create New Assignment</span>
+                                </legend>
                                 {{ form | crispy }}
-                            <div><button class="btn btn-outline-info add-button" type="submit">Add</button></div>
+                                <div class="text-center">
+                                    <button class="btn btn-outline-info add-button" type="submit">Create</button>
+                                </div>
                             </fieldset>
+                        </form>
                     </div>
                 </div>
             </article>
         </div>
     </div>
 </body>
-<script>
-
-		var form_fields = document.getElementsByTagName('input')
-        form_fields[2].placeholder='yyyy-MM-dd HH:mm:ss';
-
-		for (var field in form_fields){
-			form_fields[field].className += ' form-control'
-		}
-</script>
 </html>
 {% endblock %}

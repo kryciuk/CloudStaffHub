@@ -12,6 +12,7 @@ class LandingConfig(AppConfig):
         from users.signals import create_profile
 
         post_migrate.connect(self.populate_models, sender=self)
+        post_migrate.connect(self.create_industries, sender=self)
 
     def populate_models(self, sender, **kwargs):
         from django.contrib.auth.models import Group
@@ -33,3 +34,9 @@ class LandingConfig(AppConfig):
         candidate, _ = Group.objects.get_or_create(name="Candidate")
 
         manager, _ = Group.objects.get_or_create(name="Manager")
+
+    def create_industries(self, sender, **kwargs):
+        from organizations.models import Industry
+
+        for industry in Industry.IndustryChoice:
+            new_industry, _ = Industry.objects.get_or_create(industry=industry)

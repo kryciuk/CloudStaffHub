@@ -88,7 +88,7 @@
                 <tr>
                   <td>{{ position.title }}</td>
                   <td>{{ position.get_level_display }}</td>
-                  <td>{{ position.get_department_display }}</td>
+                  <td>{{ position.department }}</td>
                     <td>
                     <form method="POST" action="{% url 'positions-delete' position.id %}">
                         {% csrf_token %}

@@ -1,8 +1,6 @@
-from django import forms
-from django.forms import Form, ModelForm
+from django.forms import ModelForm
 
 from organizations.models import City, Position
-from recruitment.models import JobApplication
 
 
 class PositionsForm(ModelForm):
@@ -12,7 +10,7 @@ class PositionsForm(ModelForm):
         help_texts = {
             "title": None,
             "level": None,
-            "departament": None,
+            "department": None,
         }
 
 

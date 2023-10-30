@@ -22,16 +22,14 @@ class RegisterCompanyView(View):
         company = form_company.save()
         if form.is_valid():
             user = form.save()
-            creator_group = Group.objects.get(name="Creator")
-            creator_group.user_set.add(user)
-            recruiter_group = Group.objects.get(name="Recruiter")
-            recruiter_group.user_set.add(user)
+            owner_group = Group.objects.get(name="Owner")
+            owner_group.user_set.add(user)
             messages.success(request, f"Company profile created for {company.name}")
             return redirect("login")
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect("dashboard")
+            return redirect("dashboard-employee")
         form_company = CompanyForm()
         form = CreateUserForm()
         context = {

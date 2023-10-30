@@ -11,8 +11,9 @@ class Company(models.Model):
         return f"{self.name}"
 
 
-class Position(models.Model):
-    class Department(models.TextChoices):
+class Department(models.Model):
+
+    class DepartmentChoices(models.TextChoices):
         ACCOUNTING = "Accounting"
         ADMINISTRATION = "Administration"
         BOARD_OF_DIRECTORS = "Board of Directors"
@@ -33,16 +34,26 @@ class Position(models.Model):
         SECURITY = "Security"
         STORE = "Store"
 
+    name = models.CharField(choices=DepartmentChoices.choices)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} in {self.company}"
+
+
+class Position(models.Model):
+
     class Level(models.TextChoices):
         ENTRY = "Entry"
         JUNIOR = "Junior"
         MID = "Mid"
         SENIOR = "Senior"
         MANAGER = "Manager"
+        DIRECTOR = "Director"
 
     title = models.CharField(max_length=100, help_text="title of the position")
     level = models.TextField(choices=Level.choices)
-    department = models.TextField(choices=Department.choices)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     class Meta:
@@ -53,9 +64,6 @@ class Position(models.Model):
 
     def get_absolute_url(self):
         return reverse("dashboard-recruiter")
-
-    def department_name(self):
-        return self.Department(self.department).label
 
 
 class City(models.Model):

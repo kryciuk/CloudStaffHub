@@ -4,7 +4,7 @@ from django.shortcuts import reverse
 from django.views.generic import UpdateView
 
 from organizations.models import CompanyProfile
-from users.forms import UserProfileForm
+from users.forms import UserProfileUpdateForm
 
 
 class CompanyProfileView(UpdateView):
