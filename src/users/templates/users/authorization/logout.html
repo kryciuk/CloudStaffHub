@@ -1,7 +1,9 @@
 {% extends 'landing/base.html' %}
 {% block content %}
+
     <title>Logout</title>
     <head>
+    <title>{{ title }}</title>
         <style>
 		    .user_card {
 			    width: 350px;
@@ -34,4 +36,9 @@
             </div>
         </div>
     </body>
+<script>
+    setTimeout(function() {
+        window.location.href = "{% url 'login' %}";
+    }, 10000);
+</script>
 {% endblock %}

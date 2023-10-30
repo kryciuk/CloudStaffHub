@@ -1,17 +1,17 @@
 # authorization
 
-from users.views.authorization.login import UserLoginView
-from users.views.authorization.register import RegisterView
-from users.views.authorization.logout import UserLogoutView
+from .authorization.login import UserLoginView
+from .authorization.register import RegisterView
 
-# other
+# profile
 
-from .dashboard import DashboardView
-from .profile import ProfileDetailView, UserProfileUpdateView
+from .profile.profile_edit_by_owner import UserInfoEditByOwner
+from .profile.profile_update import ProfileUpdateView
+from .profile.profile_detail import ProfileDetailView
 
-# password
+# password reset
 
-from users.views.password_reset.password_reset import UserPasswordResetView
-from users.views.password_reset.password_reset_done import UserPasswordResetDoneView
-from users.views.password_reset.password_reset_confirm import UserPasswordResetConfirmView
-from users.views.password_reset.password_reset_complete import UserPasswordResetCompleteView
+from .password_reset.password_reset import UserPasswordResetView
+from .password_reset.password_reset_done import UserPasswordResetDoneView
+from .password_reset.password_reset_confirm import UserPasswordResetConfirmView
+from .password_reset.password_reset_complete import UserPasswordResetCompleteView

@@ -11,5 +11,4 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         email_domain = instance.email.split(sep="@")[-1]
         company = Company.objects.filter(email_domain=email_domain).first()
-        profile = Profile.objects.create(user=instance, company=company)
-        profile.save()
+        Profile.objects.create(user=instance, company=company)

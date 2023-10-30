@@ -77,27 +77,12 @@
     <div class="container">
         <div class="card card-body">
             <div class="content-section">
-                <div class="media">
-                    <img src="{{ object.user.profile.profile_pic.url }}" alt="Profile Picture" class="profile-picture">
-                    <div class="media-body">
-                        <br>
-                        <h2 class="account-heading">{{ object.user.first_name }} {{ object.user.last_name }}</h2>
-                        <p class="text-secondary">{{ object.user.email }}</p>
-                    </div>
-                    {% if user.company == object.user.company %}
-                        {% if request.user|has_group:"Owner" or request.user.is_superuser %}
-                            <a class="btn-light" href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
-                        {% endif %}
-                    {% endif %}
-                </div>
-                <br>
-                <form method="post" id="myform" enctype="multipart/form-data">
+                <form action="" method="post">
                     {% csrf_token %}
                     <fieldset class="form-group">
-                        <legend class="border-bottom mb-4"><span style="color: #f06161;">Profile Info<span></span></legend>
-                        {{ form.phone_number | as_crispy_field }}
-                        {{ form.interested_in | as_crispy_field }}
-                        {{ form.profile_pic | as_crispy_field }}
+                        <legend class="border-bottom mb-4"><span style="color: #f06161;">Edit User Information<span></span></legend>
+                        {{ form | crispy }}
+                        {{ admin_edit_formset | crispy }}
                     <div class="text-center">
                         <button class="btn btn-outline-info" type="submit">Update</button>
                     </div>
