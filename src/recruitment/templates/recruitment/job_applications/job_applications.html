@@ -1,92 +1,89 @@
 {% extends 'landing/base.html' %}
-{% block content %}
+{% load crispy_forms_tags %}
 {% load auth_extras %}
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ title }}</title>
-    <style>
-        .container {
-            width: 600px;
-            margin: 20px auto; /* Simplify margin definition */
-            background: #f8f9fa;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 5px;
-        }
-        .centered {
-            margin: 20px;
-            text-align: center;
-        }
-        /* Add more CSS styling as needed */
-    </style>
-</head>
-<body>
-
-{% for job_application in job_applications %}
-    {% if job_application.job_offer.company == request.user.profile.company %}
-    <div class="container">
-        <div class="card card-body">
-            <article class="media content-section">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <a class="btn" style="float: right" href="{% url 'job-applications-detail' job_application.id %}">DETAILS</a>
-                        <a class="mb-5" href="#">{{ job_application.candidate.first_name }} {{job_application.candidate.last_name}}</a>
-                    </div>
-                    <div>
-                        <small class="text-muted"> Applied for job offer ID:  <a class="justify-content-center" href="{% url 'job-offer-detail' job_application.job_offer.id %}">{{job_application.job_offer.id }} ({{job_application.job_offer.position }}, {{job_application.job_offer.company }})</a></small>
-                    </div>
-                </div>
-            </article>
-        </div>
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="centered">
+        {% if request.path == '/recruitment/job-applications/received' %}
+        <a class="centered" href="{% url 'job-applications-closed' %}">
+            <button class="btn btn-outline-info" type="submit">View closed applications</button>
+        </a>
+        {% else %}
+        <a class="centered" href="{% url 'job-applications' %}">
+            <button class="btn btn-outline-info" type="submit">View open applications</button>
+        </a>
+        {% endif %}
     </div>
-    {% endif %}
-{% endfor %}
-
-        <div class="centered">
-          <nav aria-label="Page navigation example">
+    {% for job_application in job_applications %}
+        {% if job_application.job_offer.company == request.user.profile.company %}
+            <div class="container">
+                <div class="card card-body">
+                    <article class="media content-section">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <a class="btn" style="float: right"
+                                   href="{% url 'job-applications-detail' job_application.id %}">DETAILS</a>
+                                <a class="mb-5" href="#">{{ job_application.candidate.first_name }} {{ job_application.candidate.last_name }}</a>
+                            </div>
+                            <div>
+                                <small class="text-muted"> Applied for job offer ID:
+                                    <a class="justify-content-center"
+                                       href="{% url 'job-offer-detail' job_application.job_offer.id %}">
+                                        {{ job_application.job_offer.id }} ({{ job_application.job_offer.position }},
+                                        {{ job_application.job_offer.company }})
+                                    </a>
+                                </small>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div class="centered">
+        <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-              <li class="page-item">
-                <a class="btn btn-info mb-4" href="?page=1">
-                  <span aria-hidden="true">&laquo; First</span>
-                </a>
-              </li>
-              {% if page_obj.has_previous %}
-              <li class="page-item"><a class="btn btn-info mb-4" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-              {% endif %}
-              <li class="page-item"><a class="btn btn-primary mb-4" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
-              {% if page_obj.has_next %}
-              <li class="page-item"><a class="btn btn-info mb-4" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-              {% endif %}
-              <li class="page-item">
-                <a class="btn btn-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">
-                  <span aria-hidden="true">Last &raquo;</span>
-                </a>
-              </li>
+                <li class="page-item">
+                    <a class="btn btn-info mb-4" href="?page=1">
+                        <span aria-hidden="true">&laquo; First</span>
+                    </a>
+                </li>
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="btn btn-info mb-4"
+                           href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                    </li>
+                {% endif %}
+                <li class="page-item">
+                    <a class="btn btn-primary mb-4" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="btn btn-info mb-4"
+                           href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                    </li>
+                {% endif %}
+                <li class="page-item">
+                    <a class="btn btn-info mb-4"
+                       href="?page={{ page_obj.paginator.num_pages }}">
+                        <span aria-hidden="true">Last &raquo;</span>
+                    </a>
+                </li>
             </ul>
-          </nav>
+        </nav>
+    </div>
+    {% if request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
+        <div class="centered">
+            {% if request.path == '/recruitment/job-applications/received' %}
+                <a class="btn btn-info mb-0" href="{% url 'job-applications-closed' %}">View closed applications</a>
+                <a class="btn btn-info mb-0" href="{% url 'job-applications-review' %}">View applications under review</a>
+            {% elif request.path == '/recruitment/job-applications/closed' %}
+                <a class="btn btn-info mb-0" href="{% url 'job-applications' %}">View received applications</a>
+                <a class="btn btn-info mb-0" href="{% url 'job-applications-review' %}">View applications under review</a>
+            {% elif request.path == '/recruitment/job-applications/review' %}
+                <a class="btn btn-info mb-0" href="{% url 'job-applications' %}">View received applications</a>
+                <a class="btn btn-info mb-0" href="{% url 'job-applications-review' %}">View applications under review</a>
+            {% endif %}
         </div>
-
-{% if request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
-<div class="centered">
-    {% if request.path == '/recruitment/job-applications/received' %}
-            <a class="btn btn-info mb-0" href="{% url 'job-applications-closed' %}">View closed applications</a>
-            <a class="btn btn-info mb-0" href="{% url 'job-applications-review' %}">View applications under review</a>
-    {% elif request.path == '/recruitment/job-applications/closed' %}
-            <a class="btn btn-info mb-0" href="{% url 'job-applications' %}">View received applications</a>
-            <a class="btn btn-info mb-0" href="{% url 'job-applications-review' %}">View applications under review</a>
-    {% elif request.path == '/recruitment/job-applications/review' %}
-            <a class="btn btn-info mb-0" href="{% url 'job-applications' %}">View received applications</a>
-            <a class="btn btn-info mb-0" href="{% url 'job-applications-review' %}">View applications under review</a>
     {% endif %}
-{% endif%}
-</div>
-
-</body>
-</html>
 {% endblock %}

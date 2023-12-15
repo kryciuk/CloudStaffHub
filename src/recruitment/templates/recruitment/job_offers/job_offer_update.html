@@ -1,79 +1,56 @@
 {% extends 'landing/base.html' %}
-{% load static %}
-{% block content %}
 {% load crispy_forms_tags %}
-
-<title>{{ title }}</title>
-<style>
-    .container {
-        width: 600px;
-        margin-top: 20px;
-        margin-bottom: auto;
-        background: #f8f9fa;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        padding: 10px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-            0 6px 5px 0 rgba(0, 0, 0, 0.19);
-        -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-            0 6px 10px 0 rgba(0, 0, 0, 0.19);
-        -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-            0 6px 10px 0 rgba(0, 0, 0, 0.19);
-        border-radius: 5px;
+{% load auth_extras %}
+{% block title %}{{ title }}{% endblock %}
+{% load bootstrap4 %}
+{% block content %}
+{{ form.media }}
+    <style>
+    .btn-outline-secondary {
+        width: 175px;
     }
-
-    /* Styl dla formularza */
-    .form-group {
-        margin-bottom: 20px;
+    .btn-outline-info {
+        width: 175px;
     }
-
-    .form-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .form-group input[type="text"],
-    .form-group select {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-    }
-
-    .form-group select {
-    }
-
-    .form-group input[type="text"]:focus,
-    .form-group select:focus {
-        outline: none;
-    }
-</style>
-<body>
-<!-- Job Offer Form -->
-<div class="container">
-    <div class="card card-body">
-        <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <fieldset class="form-group">
-                            <legend class="border-bottom mb-4">{% if request.path == '/recruitment/job-offers/create' %}Create{% else %}Update{% endif %} Job Offer</legend>
-                            {{ form | crispy }}
-                        </fieldset>
-                        <div class="form-group">
-                            <button class="btn btn-outline-info" type="submit">{% if request.path == '/recruitment/job-offers/create' %}Publish{% else %}Update{% endif %}</button>
-                        </div>
-                    </form>
+    </style>
+    <div class="container">
+        <div class="card card-body">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend style="color: #f06161;" class="border-bottom mb-4">
+                                    {% if request.path == '/recruitment/job-offers/create' %}
+                                        Create
+                                    {% else %}
+                                        Update
+                                    {% endif %}
+                                    Job Offer
+                                </legend>
+                                {{ form.position | as_crispy_field }}
+                                {{ form.description | as_crispy_field }}
+                                {{ form.city | as_crispy_field }}
+                                {{ form.expiry_date | as_crispy_field }}
+                            </fieldset>
+                            <div class="form-group">
+                                <button class="btn btn-outline-info" type="submit">
+                                    {% if request.path == '/recruitment/job-offers/create' %}
+                                        Publish
+                                    {% else %}
+                                        Update
+                                    {% endif %}
+                                </button>
+                                <div class="float-right">
+                                    <a class="btn btn-outline-secondary" href="{% url 'positions-create' %}">Add New Position</a>
+                                    <a class="btn btn-outline-secondary" href="{% url 'city-create' %}">Add New City</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </article>
+            </article>
+        </div>
     </div>
-</div>
-</body>
-
 {% endblock %}

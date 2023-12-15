@@ -1,53 +1,13 @@
 {% extends 'landing/base.html' %}
-{% load static %}
-
+{% load crispy_forms_tags %}
+{% load auth_extras %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
-    <title>{{ title }}</title>
-
-    <style>
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background: #f8f9fa;
-            padding: 20px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 5px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 5px;
-        }
-
-        .media-body {
-            margin-left: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-group input[type="text"],
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .form-group select {
-            /* Additional styles for select dropdown (if applicable) */
-        }
-
-        .form-group input[type="text"]:focus,
-        .form-group select:focus {
-            outline: none;
-        }
-        .asteriskField {
-        display: none;
-        }
-
-    </style>
-
+    <div class="centered">
+        <a class="centered" href="{% url 'job-offers' %}">
+            <button class="btn btn-outline-info" type="submit">Go back to other job offers!</button>
+        </a>
+    </div>
     <div class="container">
         <div class="card card-body">
             <article class="media content-section">
@@ -61,9 +21,11 @@
                     <div>
                         <small class="text-muted">Offer posted: {{ object.published_date }}</small>
                     </div>
-                    <div class="card-group m-2">
+                    <br>
+                    <div class="card-group m-0">
                         <p class="article-content">{{ object.description }}</p>
                     </div>
+                    <br>
                     {% if object.status == True %}
                         <div class="mb-2">
                             <small class="text-muted">Recruitment ends: {{ object.expiry_date }}</small>
@@ -75,11 +37,15 @@
                                 </a>
                             </div>
                         {% else %}
+                            {% if user_application is False %}
                             <div class="card-group m-0">
                                 <a href="{% url 'job-offer-apply' job_offer.id %}">
                                     <button class="btn btn-outline-info" type="submit">Submit your CV!</button>
                                 </a>
                             </div>
+                            {% else %}
+                                <small class="alert-danger">You have already applied for this job offer.</small>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                     {% if object.status == False %}

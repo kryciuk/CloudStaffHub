@@ -13,7 +13,7 @@ class JobOffersListView(ListView):
 
     def get_queryset(self):  # napisać fancy
         company = self.request.user.profile.company
-        queryset = JobOffer.objects.filter(status=True)
+        queryset = JobOffer.objects.filter(status=True).order_by("-published_date")
         if company is not None:
             queryset = JobOffer.objects.filter(company=company, status=True)
         self.filterset = JobOfferFilter(self.request.GET, queryset=queryset)
@@ -22,4 +22,5 @@ class JobOffersListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = self.filterset.form
+        context['title'] = "Job Offers - CloudStaffHub"
         return context

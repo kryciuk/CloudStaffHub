@@ -1,80 +1,9 @@
 {% extends 'landing/base.html' %}
-{% load static %}
-{% block content %}
 {% load crispy_forms_tags %}
-
-<title>{{ title }}</title>
-<head>
-
-    <style>
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background: #f8f9fa;
-            padding: 20px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 5px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 5px;
-        }
-
-        .profile-picture {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .media-body {
-            margin-left: 20px;
-        }
-
-        .account-heading {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .text-secondary {
-            font-size: 18px;
-            color: #777;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-group input[type="text"],
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .form-group select {
-            /* Additional styles for select dropdown (if applicable) */
-        }
-
-        .form-group input[type="text"]:focus,
-        .form-group select:focus {
-            outline: none;
-        }
-        .asteriskField {
-        display: none;
-        }
-
-        /* Stylizacja przycisku do wyboru pliku */
-        .file-input {
-            position: relative;
-            overflow: hidden;
-        }
-
+{% load auth_extras %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+        <style>
         .file-input input[type="file"] {
             position: absolute;
             top: 0;
@@ -88,74 +17,50 @@
         }
 
         .file-input .btn {
-            background-color: #f06161;
+            background-color: #f06161; !important;
             color: #fff;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        /* Stylizacja nazwy wybranego pliku */
-        .file-name {
-            color: #1d2124;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card card-body">
-            <article class="media content-section">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <form method="post" id="myform" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <fieldset class="form-group">
-                                <legend class="border-bottom mb-4"><span style="color: #f06161;">Applying for {{ job_offer }}<span></span></legend>
+        </style>
+        <div class="container">
+            <div class="card card-body">
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <form method="post" id="myform" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <fieldset class="form-group">
+                                    <legend class="border-bottom mb-4">
+                                        <span style="color: #f06161;">Applying for {{ job_offer }}</span>
+                                    </legend>
+                                    <div class="form-group">{{ form.first_name | as_crispy_field }}</div>
+                                    <div class="form-group">{{ form.last_name | as_crispy_field }}</div>
+                                    <div class="form-group">{{ form.phone_number | as_crispy_field }}</div>
+                                    <div class="form-group">{{ form.email | as_crispy_field }}</div>
+                                    <div class="form-group">{{ form.expected_salary | as_crispy_field }}</div>
+                                    <div class="form-group">{{ form.consent_processing_data | as_crispy_field }}</div>
+                                    <div class="file-input">
+                                        <input type="file" name="cv" id="cv" accept=".pdf" required>
+                                        <label for="cv" class="btn">Choose PDF File (CV)</label>
+                                    </div>
+                                    <div class="file-name" id="file-name"></div>
+                                </fieldset>
                                 <div class="form-group">
-                                    {{ form.first_name | as_crispy_field }}
+                                    <button class="btn btn-outline-info" type="submit">Apply</button>
                                 </div>
-                                <div class="form-group">
-                                    {{ form.last_name | as_crispy_field  }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form.phone_number | as_crispy_field  }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form.email | as_crispy_field  }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form.expected_salary | as_crispy_field  }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form.consent_processing_data | as_crispy_field  }}
-                                </div>
-                                <div class="file-input">
-                                    <input type="file" name="cv" id="cv" accept=".pdf">
-                                    <label for="cv" class="btn">Choose PDF File (CV)</label>
-                                </div>
-                                <div class="file-name" id="file-name"></div>
-                            </fieldset>
-                            <div class="form-group">
-                                <button class="btn btn-outline-info" type="submit">Apply</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
-    </div>
-
-    <script>
-        // Wyświetlanie nazwy wybranego pliku
+        <script>
         document.getElementById("pdf_file").addEventListener("change", function () {
             const fileName = this.value.split("\\").pop();
             document.getElementById("file-name").textContent = "Selected File: " + fileName;
         });
-    </script>
-</body>
-
+        </script>
 {% endblock %}

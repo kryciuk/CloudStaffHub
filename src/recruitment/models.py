@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
-
 from phonenumber_field.modelfields import PhoneNumberField
 
 from organizations.models import City, Company, Position
@@ -14,7 +13,7 @@ class JobOffer(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     published_date = models.DateField()
-    expiry_date = models.DateField()
+    expiry_date = models.DateTimeField()
 
     def __str__(self):
         return f"{self.position} (ID: {self.id})"
@@ -30,21 +29,14 @@ class JobApplication(models.Model):
         CLOSED = 2
 
     candidate = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    job_offer = models.ForeignKey(
-        JobOffer, on_delete=models.CASCADE, help_text="reply to job offer"
-    )
+    job_offer = models.ForeignKey(JobOffer, on_delete=models.CASCADE, help_text="reply to job offer")
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     phone_number = PhoneNumberField(help_text="cellular number")
     email = models.EmailField()
     expected_salary = models.IntegerField(help_text="expected gross salary")
-    cv = models.FileField(
-        upload_to="recruitment/media/cv", blank=True, null=True
-    )  # recruitment
-    # certificates = models.ImageField(upload_to='pdf')
-    consent_processing_data = models.BooleanField(
-        help_text="consent to processing of personal data"
-    )
+    cv = models.FileField(upload_to="recruitment/media/cv")
+    consent_processing_data = models.BooleanField(help_text="consent to processing of personal data")
     status = models.IntegerField(choices=Status.choices, default=0, blank=True)
 
     def get_absolute_url(self):

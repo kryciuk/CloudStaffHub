@@ -1,4 +1,3 @@
-from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import UpdateView
 
 from recruitment.forms import JobApplicationStatusForm
@@ -13,3 +12,8 @@ class JobApplicationsDetailView(UpdateView):
 
     def get_form_class(self):
         return JobApplicationStatusForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f"Job Application ID{self.object.id} - CloudStaffHub"
+        return context
