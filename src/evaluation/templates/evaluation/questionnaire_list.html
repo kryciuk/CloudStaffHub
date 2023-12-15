@@ -1,11 +1,11 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ title }}</title>
-    <style>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>{{ title }}</title>
+            <style>
         .container {
             width: 600px;
             margin-top: 20px;
@@ -21,33 +21,37 @@
             -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
             border-radius: 5px;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card card-body">
-            <article class="media content-section">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <legend class="border-bottom mb-4">Created Questionnaires</legend>
-                        <div>
-                            <p>EVALUATIONS</p>
-                            {% for questionnaire in questionnaires_evaluation %}
-                                <li><a href="{% url "questionnaire-detail" questionnaire.id %}">{{ questionnaire }}</a></li>
-                            {% endfor %}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="card card-body">
+                    <article class="media content-section">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <legend class="border-bottom mb-4">Created Questionnaires</legend>
+                                <div>
+                                    <p>EVALUATIONS</p>
+                                    {% for questionnaire in questionnaires_evaluation %}
+                                        <li>
+                                            <a href="{% url "questionnaire-detail" questionnaire.id %}">{{ questionnaire }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </div>
+                                <br>
+                                <div>
+                                    <p>POLLS</p>
+                                    {% for questionnaire in questionnaires_polls %}
+                                        <li>
+                                            <a href="{% url "questionnaire-detail" questionnaire.id %}">{{ questionnaire }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
-                        <br>
-                        <div>
-                            <p>POLLS</p>
-                            {% for questionnaire in questionnaires_polls %}
-                                <li><a href="{% url "questionnaire-detail" questionnaire.id %}">{{ questionnaire }}</a></li>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    </article>
                 </div>
-            </article>
-        </div>
-    </div>
-</body>
-</html>
+            </div>
+        </body>
+    </html>
 {% endblock %}

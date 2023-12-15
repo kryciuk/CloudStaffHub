@@ -1,9 +1,7 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
 {% block title %}{{ title }}{% endblock %}
-
 {% block head %}
     <style>
         .container {
@@ -23,7 +21,6 @@
         }
     </style>
 {% endblock %}
-
 {% block content %}
     <div class="container">
         <div class="card card-body">
@@ -41,9 +38,7 @@
                                         <button class="btn btn-light" type="submit">&larr;</button>
                                     </a>
                                 {% endif %}
-
                                 {{ username }}'s Calendar for {{ month_name }} {{ year }}
-
                                 {% if month_number == 12 %}
                                     <a href="{% url 'calendar' next_year 1 %}" class="ml-auto">
                                         <button class="btn btn-light" type="submit">&rarr;</button>
@@ -55,15 +50,10 @@
                                 {% endif %}
                             </div>
                         </legend>
-
                         <div style="text-align: center;">
-                            <div style="display: inline-block; text-align: left;">
-                                {{ cal|safe }}
-                            </div>
+                            <div style="display: inline-block; text-align: left;">{{ cal|safe }}</div>
                         </div>
-
                         <br>
-
                         <legend>Assignments for this month</legend>
                         {% if not assignments %}
                             <strong>No assignments for this month...</strong>
@@ -73,7 +63,11 @@
                                     <strong>{{ assignment }}</strong>
                                     <br>
                                     <small>Deadline: {{ assignment.event_date }} |
-                                        {% if assignment.is_past %}Days over deadline: {% else %}Days until deadline: {% endif %}
+                                        {% if assignment.is_past %}
+                                            Days over deadline:
+                                        {% else %}
+                                            Days until deadline:
+                                        {% endif %}
                                         {{ assignment.days_till }}
                                     </small>
                                 </div>

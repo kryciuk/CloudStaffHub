@@ -1,11 +1,10 @@
 {% extends 'landing/base.html' %}
-
 {% block content %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Your Title Here</title>
-    <style>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>Your Title Here</title>
+            <style>
         #content {
             margin: 20px;
             padding: 20px;
@@ -27,64 +26,78 @@
             border-radius: 5px;
             box-sizing: border-box; /* Include padding in width calculation */
         }
-    </style>
-</head>
-<body>
-    <div id="content">
-        <div class="info-container">
-            <div class="info-box">
-                <h3>View available polls:</h3>
-                {% if not open_polls %}
-                <p>There are no available polls...</p>
-                {% else %}
-                {% for poll in open_polls %}
-                <p><a class="mb-5" href="{% url 'poll-fill' poll.id %}">{{ poll }}</a></p>
-                {%  endfor %}
-                {% endif %}
-                <br>
-                <h3>View results for recently closed polls:</h3>
-                {% if not poll_results %}
-                <p>There are no recently closed polls...</p>
-                {% else %}
-                {% for poll_result in poll_results %}
-                <p><a class="mb-5" href="{% url 'poll-results' poll_result.id %}">{{ poll_result }}</a></p>
-                {%  endfor %}
-                {% endif %}
+            </style>
+        </head>
+        <body>
+            <div id="content">
+                <div class="info-container">
+                    <div class="info-box">
+                        <h3>View available polls:</h3>
+                        {% if not open_polls %}
+                            <p>There are no available polls...</p>
+                        {% else %}
+                            {% for poll in open_polls %}
+                                <p>
+                                    <a class="mb-5" href="{% url 'poll-fill' poll.id %}">{{ poll }}</a>
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+                        <h3>View results for recently closed polls:</h3>
+                        {% if not poll_results %}
+                            <p>There are no recently closed polls...</p>
+                        {% else %}
+                            {% for poll_result in poll_results %}
+                                <p>
+                                    <a class="mb-5" href="{% url 'poll-results' poll_result.id %}">{{ poll_result }}</a>
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="info-box">
+                        <h3>View assigned evaluations:</h3>
+                        {% if not assigned_evaluations %}
+                            <p>There are no assigned evaluations...</p>
+                        {% else %}
+                            {% for evaluation in assigned_evaluations %}
+                                <p>
+                                    <a class="mb-5" href="{% url 'evaluation-detail' evaluation.id %}">{{ evaluation }}</a>
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+                        <h3>View completed evaluations:</h3>
+                        {% if not completed_evaluations %}
+                            <p>There are no completed evaluations...</p>
+                        {% else %}
+                            {% for evaluation in completed_evaluations %}
+                                <p>
+                                    <a class="mb-5" href="{% url 'evaluation-complete' evaluation.id %}">{{ evaluation }}</a>
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="info-box">
+                        <h3>Info Box 4</h3>
+                        <p>Some information here...</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>{{ user.first_name }}'s Calendar for:</h3>
+                        <a href="{% url 'calendar' year month_number %}">
+                            <button class="btn btn-dark" type="submit">{{ month_name }} {{ year }}</button>
+                        </a>
+                        <br>
+                        <br>
+                        <h2>Assignments:</h2>
+                        <p>
+                            <a href="{% url 'assignments' %}">Assigment list</a>
+                        </p>
+                        <p>
+                            <a href="{% url 'assignments-create' %}">New assignment</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="info-box">
-                <h3>View assigned evaluations:</h3>
-                {% if not assigned_evaluations %}
-                <p>There are no assigned evaluations...</p>
-                {% else %}
-                {% for evaluation in assigned_evaluations %}
-                    <p><a class="mb-5" href="{% url 'evaluation-detail' evaluation.id %}">{{ evaluation }}</a></p>
-                {%  endfor %}
-                {% endif %}
-                <br>
-                <h3>View completed evaluations:</h3>
-                {% if not completed_evaluations %}
-                <p>There are no completed evaluations...</p>
-                {% else %}
-                {% for evaluation in completed_evaluations %}
-                    <p><a class="mb-5" href="{% url 'evaluation-complete' evaluation.id %}">{{ evaluation }}</a></p>
-                {%  endfor %}
-                {% endif %}
-            </div>
-            <div class="info-box">
-                <h3>Info Box 4</h3>
-                <p>Some information here...</p>
-            </div>
-            <div class="info-box">
-                <h3>{{ user.first_name }}'s Calendar for:</h3>
-                <a href="{% url 'calendar' year month_number %}"><button class="btn btn-dark" type="submit">{{ month_name }} {{ year }}</button></a>
-                <br>
-                <br>
-                <h2>Assignments:</h2>
-                <p><a href="{% url 'assignments' %}">Assigment list</a></p>
-                <p><a href="{% url 'assignments-create' %}">New assignment</a></p>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+        </body>
+    </html>
 {% endblock %}

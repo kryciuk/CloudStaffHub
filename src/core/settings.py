@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "phonenumber_field",
     "bootstrap_datepicker_plus",
-    'bootstrap4'
+    "bootstrap4",
 ]
 
 INSTALLED_EXTENSIONS = [
@@ -67,7 +67,8 @@ INSTALLED_EXTENSIONS = [
     "landing",
     "dashboards",
     "polls",
-    "events"
+    "events",
+    "owner",
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
@@ -109,11 +110,11 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": env('DB_NAME'),
+        "NAME": env("DB_NAME"),
         "USER": env("DB_USER"),
         "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env('DB_HOST'),
-        "PORT": env('DB_PORT')
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
     }
 }
 
@@ -179,12 +180,12 @@ GROUPS_MANAGER = {
 
 # SMTP Configuration
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'django.testing.klaudia@gmail.com'
-EMAIL_HOST_PASSWORD = 'ewlg pnkh maki wjxr'
+EMAIL_HOST_USER = "django.testing.klaudia@gmail.com"
+EMAIL_HOST_PASSWORD = "ewlg pnkh maki wjxr"
 
 # automatic logout
 
@@ -207,7 +208,7 @@ BOOTSTRAP_DATEPICKER_PLUS = {
         "datetime": {
             "format": "DD.MM.YYYY HH:mm",
         },
-    }
+    },
 }
 
 

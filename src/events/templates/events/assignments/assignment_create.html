@@ -3,16 +3,16 @@
 {% block content %}
 {% load crispy_forms_tags %}
 {% load bootstrap4 %}
-{% bootstrap_javascript jquery='full' %}
+
 {{ form.media }}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-    <style>
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>{{ title }}</title>
+            <style>
         .container {
             width: 80%;
             margin: 20px auto;
@@ -75,31 +75,31 @@
         display: none;
         }
 
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card card-body">
-            <article class="media content-section">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <fieldset class="form-group">
-                                <legend class="border-bottom mb-4">
-                                    <span style="color: #f06161;">Create New Assignment</span>
-                                </legend>
-                                {{ form | crispy }}
-                                <div class="text-center">
-                                    <button class="btn btn-outline-info add-button" type="submit">Create</button>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="card card-body">
+                    <article class="media content-section">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <fieldset class="form-group">
+                                        <legend class="border-bottom mb-4">
+                                            <span style="color: #f06161;">Create New Assignment</span>
+                                        </legend>
+                                        {{ form | crispy }}
+                                        <div class="text-center">
+                                            <button class="btn btn-outline-info add-button" type="submit">Create</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
                 </div>
-            </article>
-        </div>
-    </div>
-</body>
-</html>
+            </div>
+        </body>
+    </html>
 {% endblock %}

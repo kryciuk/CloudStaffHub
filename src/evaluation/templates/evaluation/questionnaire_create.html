@@ -1,11 +1,10 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% block content %}
-{% load crispy_forms_tags %}
-
+    {% load crispy_forms_tags %}
     <title>{{ title }}</title>
     <head>
-    <style>
+        <style>
         .container {
             width: 600px;
             margin-top: 20px;
@@ -55,7 +54,7 @@
         }
 
 
-    </style>
+        </style>
     </head>
     <body>
         <div class="container">
@@ -68,7 +67,7 @@
                                 <fieldset class="form-group">
                                     <legend class="border-bottom mb-4">New Questionnaire</legend>
                                     {{ form | crispy }}
-{#                                    {{ form.name | as_crispy_field }}#}
+                                    {#                                    {{ form.name | as_crispy_field }}#}
                                 </fieldset>
                                 <div class="form-group">
                                     <button class="btn btn-outline-info" type="submit">Confirm</button>
@@ -80,5 +79,4 @@
             </div>
         </div>
     </body>
-
-    {% endblock %}
+{% endblock %}

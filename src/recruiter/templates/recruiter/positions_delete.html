@@ -1,15 +1,14 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-    <style>
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>{{ title }}</title>
+            <style>
         .container {
             width: 600px;
             margin: 20px auto;
@@ -29,23 +28,25 @@
             align-items: center;
             text-align: center;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card card-body">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <form method="POST">
-                        <fieldset class="form-group center-content">
-                            <legend class="d-flex justify-content-center">Are you sure you want to delete this position?</legend>
-                            <div><button class="btn btn-outline-info add-button" type="submit">Delete</button></div>
-                        </fieldset>
-                    </form>
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="card card-body">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <form method="POST">
+                                <fieldset class="form-group center-content">
+                                    <legend class="d-flex justify-content-center">Are you sure you want to delete this position?</legend>
+                                    <div>
+                                        <button class="btn btn-outline-info add-button" type="submit">Delete</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</body>
-</html>
+        </body>
+    </html>
 {% endblock %}

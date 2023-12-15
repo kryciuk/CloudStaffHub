@@ -1,9 +1,8 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% block content %}
-{% load crispy_forms_tags %}
-
-<title>{{ title }}</title>
+    {% load crispy_forms_tags %}
+    <title>{{ title }}</title>
     <style>
         .container {
             width: 600px;
@@ -55,29 +54,38 @@
 
 
     </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="card card-body">
-                <article class="media content-section">
-                    <div class="media-body">
-                        <div class="article-metadata">
-                            <form method="GET">
-                                <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">Evaluation ID:{{ evaluation.id }}</legend>
-                                        <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Employee: {{ evaluation.employee }}</a> </div>
-                                        <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Manager: {{ evaluation.manager }}</a> </div>
-                                        <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Created: {{ evaluation.date_created }}</a> </div>
-                                        <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Deadline: {{ evaluation.date_end }}</a> </div>
-                                        <div><a class="text-muted"> Questionnaire:  <a class="justify-content-center" href="{% url 'questionnaire-fill' evaluation.id evaluation.questionnaire.id %}">CLICK</a></a>
-                                        </div>
-                                </fieldset>
-                            </form>
-                        </div>
+</head>
+<body>
+    <div class="container">
+        <div class="card card-body">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <form method="GET">
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4">Evaluation ID:{{ evaluation.id }}</legend>
+                                <div style="text-align:left">
+                                    <a class="text-muted" style="text-align: left">Employee: {{ evaluation.employee }}</a>
+                                </div>
+                                <div style="text-align:left">
+                                    <a class="text-muted" style="text-align: left">Manager: {{ evaluation.manager }}</a>
+                                </div>
+                                <div style="text-align:left">
+                                    <a class="text-muted" style="text-align: left">Created: {{ evaluation.date_created }}</a>
+                                </div>
+                                <div style="text-align:left">
+                                    <a class="text-muted" style="text-align: left">Deadline: {{ evaluation.date_end }}</a>
+                                </div>
+                                <div>
+                                    <a class="text-muted"> Questionnaire:  <a class="justify-content-center"
+     href="{% url 'questionnaire-fill' evaluation.id evaluation.questionnaire.id %}">CLICK</a></a>
+                                </div>
+                            </fieldset>
+                        </form>
                     </div>
-                </article>
-            </div>
+                </div>
+            </article>
         </div>
-    </body>
-
-    {% endblock %}
+    </div>
+</body>
+{% endblock %}

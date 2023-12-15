@@ -1,7 +1,7 @@
 import factory
 from django.contrib.auth.models import User, Group
 
-from organizations.factory import CompanyFactory
+from organizations.factories import CompanyFactory
 
 # class UserFactory(factory.django.DjangoModelFactory):
 #     class Meta:

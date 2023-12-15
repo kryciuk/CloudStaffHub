@@ -17,9 +17,7 @@ class TestCandidateUrls(TestCase):
 
     def test_url_available_by_name(self):
         self.client.force_login(self.user)
-        response = self.client.get(
-            reverse("dashboard-candidate"), {"user_id": self.user.id}
-        )
+        response = self.client.get(reverse("dashboard-candidate"), {"user_id": self.user.id})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_url_redirect_if_not_logged_in(self):

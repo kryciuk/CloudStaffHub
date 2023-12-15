@@ -17,8 +17,6 @@ class TestCandidateViews(TestCase):
 
     def test_template_name_correct(self):
         self.client.login(username=self.user.username, password="password")
-        response = self.client.get(
-            reverse("dashboard-candidate"), {"user_id": self.user.id}
-        )
+        response = self.client.get(reverse("dashboard-candidate"), {"user_id": self.user.id})
         # self.assertEqual(response.status_code, status.HTTP_302_FOUND)
         self.assertTemplateUsed(response, "dashboards/dashboard_candidate.html")

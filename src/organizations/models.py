@@ -12,37 +12,65 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-
     class DepartmentChoices(models.TextChoices):
         ACCOUNTING = "Accounting"
         ADMINISTRATION = "Administration"
+        ART_DIRECTION = "Art Direction"
         BOARD_OF_DIRECTORS = "Board of Directors"
+        BUSINESS_DEVELOPMENT = "Business Development"
+        COMMUNICATIONS = "Communications"
+        CORPORATE_SOCIAL_RESPONSIBILITY = "Corporate Social Responsibility"
+        CORPORATE_STRATEGY = "Corporate Strategy"
+        CRISIS_MANAGEMENT = "Crisis Management"
+        CUSTOMER_SERVICE = "Customer Service"
+        CUSTOMER_SUCCESS = "Customer Success"
+        DATA_ANALYTICS = "Data Analytics"
+        DATA_SCIENCE = "Data Science"
         DESIGN = "Design"
+        ECOMMERCE = "E-commerce"
+        EVENT_PLANNING = "Event Planning"
+        FACILITIES = "Facilities"
         FINANCE = "Finance"
+        HEALTH_SAFETY_ENVIRONMENT = "Health Safety Environment"
         HUMAN_RESOURCE = "Human Resource"
+        INFORMATION_SECURITY = "Information Security"
         INFORMATION_TECHNOLOGY = "Information Technology"
+        INTERNAL_AUDIT = "Internal Audit"
         INSPECTION = "Inspection"
-        MARKETING = "Marketing"
+        INTERNATIONAL_BUSINESS = "International Business"
+        IT_SUPPORT = "IT Support"
+        LEGAL = "Legal"
+        LOGISTICS = "Logistics"
         MAINTENANCE = "Maintenance"
+        MARKETING = "Marketing"
+        MERGERS_ACQUISITIONS = "Mergers and Acquisitions"
         PACKAGING = "Packaging"
+        PARTNER_RELATIONS = "Partner Relations"
         PROCUREMENT = "Procurement"
         PROJECT = "Project"
-        PRODUCTION = "Production"
+        PUBLIC_RELATIONS = "Public Relations"
         QUALITY = "Quality"
         RESEARCH_DEVELOPMENT = "Research Development"
+        RISK_MANAGEMENT = "Risk Management"
         SALES = "Sales"
         SECURITY = "Security"
+        SHIPPING = "Shipping"
         STORE = "Store"
+        SUSTAINABILITY = "Sustainability"
+        SUPPLY_CHAIN = "Supply Chain"
+        TRAINING_DEVELOPMENT = "Training Development"
 
     name = models.CharField(choices=DepartmentChoices.choices)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ["name", "company"]
+
     def __str__(self):
-        return f"{self.name} in {self.company}"
+        return f"{self.name}"
 
 
 class Position(models.Model):
-
     class Level(models.TextChoices):
         ENTRY = "Entry"
         JUNIOR = "Junior"

@@ -1,14 +1,13 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% block content %}
-{% load crispy_forms_tags %}
-{% load auth_extras %}
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ title }}</title>
-    <style>
+    {% load crispy_forms_tags %}
+    {% load auth_extras %}
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>{{ title }}</title>
+            <style>
         .container {
             width: 600px;
             margin-top: 20px;
@@ -55,35 +54,34 @@
         .form-group select:focus {
             outline: none; /* Usunięcie pogrubionego obramowania po kliknięciu */
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card card-body">
-            <article class="media content-section">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <legend class="border-bottom mb-4">Questionnaire: {{ questionnaire }}</legend>
-                        <div>
-                            <fieldset class="form-group">
-                                {% for question, possible_answers in answers.items %}
-                                    <label>{{ question }}</label>
-                                    <ul>
-                                    {% for answer in possible_answers %}
-                                        <li>
-                                            <a>{{ answer }}</a>
-                                        </li>
-                                    {% endfor %}
-                                    </ul>
-                                {% endfor %}
-                            </fieldset>
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="card card-body">
+                    <article class="media content-section">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <legend class="border-bottom mb-4">Questionnaire: {{ questionnaire }}</legend>
+                                <div>
+                                    <fieldset class="form-group">
+                                        {% for question, possible_answers in answers.items %}
+                                            <label>{{ question }}</label>
+                                            <ul>
+                                                {% for answer in possible_answers %}
+                                                    <li>
+                                                        <a>{{ answer }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </article>
-        </div>
-    </div>
-</body>
-</html>
-
+            </div>
+        </body>
+    </html>
 {% endblock %}

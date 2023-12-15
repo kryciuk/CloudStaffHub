@@ -17,13 +17,12 @@
                     </div>
                     {% if user.company == object.user.company %}
                         {% if request.user|has_group:"Owner" or request.user.is_superuser %}
-                            <a class="btn-light"
-                               href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
+                            <a class="btn-light" href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
                         {% endif %}
                     {% endif %}
                 </div>
                 <br>
-                <form method="post" id="myform" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <fieldset class="form-group">
                         <legend class="border-bottom mb-4">

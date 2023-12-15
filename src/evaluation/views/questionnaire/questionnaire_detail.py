@@ -21,4 +21,3 @@ class QuestionnaireDetailView(DetailView):
         context["questions"] = questions
         context["answers"] = answers
         return context
-

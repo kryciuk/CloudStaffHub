@@ -1,10 +1,9 @@
 {% extends 'landing/base.html' %}
 {% block content %}
-<!DOCTYPE html>
-
-<head>
-    <title></title>
-    <style>
+    <!DOCTYPE html>
+    <head>
+        <title></title>
+        <style>
         #content {
             margin: 20px;
             padding: 20px;
@@ -26,37 +25,35 @@
             border-radius: 5px;
             box-sizing: border-box; /* Include padding in width calculation */
         }
-    </style>
-</head>
-
-<body>
-
-    <div id="content">
-        <div class="info-container">
-            <div class="info-box">
-                <h3>Latest job offers in:</h3>
-                <h2>{{ request.user.profile.interested_in }}</h2>
-                {% for entry in newest_entries %}
-                    <p><a href="{% url 'job-offer-detail' entry.id %}">{{ entry }}</a></p>
-                {% endfor %}
-            </div>
-            <div class="info-box">
-                <h3>Read new article about:</h3>
-                <h2>{{ request.user.profile.interested_in }}</h2>
-                <p>Some information here...</p>
-            </div>
-            <div class="info-box">
-                <h3>Info Box 3</h3>
-                <p>Some information here...</p>
-            </div>
-            <div class="info-box">
-                <h3>Info Box 4</h3>
-                <p>Some information here...</p>
+        </style>
+    </head>
+    <body>
+        <div id="content">
+            <div class="info-container">
+                <div class="info-box">
+                    <h3>Latest job offers in:</h3>
+                    <h2>{{ request.user.profile.interested_in }}</h2>
+                    {% for entry in newest_entries %}
+                        <p>
+                            <a href="{% url 'job-offer-detail' entry.id %}">{{ entry }}</a>
+                        </p>
+                    {% endfor %}
+                </div>
+                <div class="info-box">
+                    <h3>Read new article about:</h3>
+                    <h2>{{ request.user.profile.interested_in }}</h2>
+                    <p>Some information here...</p>
+                </div>
+                <div class="info-box">
+                    <h3>Info Box 3</h3>
+                    <p>Some information here...</p>
+                </div>
+                <div class="info-box">
+                    <h3>Info Box 4</h3>
+                    <p>Some information here...</p>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>
-
-
 {% endblock %}

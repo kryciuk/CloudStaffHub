@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
     {% load crispy_forms_tags %}
-
     <title>{{ title }}</title>
     <style>
         .container {
@@ -50,7 +49,6 @@
             outline: none;
         }
     </style>
-
     <div class="container">
         <div class="card card-body">
             <article class="media content-section">
@@ -62,24 +60,26 @@
                                 <legend class="d-flex justify-content-center">{{ poll_results.poll }} results</legend>
                                 <div class="form-group">
                                     {% for question, answers in display_results.items %}
-                                    <label>{{ question }}</label>
-                                    <ul>
-                                        {% for answer, votes in answers.items %}
-                                            {% if answer in most_picked %}
-                                            <li style="color: blue;"><strong>
-                                            {% else %}
-                                            <li>
-                                            {% endif %}
-                                            {{ answer }}, votes: {{ votes }}</strong></li>
+                                        <label>{{ question }}</label>
+                                        <ul>
+                                            {% for answer, votes in answers.items %}
+                                                {% if answer in most_picked %}
+                                                    <li style="color: blue;">
+                                                        <strong>
+                                                        {% else %}
+                                                            <li>
+                                                            {% endif %}
+                                                        {{ answer }}, votes: {{ votes }}</strong>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
                                         {% endfor %}
-                                    </ul>
-                                    {% endfor %}
-                                </div>
-                            </fieldset>
-                        </form>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}

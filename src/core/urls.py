@@ -29,5 +29,6 @@ urlpatterns = [
     path("organizations/", include("organizations.urls")),
     path("dashboard/", include("dashboards.urls")),
     path("polls/", include("polls.urls")),
-    path("calendar/", include("events.urls"))
+    path("calendar/", include("events.urls")),
+    path("company-owner/", include("owner.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

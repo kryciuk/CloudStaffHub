@@ -1,3 +1,4 @@
+from .assignments import *
 from .calendar import CalendarDetailView
 
 # Assignments
@@ -5,5 +6,3 @@ from .calendar import CalendarDetailView
 # from events.views.assignments.assignment_list import AssignmentListView
 # from events.views.assignments.assignment_create import AssignmentCreateView
 # from events.views.assignments.assignment_close import AssignmentCloseView
-
-from .assignments import *

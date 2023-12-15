@@ -19,7 +19,7 @@ class PollCreateForm(ModelForm):
 
         if today > date_end:
             msg = "The end date must be later than today's date."
-            self.add_error('date_end', msg)
+            self.add_error("date_end", msg)
 
 
 class PollCloseForm(ModelForm):

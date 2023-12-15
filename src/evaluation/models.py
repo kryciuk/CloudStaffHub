@@ -13,9 +13,7 @@ class Questionnaire(models.Model):
     name = models.CharField(max_length=200)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.BooleanField(
-        default=True, help_text="will this questionnaire be ever used again"
-    )
+    status = models.BooleanField(default=True, help_text="will this questionnaire be ever used again")
     type = models.TextField(choices=Type.choices)
 
     def __str__(self):
@@ -25,9 +23,7 @@ class Questionnaire(models.Model):
 class Answer(models.Model):
     answer = models.CharField(max_length=200)
     score = models.IntegerField(null=True, blank=True)
-    question = models.ForeignKey(
-        "Question", on_delete=models.CASCADE, related_name="answers"
-    )
+    question = models.ForeignKey("Question", on_delete=models.CASCADE, related_name="answers")
 
     def __str__(self):
         if self.score is None:
@@ -44,9 +40,7 @@ class Answer(models.Model):
 
 class Question(models.Model):
     text = models.CharField(max_length=200)
-    questionnaire = models.ForeignKey(
-        Questionnaire, on_delete=models.CASCADE, related_name="questions"
-    )
+    questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE, related_name="questions")
 
     def __str__(self):
         return f"{self.text}"
@@ -56,17 +50,13 @@ class Question(models.Model):
 
 
 class Evaluation(models.Model):
-    employee = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="employee"
-    )
+    employee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="employee")
     manager = models.ForeignKey(User, on_delete=models.CASCADE, related_name="manager")
     date_created = models.DateField(null=True, blank=True)
     date_end = models.DateField(null=True, blank=True)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     result = models.JSONField("", null=True, blank=True)
-    status = models.BooleanField(
-        default=False, help_text="true if evaluation filled by an employee"
-    )
+    status = models.BooleanField(default=False, help_text="true if evaluation filled by an employee")
 
     def __str__(self):
         return f"{self.questionnaire}"

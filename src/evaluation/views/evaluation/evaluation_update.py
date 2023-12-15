@@ -20,4 +20,4 @@ class EvaluationUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('evaluation-complete', kwargs={'pk': self.object.pk})
+        return reverse("evaluation-complete", kwargs={"pk": self.object.pk})

@@ -16,9 +16,7 @@ class EvaluationCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(EvaluationCreateView, self).get_context_data(**kwargs)
-        available_employees = User.objects.filter(
-            profile__company=self.request.user.profile.company
-        )
+        available_employees = User.objects.filter(profile__company=self.request.user.profile.company)
         context["form"].fields["employee"].queryset = available_employees.exclude(id=self.request.user.id)
         context["form"].fields["questionnaire"].queryset = Questionnaire.objects.filter(
             created_by=self.request.user

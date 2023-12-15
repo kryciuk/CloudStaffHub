@@ -1,8 +1,7 @@
 {% extends 'landing/base.html' %}
 {% block content %}
-
     <head>
-    <title>Register</title>
+        <title>Register</title>
         <style>
 		    .user_card {
 			    width: 350px;
@@ -21,7 +20,6 @@
                 }
         </style>
     </head>
-
     <body>
         <div class="d-flex justify-content-center">
             <div class="user_card">
@@ -30,34 +28,18 @@
                         {% csrf_token %}
                         <fieldset class="form-group">
                             <legend class="d-flex justify-content-center">REGISTER COMPANY</legend>
-                                <div class="input-group mb-1">
-                                    {{form_company.name}}
-                                </div>
-                                <div class="input-group mb-1">
-                                    {{form_company.email_domain}}
-                                </div>
+                            <div class="input-group mb-1">{{ form_company.name }}</div>
+                            <div class="input-group mb-1">{{ form_company.email_domain }}</div>
                         </fieldset>
                         <fieldset class="form-group">
-                                <div class="border-top pt-2" style="text-align:center">
-                                    <div class="input-group mb-1">
-                                        {{form.username}}
-                                    </div>
-                                    <div class="input-group mb-1">
-                                        {{form.first_name}}
-                                    </div>
-                                    <div class="input-group mb-1">
-                                        {{form.last_name}}
-                                    </div>
-                                    <div class="input-group mb-1">
-                                        {{form.email}}
-                                    </div>
-                                    <div class="input-group mb-1">
-                                        {{form.password1}}
-                                    </div>
-                                    <div class="input-group mb-1">
-                                        {{form.password2}}
-                                    </div>
-                                </div>
+                            <div class="border-top pt-2" style="text-align:center">
+                                <div class="input-group mb-1">{{ form.username }}</div>
+                                <div class="input-group mb-1">{{ form.first_name }}</div>
+                                <div class="input-group mb-1">{{ form.last_name }}</div>
+                                <div class="input-group mb-1">{{ form.email }}</div>
+                                <div class="input-group mb-1">{{ form.password1 }}</div>
+                                <div class="input-group mb-1">{{ form.password2 }}</div>
+                            </div>
                         </fieldset>
                         <div class="form-group" style="text-align:center">
                             <button class="btn btn-outline-info" type="submit">Create Company Account</button>
@@ -73,7 +55,6 @@
         </div>
     </body>
     <script>
-
 		var form_fields = document.getElementsByTagName('input')
 		form_fields[1].placeholder='Company name...';
 		form_fields[2].placeholder='Company domain...';
@@ -88,5 +69,6 @@
 		for (var field in form_fields){
 			form_fields[field].className += ' form-control'
 		}
-	</script>
+	
+    </script>
 {% endblock %}

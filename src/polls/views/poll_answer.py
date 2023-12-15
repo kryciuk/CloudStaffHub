@@ -12,8 +12,8 @@ class PollAnswerView(RedirectView):
     model = PollAnswer
     context_object_name = "poll"
 
-    def get(self, request, *args, **kwargs): #TODO POST.
-        poll_id = kwargs['pk']
+    def get(self, request, *args, **kwargs):  # TODO POST.
+        poll_id = kwargs["pk"]
         results = json.dumps(self.request._post)
         poll = Poll.objects.get(id=poll_id)
         new_answer = PollAnswer(respondent=self.request.user, date_filled=datetime.now(), poll=poll, result=results)

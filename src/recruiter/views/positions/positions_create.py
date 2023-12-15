@@ -1,7 +1,7 @@
 from django.views.generic import CreateView
 
-from recruiter.forms import PositionsForm
 from organizations.models import Department
+from recruiter.forms import PositionsForm
 
 
 class PositionCreateView(CreateView):
@@ -12,7 +12,9 @@ class PositionCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context["form"].fields["department"].queryset = Department.objects.filter(company=self.request.user.profile.company)
+        context["form"].fields["department"].queryset = Department.objects.filter(
+            company=self.request.user.profile.company
+        )
         return context
 
     def form_valid(self, form):

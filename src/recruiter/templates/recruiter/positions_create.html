@@ -1,9 +1,8 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% block content %}
-{% load crispy_forms_tags %}
-
-<title>{{ title }}</title>
+    {% load crispy_forms_tags %}
+    <title>{{ title }}</title>
     <style>
         .container {
             width: 600px;
@@ -55,25 +54,26 @@
 
 
     </style>
-<body>
-    <div class="container">
-        <div class="card card-body">
-            <article class="media content-section">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <fieldset class="form-group">
-                                <legend class="d-flex justify-content-center">Add position</legend>
-                                {{ form | crispy }}
-                            <div><button class="btn btn-outline-info add-button" type="submit">Add</button></div>
-                            </fieldset>
-                        </form>
+    <body>
+        <div class="container">
+            <div class="card card-body">
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <fieldset class="form-group">
+                                    <legend class="d-flex justify-content-center">Add position</legend>
+                                    {{ form | crispy }}
+                                    <div>
+                                        <button class="btn btn-outline-info add-button" type="submit">Add</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
-    </div>
-</body>
-
+    </body>
 {% endblock %}

@@ -1,12 +1,18 @@
 from django.urls import path
 
-from evaluation.views import (AnswerCreateView, EvaluationCompleteView,
-                              EvaluationCreateView, EvaluationDetailView,
-                              EvaluationUpdateView, QuestionCreateView,
-                              QuestionnaireCreateView, QuestionnaireDetailView,
-                              QuestionnaireFillView,
-                              QuestionnaireListByUserView,
-                              QuestionnaireUpdateView)
+from evaluation.views import (
+    AnswerCreateView,
+    EvaluationCompleteView,
+    EvaluationCreateView,
+    EvaluationDetailView,
+    EvaluationUpdateView,
+    QuestionCreateView,
+    QuestionnaireCreateView,
+    QuestionnaireDetailView,
+    QuestionnaireFillView,
+    QuestionnaireListByUserView,
+    QuestionnaireUpdateView,
+)
 
 urlpatterns_questionnaire = [
     path("questionnaire/create", QuestionnaireCreateView.as_view(), name="questionnaire-create"),

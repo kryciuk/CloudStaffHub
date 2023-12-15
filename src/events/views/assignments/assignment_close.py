@@ -1,6 +1,6 @@
+from django.shortcuts import reverse
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
-from django.shortcuts import reverse
 
 from events.forms import AssigmentStatusForm
 from events.models import Assignment

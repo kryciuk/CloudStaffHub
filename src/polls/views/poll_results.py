@@ -14,7 +14,7 @@ class PollResultsView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        results = context['poll_results']
+        results = context["poll_results"]
         final_results = {}
         for question, answers in results.results.items():
             final_results[question] = [Answer.objects.get(id=int(id_)) for id_ in answers]
@@ -34,17 +34,9 @@ class PollResultsView(DetailView):
             most_picked_per_question = [key for key, value in count_answers.items() if value == max_value]
             most_picked.append(most_picked_per_question)
 
-        context['display_results'] = display_results
-        context['most_picked'] = list(chain(*most_picked))
+        context["display_results"] = display_results
+        context["most_picked"] = list(chain(*most_picked))
         return context
-
-
-
-
-
-
-
-
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)

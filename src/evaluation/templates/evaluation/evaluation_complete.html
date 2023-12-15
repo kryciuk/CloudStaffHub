@@ -1,12 +1,11 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
 {% block content %}
-<html>
-<head>
-    <title>{{ title }}</title>
-    <style>
+    <html>
+        <head>
+            <title>{{ title }}</title>
+            <style>
         .container {
             width: 600px;
             margin-top: 20px;
@@ -53,42 +52,52 @@
         .form-group select:focus {
             outline: none; /* Usunięcie pogrubionego obramowania po kliknięciu */
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card card-body">
-            <article class="media content-section">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <form method="GET">
-                            <fieldset class="form-group">
-                                <legend class="border-bottom mb-4">Evaluation ID: {{ evaluation.id }}</legend>
-                                <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Employee: {{ evaluation.employee.first_name }} {{ evaluation.employee.last_name }}</a> </div>
-                                <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Manager: {{ evaluation.manager.first_name }} {{ evaluation.manager.last_name }}</a> </div>
-                                <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Created: {{ evaluation.date_created }}</a> </div>
-                                <div style="text-align:left"> <a class="text-muted" style="text-align: left"> Deadline: {{ evaluation.date_end }}</a> </div>
-                            </fieldset>
-                            <fieldset class="form-group">
-                                {% for question, possible_answers in answers.items %}
-                                    <label>{{ question }}</label>
-                                    <ul>
-                                        {% for answer in possible_answers %}
-                                            {% if answer.id in results_values %}
-                                                <li style="color: blue;"><strong>{{ answer }}</strong></li>
-                                            {% else %}
-                                                <li>{{ answer }}</li>
-                                            {% endif %}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="card card-body">
+                    <article class="media content-section">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <form method="GET">
+                                    <fieldset class="form-group">
+                                        <legend class="border-bottom mb-4">Evaluation ID: {{ evaluation.id }}</legend>
+                                        <div style="text-align:left">
+                                            <a class="text-muted" style="text-align: left"> Employee: {{ evaluation.employee.first_name }} {{ evaluation.employee.last_name }}</a>
+                                        </div>
+                                        <div style="text-align:left">
+                                            <a class="text-muted" style="text-align: left"> Manager: {{ evaluation.manager.first_name }} {{ evaluation.manager.last_name }}</a>
+                                        </div>
+                                        <div style="text-align:left">
+                                            <a class="text-muted" style="text-align: left">Created: {{ evaluation.date_created }}</a>
+                                        </div>
+                                        <div style="text-align:left">
+                                            <a class="text-muted" style="text-align: left">Deadline: {{ evaluation.date_end }}</a>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        {% for question, possible_answers in answers.items %}
+                                            <label>{{ question }}</label>
+                                            <ul>
+                                                {% for answer in possible_answers %}
+                                                    {% if answer.id in results_values %}
+                                                        <li style="color: blue;">
+                                                            <strong>{{ answer }}</strong>
+                                                        </li>
+                                                    {% else %}
+                                                        <li>{{ answer }}</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
                                         {% endfor %}
-                                    </ul>
-                                {% endfor %}
-                            </fieldset>
-                        </form>
-                    </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
                 </div>
-            </article>
-        </div>
-    </div>
-</body>
-</html>
+            </div>
+        </body>
+    </html>
 {% endblock %}

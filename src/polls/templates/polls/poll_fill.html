@@ -1,14 +1,13 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% block content %}
-{% load crispy_forms_tags %}
-{% load auth_extras %}
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ title }}</title>
-    <style>
+    {% load crispy_forms_tags %}
+    {% load auth_extras %}
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>{{ title }}</title>
+            <style>
         .container {
             width: 600px;
             margin-top: 20px;
@@ -24,36 +23,38 @@
             -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
             border-radius: 5px;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="card card-body">
-            <article class="media content-section">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <legend class="border-bottom mb-4">{{ poll }}</legend>
-                        <div>
-                            <form action="{% url 'poll-answer' poll.id %}" method="post">
-                                {% csrf_token %}
-                                {% for question, possible_answers in answers.items %}
-                                    <label>{{ question }}</label>
-                                    {% for answer in possible_answers %}
-                                        <li>
-                                            <input type="radio" id="{{ forloop.parentloop.counter }}_{{ forloop.counter }}" name="{{ question }}" value="{{ answer.id }}">
-                                            <label for="{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer }}</label>
-                                        </li>
-                                    {% endfor %}
-                                {% endfor %}
-                                <input type="submit" value="Send" class="btn btn-primary">
-                            </form>
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="card card-body">
+                    <article class="media content-section">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <legend class="border-bottom mb-4">{{ poll }}</legend>
+                                <div>
+                                    <form action="{% url 'poll-answer' poll.id %}" method="post">
+                                        {% csrf_token %}
+                                        {% for question, possible_answers in answers.items %}
+                                            <label>{{ question }}</label>
+                                            {% for answer in possible_answers %}
+                                                <li>
+                                                    <input type="radio"
+                                                           id="{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                                                           name="{{ question }}"
+                                                           value="{{ answer.id }}">
+                                                    <label for="{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer }}</label>
+                                                </li>
+                                            {% endfor %}
+                                        {% endfor %}
+                                        <input type="submit" value="Send" class="btn btn-primary">
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </article>
-        </div>
-    </div>
-</body>
-</html>
-
+            </div>
+        </body>
+    </html>
 {% endblock %}

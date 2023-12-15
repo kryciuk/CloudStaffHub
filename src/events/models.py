@@ -10,7 +10,9 @@ class Assignment(models.Model):
     event_date = models.DateTimeField()
     description = models.TextField(null=True, blank=True)
     employee = models.ManyToManyField(User, related_name="employee_assignment")
-    manager = models.ForeignKey(User, on_delete=models.CASCADE, related_name="manager_assignment", null=True, blank=True)
+    manager = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="manager_assignment", null=True, blank=True
+    )
     status = models.BooleanField(help_text="mark as complete", default=False)
 
     def __str__(self):

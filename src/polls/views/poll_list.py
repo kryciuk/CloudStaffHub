@@ -11,4 +11,3 @@ class PollListView(ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(questionnaire__company=self.request.user.profile.company)
-

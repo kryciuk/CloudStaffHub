@@ -1,8 +1,12 @@
 from django.urls import path
 
-from dashboards.views import (CandidateDashboardView, EmployeeDashboardView,
-                              ManagerDashboardView, OwnerDashboardView,
-                              RecruiterDashboardView)
+from dashboards.views import (
+    CandidateDashboardView,
+    EmployeeDashboardView,
+    ManagerDashboardView,
+    OwnerDashboardView,
+    RecruiterDashboardView,
+)
 
 urlpatterns = [
     path("candidate/", CandidateDashboardView.as_view(), name="dashboard-candidate"),

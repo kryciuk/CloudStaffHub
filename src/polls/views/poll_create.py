@@ -17,8 +17,9 @@ class PollCreateView(CreateView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        form.fields["questionnaire"].queryset = Questionnaire.objects.filter(
-            created_by=self.request.user).filter(type=Questionnaire.Type.POLL)
+        form.fields["questionnaire"].queryset = Questionnaire.objects.filter(created_by=self.request.user).filter(
+            type=Questionnaire.Type.POLL
+        )
         return form
 
     def form_valid(self, form):

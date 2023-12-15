@@ -13,9 +13,7 @@ class QuestionCreateView(CreateView):
 
     def form_valid(self, form):
         try:
-            obj = get_object_or_404(
-                Questionnaire, pk=self.kwargs.get("id_questionnaire")
-            )
+            obj = get_object_or_404(Questionnaire, pk=self.kwargs.get("id_questionnaire"))
         except Questionnaire.DoesNotExist:
             raise Http404("A job offer with this ID does not exist.")
         form.instance.questionnaire = obj

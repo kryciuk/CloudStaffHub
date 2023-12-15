@@ -1,9 +1,8 @@
 {% extends 'landing/base.html' %}
 {% load static %}
 {% block content %}
-{% load crispy_forms_tags %}
-
-<title>{{ title }}</title>
+    {% load crispy_forms_tags %}
+    <title>{{ title }}</title>
     <style>
         .container {
             width: 600px;
@@ -55,28 +54,27 @@
 
 
     </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="card card-body">
-                <article class="media content-section">
-                    <div class="media-body">
-                        <div class="article-metadata">
-                            <form method="POST">
-                                {% csrf_token %}
-                                <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">Create Evaluation</legend>
-                                    {{ form | crispy }}
-                                </fieldset>
-                                <div class="form-group">
-                                    <button class="btn btn-outline-info" type="submit">Create</button>
-                                </div>
-                            </form>
-                        </div>
+</head>
+<body>
+    <div class="container">
+        <div class="card card-body">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4">Create Evaluation</legend>
+                                {{ form | crispy }}
+                            </fieldset>
+                            <div class="form-group">
+                                <button class="btn btn-outline-info" type="submit">Create</button>
+                            </div>
+                        </form>
                     </div>
-                </article>
-            </div>
+                </div>
+            </article>
         </div>
-    </body>
-
-    {% endblock %}
+    </div>
+</body>
+{% endblock %}

@@ -1,10 +1,8 @@
 {% extends 'landing/base.html' %}
-
 {% block content %}
-  {% load auth_extras %}
-  {% load crispy_forms_filters %}
-
-  <style>
+    {% load auth_extras %}
+    {% load crispy_forms_filters %}
+    <style>
     /* Styl CSS */
     .container {
       width: auto;
@@ -56,51 +54,51 @@
     .form-group select:focus {
       outline: none;
     }
-  </style>
-
-  <div class="container">
-    <div class="card card-body">
-      <h2 class="centered">POSITIONS</h2>
-      {% csrf_token %}
-      <div class="row">
-        <div class="col-md-3">
-          <!-- Opcje wyboru po lewej stronie -->
-          <fieldset class="form-group">
-            <form method="GET" action="{% url 'positions-list' %}">
-              {{ form | crispy }}
-              <div><button class="btn btn-outline-info" type="submit">Submit</button></div>
-            </form>
-          </fieldset>
+    </style>
+    <div class="container">
+        <div class="card card-body">
+            <h2 class="centered">POSITIONS</h2>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-3">
+                    <fieldset class="form-group">
+                        <form method="GET" action="{% url 'positions-list' %}">
+                            {{ form | crispy }}
+                            <div>
+                                <button class="btn btn-outline-info" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+                <div class="col-md-9">
+                    <!-- Tabela -->
+                    <table class="table table-submit">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Level</th>
+                                <th>Department</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for position in positions %}
+                                <tr>
+                                    <td>{{ position.title }}</td>
+                                    <td>{{ position.get_level_display }}</td>
+                                    <td>{{ position.department }}</td>
+                                    <td>
+                                        <form method="POST" action="{% url 'positions-delete' position.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">DELETE</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="col-md-9">
-          <!-- Tabela -->
-          <table class="table table-submit">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Level</th>
-                <th>Department</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for position in positions %}
-                <tr>
-                  <td>{{ position.title }}</td>
-                  <td>{{ position.get_level_display }}</td>
-                  <td>{{ position.department }}</td>
-                    <td>
-                    <form method="POST" action="{% url 'positions-delete' position.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">DELETE</button>
-                    </form>
-                        </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
-  </div>
 {% endblock %}

@@ -17,7 +17,7 @@ class PollCloseView(UpdateView):
     form_class = PollUpdateForm
 
     def post(self, request, *args, **kwargs):
-        poll_id = kwargs['pk']
+        poll_id = kwargs["pk"]
         all_poll_answers = PollAnswer.objects.filter(poll=poll_id)
         pool_results = self.__clean_answers(all_poll_answers)
         poll_final_results = PollResults(poll_id=poll_id, results=pool_results, close_date=datetime.datetime.now())
@@ -30,9 +30,8 @@ class PollCloseView(UpdateView):
             results = json.loads(answer.result)
             list_results.append(results)
         merged_dict = join_with(tuple, list_results)
-        merged_dict.pop('csrfmiddlewaretoken')
+        merged_dict.pop("csrfmiddlewaretoken")
         return merged_dict
-
 
     def form_valid(self, form):
         form.instance.status = False

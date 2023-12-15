@@ -28,12 +28,10 @@ class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
 
         # evaluations
 
-        assigned_evaluations = Evaluation.objects.filter(
-            employee=self.request.user, status=False
-        ).order_by("-date_end")[:5]
-        completed_evaluations = Evaluation.objects.filter(
-            employee=self.request.user, status=True
-        )
+        assigned_evaluations = Evaluation.objects.filter(employee=self.request.user, status=False).order_by(
+            "-date_end"
+        )[:5]
+        completed_evaluations = Evaluation.objects.filter(employee=self.request.user, status=True)
         context["assigned_evaluations"] = assigned_evaluations
         context["completed_evaluations"] = completed_evaluations
 
@@ -48,7 +46,9 @@ class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
         context["open_polls"] = open_polls
 
         today = date.today()
-        poll_results = PollResults.objects.filter(poll__questionnaire__company=self.request.user.profile.company, close_date__lte=today + timedelta(7))
+        poll_results = PollResults.objects.filter(
+            poll__questionnaire__company=self.request.user.profile.company, close_date__lte=today + timedelta(7)
+        )
         context["poll_results"] = poll_results
 
         # calendar, events
