@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView
@@ -7,10 +8,13 @@ from recruitment.forms import JobApplicationForm
 from recruitment.models import JobOffer
 
 
-class JobOffersApplyView(CreateView):
+class JobOffersApplyView(UserPassesTestMixin, CreateView):
     form_class = JobApplicationForm
     template_name = "recruitment/job_offers/job_offer_apply.html"
     context_object_name = "job_application"
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.groups.filter(name="Candidate").exists()
 
     def get_initial(self):
         initial = super(JobOffersApplyView, self).get_initial()

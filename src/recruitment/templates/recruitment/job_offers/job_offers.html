@@ -54,6 +54,7 @@
                     </fieldset>
                 </div>
                 <div class="col-md-9">
+                    {% if job_offers %}
                     {% for job_offer in job_offers %}
                         {% if request.user.profile.company is None or job_offer.company == request.user.profile.company %}
                             <div class="job-offer">
@@ -95,6 +96,11 @@
                             </div>
                         {% endif %}
                     {% endfor %}
+                        {% else %}
+                        <div class="centered">
+                        <a class="text-muted">Currently there are no job offers available...</a>
+                        </div>
+                    {% endif %}
                     <div class="centered">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">

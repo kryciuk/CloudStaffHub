@@ -8,14 +8,13 @@ class JobOffersListView(ListView):
     model = JobOffer
     template_name = "recruitment/job_offers/job_offers.html"
     context_object_name = "job_offers"
-    ordering = ["-status", "-published_date"]
     paginate_by = 5
 
     def get_queryset(self):  # napisać fancy
         company = self.request.user.profile.company
         queryset = JobOffer.objects.filter(status=True).order_by("-published_date")
         if company is not None:
-            queryset = JobOffer.objects.filter(company=company, status=True)
+            queryset = JobOffer.objects.filter(company=company, status=True).order_by("-published_date")
         self.filterset = JobOfferFilter(self.request.GET, queryset=queryset)
         return self.filterset.qs
 
