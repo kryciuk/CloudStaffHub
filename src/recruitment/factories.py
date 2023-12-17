@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 from random import choice, randint
 
 import factory
@@ -18,8 +18,8 @@ class JobOfferFactory(factory.django.DjangoModelFactory):
     status = factory.LazyAttribute(lambda x: choice([True, False]))
     city = factory.SubFactory(CityFactory)
     company = factory.SubFactory(CompanyFactory)
-    published_date = factory.Faker("past_date", tzinfo=pytz.utc)
-    expiry_date = factory.Faker("future_date", tzinfo=pytz.utc)
+    published_date = factory.LazyFunction(lambda: timezone.now() - timezone.timedelta(days=choice(range(1, 30))))
+    expiry_date = factory.LazyFunction(lambda: timezone.now() + timezone.timedelta(days=choice(range(30, 60))))
 
 
 class JobApplicationFactory(factory.django.DjangoModelFactory):
