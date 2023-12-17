@@ -6,7 +6,6 @@ from rest_framework import status
 
 class TestCandidateViews(TestCase):
     def setUp(self):
-
         self.user = User.objects.create(username="test_user1", email="test_user1@test.com")
         self.user.set_password("password")
         self.user.save()
@@ -20,9 +19,7 @@ class TestCandidateViews(TestCase):
         # self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTemplateUsed(response, "dashboards/dashboard_owner.html")
 
-    @tag("x")
     def test_cant_access_view_without_creator_group(self):
-
         user_1 = User.objects.create(username="test_user2", email="test_user1@test.com")
         user_1.set_password("password")
         user_1.save()
