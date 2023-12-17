@@ -60,7 +60,7 @@ class Department(models.Model):
         SUPPLY_CHAIN = "Supply Chain"
         TRAINING_DEVELOPMENT = "Training Development"
 
-    name = models.CharField(choices=DepartmentChoices.choices)
+    name = models.CharField(choices=DepartmentChoices.choices, max_length=100)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     class Meta:
@@ -350,7 +350,7 @@ class Industry(models.Model):
         TRANSPORTATION = "Transportation"
         TRAVEL = "Travel"
 
-    industry = models.CharField(choices=IndustryChoice.choices)
+    industry = models.CharField(choices=IndustryChoice.choices, max_length=100)
 
     class Meta:
         unique_together = ["industry"]
