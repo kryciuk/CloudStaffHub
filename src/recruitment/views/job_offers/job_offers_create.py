@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone
 from django.views.generic import CreateView
 
@@ -10,7 +10,8 @@ from recruitment.forms import JobOfferForm
 from recruitment.models import Position
 
 
-class JobOffersCreateView(LoginRequiredMixin, CreateView):
+class JobOffersCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+    permission_required = "recruitment.add_joboffer"
     form_class = JobOfferForm
     template_name = "recruitment/job_offers/job_offer_update.html"
     context_object_name = "job_offer"
