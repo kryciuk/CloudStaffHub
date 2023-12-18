@@ -6,18 +6,11 @@ from django.urls import reverse
 from rest_framework import status
 from django.utils import timezone
 
-from users.factories import CandidateFactory, OwnerFactory
+from users.factories import CandidateFactory, OwnerFactory, EmployeeFactory
 from recruitment.factories import JobOfferFactory
 from organizations.factories import PositionFactory, CityFactory
 from recruitment.models import JobOffer
 
-
-# def create_users_and_objects_for_tests():
-#     user_owner_1 = OwnerFactory.create()
-#     user_owner_2 = OwnerFactory.create()
-#     user_candidate = CandidateFactory.create()
-#     job_offers_for_owner_1 = JobOfferFactory.create_batch(10)
-#     job_offers_for_owner_2 = JobOfferFactory.create_batch(15)
 
 class TestJobOfferApplyView(TransactionTestCase):
     reset_sequences = True
@@ -63,17 +56,23 @@ class TestJobOfferCreateView(TransactionTestCase):
     def setUp(self):
         self.user_owner = OwnerFactory.create()
         self.position = PositionFactory.create()
+        self.user_employee = EmployeeFactory.create()
         self.position.company = self.user_owner.profile.company
         self.position.save()
         self.city = CityFactory.create()
         self.data = {"position": self.position.pk, "description": "placeholder text",
                      "city": self.city.pk,
-                     "expiry_date": timezone.datetime(2024, 10, 12, tzinfo=datetime.timezone.utc).date()}
+                     "expiry_date": timezone.datetime(2024, 10, 12)}
 
     def test_if_job_offer_is_created_correctly(self):
         self.client.force_login(self.user_owner)
         self.client.post(reverse("job-offer-create"), data=self.data)
         self.assertEqual(JobOffer.objects.count(), 1)
+
+    def test_if_regular_employee_cant_access_view(self):
+        self.client.force_login(self.user_employee)
+        response = self.client.get(reverse("job-offer-create"))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_if_job_offer_is_created_with_correct_data(self):
         self.client.force_login(self.user_owner)
@@ -83,8 +82,8 @@ class TestJobOfferCreateView(TransactionTestCase):
         self.assertEqual(created_job_offer.status, True)
         self.assertEqual(created_job_offer.city.id, self.data.get("city"))
         self.assertEqual(created_job_offer.company, self.user_owner.profile.company)
-        # self.assertEqual(created_job_offer.published_date, timezone.datetime.today().date())
-        # self.assertEqual(created_job_offer.expiry_date, timezone.datetime(2024, 10, 12).date())
+        self.assertEqual(created_job_offer.published_date, timezone.datetime.today().date())
+        self.assertEqual(created_job_offer.expiry_date, timezone.datetime(2024, 10, 12, 0, 0, tzinfo=datetime.timezone.utc))
 
     def test_if_job_offer_is_not_created_if_missing_data(self):
         self.client.force_login(self.user_owner)
@@ -144,8 +143,8 @@ class TestJobOfferListView(TransactionTestCase):
         self.user_owner_1 = OwnerFactory.create()
         self.user_owner_2 = OwnerFactory.create()
         self.user_candidate = CandidateFactory.create()
-        self.job_offers_for_owner_1 = JobOfferFactory.create_batch(10)
-        self.job_offers_for_owner_2 = JobOfferFactory.create_batch(15)
+        self.job_offers_for_owner_1 = JobOfferFactory.create_batch(100)
+        self.job_offers_for_owner_2 = JobOfferFactory.create_batch(150)
         for job_offer in self.job_offers_for_owner_1:
             job_offer.company = self.user_owner_1.profile.company
             job_offer.save()
@@ -158,7 +157,7 @@ class TestJobOfferListView(TransactionTestCase):
         response = self.client.get(reverse("job-offers"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue('is_paginated' in response.context)
-        self.assertLessEqual(len(response.context['object_list']), 5)
+        self.assertEqual(len(response.context["job_offers"]), 5)
 
     def test_if_owner_can_view_active_job_offers_only_assigned_to_his_company(self):
         self.client.force_login(self.user_owner_1)
@@ -192,6 +191,9 @@ class TestJobOfferUpdateView(TransactionTestCase):
         self.user_owner_1 = OwnerFactory.create()
         self.user_owner_2 = OwnerFactory.create()
         self.user_candidate = CandidateFactory.create()
+        self.user_employee = EmployeeFactory.create()
+        self.user_employee.profile.company = self.user_owner_1.profile.company
+        self.user_employee.save()
         self.job_offer_1 = JobOfferFactory.create()
         self.job_offer_2 = JobOfferFactory.create()
         self.job_offer_1.company = self.user_owner_1.profile.company
@@ -201,6 +203,11 @@ class TestJobOfferUpdateView(TransactionTestCase):
 
     def test_if_candidate_cant_access_view(self):
         self.client.force_login(self.user_candidate)
+        response = self.client.get(reverse("job-offer-update", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_regular_employee_cant_access_view(self):
+        self.client.force_login(self.user_employee)
         response = self.client.get(reverse("job-offer-update", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
