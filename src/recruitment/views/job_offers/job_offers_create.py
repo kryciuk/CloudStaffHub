@@ -37,3 +37,6 @@ class JobOffersCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateVie
         messages.success(self.request, f"Job offer was created successfully.")
         return super().form_valid(form)
 
+    def get(self, request, *args, **kwargs):
+        request.session["previous_view"] = "JobOffersCreateView"
+        return super().get(request, *args, **kwargs)
