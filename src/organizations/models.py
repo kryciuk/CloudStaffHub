@@ -90,9 +90,6 @@ class Position(models.Model):
     def __str__(self):
         return f"{self.title} ({self.get_level_display()})"
 
-    def get_absolute_url(self):
-        return reverse("dashboard-recruiter")
-
 
 class City(models.Model):
     class Country(models.TextChoices):
@@ -302,9 +299,6 @@ class City(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-
-    def get_absolute_url(self):
-        return reverse("dashboard-recruiter")
 
 
 class Industry(models.Model):
