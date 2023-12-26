@@ -85,7 +85,7 @@ class JobApplicationForm(ModelForm):
             "last_name": "Last Name",
             "phone_number": "Phone Number",
             "email": "Email",
-            "expected_salary": "Expected  Gross Salary",
+            "expected_salary": "Expected Gross Salary",
             "cv": "CV",
             "consent_processing_data": "I hereby give consent for my personal data to be processed for the purpose of "
                                        "conducting recruitment for the position for which I am applying.",
