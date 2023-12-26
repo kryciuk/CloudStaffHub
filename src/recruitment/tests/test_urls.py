@@ -1,22 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.urls import resolve, reverse
 from rest_framework import status
 
 from recruitment.factories import JobOfferFactory, JobApplicationFactory
 
-from recruitment.views.job_applications import (
-    JobApplicationsClosedView,
-    JobApplicationsDetailView,
-    JobApplicationsUnderReviewView,
-    JobApplicationsView,
-)
-from recruitment.views.job_offers import (
-    JobOffersApplyView,
-    JobOffersCreateView,
-    JobOffersDetailView,
-    JobOffersListView,
-    JobOffersUpdateView,
-)
 from users.factories import CandidateFactory, OwnerFactory
 
 
@@ -26,29 +13,60 @@ class TestUrls(TestCase):
     def setUpTestData(cls):
         cls.user_candidate = CandidateFactory.create()
         cls.user_owner = OwnerFactory.create()
-        JobApplicationFactory.create_batch(10)
+        job_offer = JobOfferFactory.create(company=cls.user_owner.profile.company)
+        job_offer.save()
+        JobApplicationFactory.create_batch(10, job_offer=job_offer)
 
-    def test_job_offers_urls_are_callable_by_name(self):
-        self.client.force_login(self.user_candidate)
-        response_job_offers = self.client.get(reverse("job-offers"))
-        response_job_offer_detail = self.client.get(reverse("job-offer-detail", kwargs={"pk": 1}))
-        response_job_offer_update = self.client.get(reverse("job-offer-update", kwargs={"pk": 2}))
-        response_job_offer_apply = self.client.get(reverse("job-offer-apply", kwargs={"pk": 3}))
-        self.assertEqual(response_job_offers.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_job_offer_detail.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_job_offer_update.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(response_job_offer_apply.status_code, status.HTTP_200_OK)
-
-    def test_job_applications_urls_are_callable_by_name(self):
+    def test_job_offers_urls_are_callable_by_name_for_owner(self):
         self.client.force_login(self.user_owner)
-        response_job_applications = self.client.get(reverse("job-applications"))
-        response_job_applications_closed = self.client.get(reverse("job-applications-closed"))
-        response_job_applications_review = self.client.get(reverse("job-applications-review"))
-        response_job_applications_detail = self.client.get(reverse("job-applications-detail", kwargs={"pk": 1}))
-        self.assertEqual(response_job_applications.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_job_applications_closed.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_job_applications_review.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_job_applications_detail.status_code, status.HTTP_200_OK)
+        urls_ok = {
+            "job-offers": reverse("job-offers"),
+            "job-offer-detail": reverse("job-offer-detail", kwargs={"pk": 1}),
+            "job-offer-update": reverse("job-offer-update", kwargs={"pk": 1}),
+        }
+        urls_forbidden = {"job-offer-apply": reverse("job-offer-apply", kwargs={"pk": 1}),}
 
+        for name, url in urls_ok.items():
+            with self.subTest(url_name=name):
+                res = self.client.get(url)
+                self.assertEqual(
+                    res.status_code, status.HTTP_200_OK
+                )
+        for name, url in urls_forbidden.items():
+            with self.subTest(url_name=name):
+                res = self.client.get(url)
+                self.assertEqual(
+                    res.status_code, status.HTTP_403_FORBIDDEN
+                )
 
+    def test_job_applications_urls_are_callable_by_name_for_owner(self):
+        self.client.force_login(self.user_owner)
+        urls = {
+            "job-applications": reverse("job-applications"),
+            "job-applications-closed": reverse("job-applications-closed"),
+            "job-applications-review": reverse("job-applications-review"),
+            "job-applications-detail": reverse("job-applications-detail", kwargs={"pk": 1}),
+        }
 
+        for name, url in urls.items():
+            with self.subTest(url_name=name):
+                res = self.client.get(url)
+                self.assertEqual(
+                    res.status_code, status.HTTP_200_OK
+                )
+
+    def test_job_applications_urls_are_callable_by_name_for_candidate(self):
+        self.client.force_login(self.user_candidate)
+        urls = {
+            "job-applications": reverse("job-applications"),
+            "job-applications-closed": reverse("job-applications-closed"),
+            "job-applications-review": reverse("job-applications-review"),
+            "job-applications-detail": reverse("job-applications-detail", kwargs={"pk": 1}),
+        }
+
+        for name, url in urls.items():
+            with self.subTest(url_name=name):
+                res = self.client.get(url)
+                self.assertEqual(
+                    res.status_code, status.HTTP_403_FORBIDDEN
+                )

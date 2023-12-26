@@ -141,32 +141,27 @@ class TestJobOApplicationsDetailView(TransactionTestCase):
             job_application.job_offer.save()
             job_application.save()
 
-    @tag("x")
     def test_if_candidate_cant_access_view(self):
         self.client.force_login(self.user_candidate)
         response = self.client.get(reverse("job-applications-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    @tag("x")
     def test_if_regular_employee_cant_access_view(self):
         self.client.force_login(self.user_employee)
         response = self.client.get(reverse("job-applications-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    @tag("x")
     def test_if_owner_cant_view_job_application_for_another_company(self):
         self.client.force_login(self.user_owner_2)
         response = self.client.get(reverse("job-applications-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    @tag("x")
     def test_if_owner_can_change_job_application_status(self):
         self.client.force_login(self.user_owner_1)
         response = self.client.post(reverse("job-applications-detail", kwargs={"pk": 1}), data={"status": 2}, follow=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(JobApplication.objects.get(pk=1).status, 2)
 
-    @tag("x")
     def test_correct_template_is_used(self):
         self.client.force_login(self.user_owner_1)
         response = self.client.get(reverse("job-applications-detail", kwargs={"pk": 1}))

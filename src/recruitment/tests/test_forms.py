@@ -1,8 +1,11 @@
+import os
+
 from django.utils import timezone
 
-from django.test import TestCase
+from django.test import TestCase, tag
 
 from organizations.factories import PositionFactory, CityFactory
+from users.factories import CandidateFactory
 
 from recruitment.forms import JobOfferForm, JobOfferFormUpdate, JobApplicationForm, JobApplicationStatusForm
 
@@ -25,10 +28,10 @@ class TestJobOfferForm(TestCase):
         form = JobOfferForm(data=self.form_data)
         self.assertFalse(form.is_valid())
 
-    # def test_if_job_offer_is_not_created_if_past_date(self):
-    #     self.form_data["expiry_date"] = timezone.datetime(2022, 11, 12)
-    #     form = JobOfferForm(data=self.form_data)
-    #     self.assertFalse(form.is_valid())
+    def test_if_job_offer_is_not_created_if_past_date(self):
+        self.form_data["expiry_date"] = timezone.datetime(2022, 11, 12)
+        form = JobOfferForm(data=self.form_data)
+        self.assertFalse(form.is_valid())
 
 
 class TestJobOfferFormUpdate(TestCase):
@@ -54,15 +57,28 @@ class TestJobOfferFormUpdate(TestCase):
 # class TestJobApplicationForm(TestCase):
 #
 #     def setUp(self):
-#         self.form_data = {
-#                         "first_name": "John",
-#                         "last_name": "Smith",
-#                         "phone_number": "+48500400300",
-#                         "email": "candidate1@gmail.com",
-#                         "expected_salary": 9000,
-#                         "cv": None,
-#                         "consent_processing_data": True
-#                     }
+#         self.user_candidate = CandidateFactory.create()
+#         self.pdf_path = 'test_pdf.pdf'
+#         with open(self.pdf_path, 'wb') as pdf:
+#             pdf.write(b'%PDF-1.4PDF mock file content\n')
+#
+#     def tearDown(self):
+#         if os.path.exists(self.pdf_path):
+#             os.remove(self.pdf_path)
+#
+#     @tag("x")
+#     def test_if_job_application_is_submitted_if_correct_data(self):
+#         with open(self.pdf_path, 'rb') as pdf:
+#             form = JobApplicationForm(data={
+#                 "first_name": self.user_candidate.first_name,
+#                 "last_name": self.user_candidate.last_name,
+#                 "phone_number": "504400500",
+#                 "email": self.user_candidate.email,
+#                 "expected_salary": 9000,
+#                 "cv": pdf,
+#                 "consent_processing_data": True})
+#         self.assertTrue(form.is_valid())
+#
 
 class TestJobApplicationStatusForm(TestCase):
 

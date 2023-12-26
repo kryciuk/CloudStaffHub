@@ -1,6 +1,6 @@
 import datetime
+import os
 
-from django.test import tag
 from django.test import TransactionTestCase
 from django.urls import reverse
 from rest_framework import status
@@ -55,10 +55,8 @@ class TestJobOfferCreateView(TransactionTestCase):
 
     def setUp(self):
         self.user_owner = OwnerFactory.create()
-        self.position = PositionFactory.create()
+        self.position = PositionFactory.create(company=self.user_owner.profile.company)
         self.user_employee = EmployeeFactory.create()
-        self.position.company = self.user_owner.profile.company
-        self.position.save()
         self.city = CityFactory.create()
         self.data = {"position": self.position.pk, "description": "placeholder text",
                      "city": self.city.pk,
@@ -91,12 +89,6 @@ class TestJobOfferCreateView(TransactionTestCase):
         self.client.post(reverse("job-offer-create"), data=self.data)
         self.assertEqual(JobOffer.objects.count(), 0)
 
-    # do poprawy
-    # def test_if_message_is_displayed_after_successful_creation(self):
-    #     self.client.force_login(self.user_owner)
-    #     response = self.client.post(reverse("job-offer-create"), data=self.data)
-    #     message = list(response.context.get("messages"))[0]
-
     def test_correct_template_is_used(self):
         self.client.force_login(self.user_owner)
         response = self.client.get(reverse("job-offer-create"))
@@ -109,26 +101,32 @@ class TestJobOfferDetailView(TransactionTestCase):
     def setUp(self):
         self.user_candidate = CandidateFactory.create()
         self.job_offer = JobOfferFactory.create()
-        # self.image_mock = mock.MagicMock(spec="pdf")
+        self.pdf_path = 'test_pdf.pdf'
+        with open(self.pdf_path, 'wb') as pdf:
+            pdf.write(b'%PDF-1.4PDF mock file content\n')
+
+    def tearDown(self):
+        if os.path.exists(self.pdf_path):
+            os.remove(self.pdf_path)
 
     def test_if_job_offer_is_open_if_first_applying(self):
         self.client.force_login(self.user_candidate)
         response = self.client.get(reverse("job-offer-detail", kwargs={"pk": 1}))
         self.assertEqual(response.context["user_application"], False)
 
-    # do poprawy
-    # def test_if_job_offer_is_not_open_if_previously_applied(self):
-    #     self.client.force_login(self.user_candidate)
-    #     self.client.post(reverse("job-offer-apply", kwargs={"pk": 1}),
-    #                      data={"first_name": self.user_candidate.first_name,
-    #                            "last_name": self.user_candidate.last_name,
-    #                            "phone_number": "504400500",
-    #                            "email": self.user_candidate.email,
-    #                            "expected_salary": 9000,
-    #                            # "cv": self.image_mock,
-    #                            "consent_processing_data": True})
-    #     response = self.client.get(reverse("job-offer-detail", kwargs={"pk": 1}))
-    #     self.assertEqual(response.context["user_application"], True)
+    def test_if_job_offer_is_not_open_if_previously_applied(self):
+        self.client.force_login(self.user_candidate)
+        with open(self.pdf_path, 'rb') as pdf:
+            self.client.post(reverse("job-offer-apply", kwargs={"pk": 1}),
+                             data={"first_name": self.user_candidate.first_name,
+                                   "last_name": self.user_candidate.last_name,
+                                   "phone_number": "504400500",
+                                   "email": self.user_candidate.email,
+                                   "expected_salary": 9000,
+                                   "cv": pdf,
+                                   "consent_processing_data": True})
+        response = self.client.get(reverse("job-offer-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.context["user_application"], True)
 
     def test_correct_template_is_used(self):
         self.client.force_login(self.user_candidate)
@@ -143,14 +141,8 @@ class TestJobOfferListView(TransactionTestCase):
         self.user_owner_1 = OwnerFactory.create()
         self.user_owner_2 = OwnerFactory.create()
         self.user_candidate = CandidateFactory.create()
-        self.job_offers_for_owner_1 = JobOfferFactory.create_batch(100)
-        self.job_offers_for_owner_2 = JobOfferFactory.create_batch(150)
-        for job_offer in self.job_offers_for_owner_1:
-            job_offer.company = self.user_owner_1.profile.company
-            job_offer.save()
-        for job_offer in self.job_offers_for_owner_2:
-            job_offer.company = self.user_owner_2.profile.company
-            job_offer.save()
+        self.job_offers_for_owner_1 = JobOfferFactory.create_batch(100, company=self.user_owner_1.profile.company)
+        self.job_offers_for_owner_2 = JobOfferFactory.create_batch(150, company=self.user_owner_2.profile.company)
 
     def test_if_view_is_paginated_by_5(self):
         self.client.force_login(self.user_candidate)
@@ -194,12 +186,8 @@ class TestJobOfferUpdateView(TransactionTestCase):
         self.user_employee = EmployeeFactory.create()
         self.user_employee.profile.company = self.user_owner_1.profile.company
         self.user_employee.save()
-        self.job_offer_1 = JobOfferFactory.create()
-        self.job_offer_2 = JobOfferFactory.create()
-        self.job_offer_1.company = self.user_owner_1.profile.company
-        self.job_offer_1.save()
-        self.job_offer_2.company = self.user_owner_2.profile.company
-        self.job_offer_2.save()
+        self.job_offer_1 = JobOfferFactory.create(company=self.user_owner_1.profile.company)
+        self.job_offer_2 = JobOfferFactory.create(company=self.user_owner_2.profile.company)
 
     def test_if_candidate_cant_access_view(self):
         self.client.force_login(self.user_candidate)
