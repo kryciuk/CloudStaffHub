@@ -3,61 +3,34 @@
     {% load auth_extras %}
     {% load crispy_forms_filters %}
     <style>
-    /* Styl CSS */
-    .container {
-      width: auto;
-      margin: 20px auto;
-      background: #f8f9fa;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      padding: 10px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-      border-radius: 5px;
-    }
+      .container-positions {
+        width: 80%;
+        margin: 20px auto;
+        background: #f8f9fa;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+      }
 
-    .centered {
-      margin: 20px;
-      text-align: center;
-    }
+      .table-submit {
+        width: 100%;
+        table-layout: fixed;
+        }
 
-    .table-submit {
-      margin-top: 20px;
-    }
-
-    /* Styl formularza */
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .form-group input[type="text"],
-    .form-group select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-
-    .form-group select {
-      /* Dodaj ewentualne style dla selecta */
-    }
-
-    .form-group input[type="text"]:focus,
-    .form-group select:focus {
-      outline: none;
-    }
+      .table-submit th,
+      .table-submit td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        }
     </style>
-    <div class="container">
+    <div class="container-positions">
         <div class="card card-body">
-            <h2 class="centered">POSITIONS</h2>
+            <h2 class="centered" style="color: #f06161;">POSITIONS</h2>
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-3">
@@ -71,7 +44,6 @@
                     </fieldset>
                 </div>
                 <div class="col-md-9">
-                    <!-- Tabela -->
                     <table class="table table-submit">
                         <thead>
                             <tr>
