@@ -7,17 +7,15 @@ from recruiter.forms import PositionsForm
 
 
 class PositionCreateView(UserPassesTestMixin, CreateView):
-
     form_class = PositionsForm
     template_name = "recruiter/positions_create.html"
     context_object_name = "position"
 
     def test_func(self):
+        user_groups = ["Recruiter", "Manager", "Owner"]
         return self.request.user.is_authenticated and (
-            self.request.user.groups.filter(name="Recruiter").exists() or
-            self.request.user.groups.filter(name="Manager").exists()
-            or self.request.user.groups.filter(name="Owner").exists()
-            or self.request.user.is_superuser)
+            self.request.user.groups.filter(name__in=user_groups).exists() or self.request.user.is_superuser
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -35,6 +33,3 @@ class PositionCreateView(UserPassesTestMixin, CreateView):
             self.request.session["previous_view"] = None
             return reverse("job-offer-create")
         return reverse("dashboard-recruiter")
-            
-
-

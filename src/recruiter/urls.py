@@ -14,9 +14,7 @@ urlpatterns_positions = [
 ]
 
 urlpatterns_cities = [
-    path("city/create", CityCreateView.as_view(), name="city-create"),
+    path("cities/create", CityCreateView.as_view(), name="city-create"),
 ]
 
-urlpatterns = []
-
-urlpatterns += urlpatterns_positions + urlpatterns_cities
+urlpatterns = [*urlpatterns_positions, *urlpatterns_cities]
