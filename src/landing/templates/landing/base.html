@@ -4,26 +4,30 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet"
-              type="text/css"
-              href="{% static 'landing/base.css' %}">
-        <link rel="stylesheet"
-              type="text/css"
-              href="{% static 'landing/custom_style.css' %}">
+        <meta name="keywords" content="cloudstaffhub">
+        <meta name="description" content="hr and recruitment app">
+        <link rel="stylesheet" type="text/css" href="{% static "landing/base.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "landing/custom_style.css" %}">
         <title>
-            {% block title %}Your Title Here{% endblock %}
+            {% block title %}
+                Your Title Here
+            {% endblock title %}
         </title>
-        {% block head %}{% endblock %}
+        {% block head %}
+        {% endblock head %}
     </head>
     <body>
-        {% include 'landing/assets/navbar.html' %}
+        {% include "landing/assets/navbar.html" %}
         {% if messages %}
             <div class="alert-container">
                 {% for message in messages %}<div class="alert alert-{{ message.tags }}">{{ message }}</div>{% endfor %}
             </div>
         {% endif %}
         <div class="content">
-            {% block content %}{% endblock %}
+            {% block content %}
+            {% endblock content %}
         </div>
+        {% block javascript %}
+        {% endblock javascript %}
     </body>
 </html>

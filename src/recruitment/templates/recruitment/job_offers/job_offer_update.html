@@ -1,10 +1,12 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load crispy_forms_tags %}
 {% load auth_extras %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% load bootstrap4 %}
 {% block content %}
-{{ form.media }}
+    {{ form.media }}
     <style>
     .btn-outline-secondary {
         width: 175px;
@@ -12,16 +14,19 @@
     .btn-outline-info {
         width: 175px;
     }
+    .legend-heading {
+    color: #f06161;
+    }
     </style>
     <div class="container">
         <div class="card card-body">
             <article class="media content-section">
                 <div class="media-body">
                     <div class="article-metadata">
-                        <form method="POST">
+                        <form method="post">
                             {% csrf_token %}
                             <fieldset class="form-group">
-                                <legend style="color: #f06161;" class="border-bottom mb-4">
+                                <legend class="legend-heading border-bottom mb-4">
                                     {% if request.path == '/recruitment/job-offers/create' %}
                                         Create
                                     {% else %}
@@ -31,6 +36,7 @@
                                 </legend>
                                 {{ form.position | as_crispy_field }}
                                 {{ form.description | as_crispy_field }}
+                                {{ form.country | as_crispy_field }}
                                 {{ form.city | as_crispy_field }}
                                 {{ form.expiry_date | as_crispy_field }}
                             </fieldset>
@@ -53,4 +59,30 @@
             </article>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
+{% block javascript %}
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function updateCities(country) {
+            $.ajax({
+                url: "{% url 'load-cities' %}",
+                data: {
+                    'country': country
+                },
+                success: function (data) {
+                  if (data.length === 0) {
+                    $("#id_city").html(`<option value="">---------</option>`);
+                } else {
+                    $("#id_city").html(data.map(city => `<option value="${city.id}">${city.name}</option>`));
+                }
+                }
+            });
+        }
+        $("#id_country").change(function () {
+            var selectedCountry = $(this).val();
+            updateCities(selectedCountry);
+        });
+        updateCities('Poland')
+    });
+    </script>
+{% endblock javascript %}
