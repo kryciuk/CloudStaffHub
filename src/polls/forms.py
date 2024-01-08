@@ -1,6 +1,5 @@
-from datetime import date
-
 from django.forms import ModelForm
+from django.utils import timezone
 
 from polls.models import Poll, PollAnswer
 
@@ -14,7 +13,7 @@ class PollCreateForm(ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        today = date.today()
+        today = timezone.datetime.today().date()
         date_end = cleaned_data.get("date_end")
 
         if today > date_end:
