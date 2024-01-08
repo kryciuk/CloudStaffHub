@@ -1,6 +1,6 @@
 from django.urls import path
 
-from recruitment.views.job_applications import (
+from .views.job_applications import (
     JobApplicationsClosedView,
     JobApplicationsDetailView,
     JobApplicationsSetStatusClosedView,
@@ -8,7 +8,7 @@ from recruitment.views.job_applications import (
     JobApplicationsUnderReviewView,
     JobApplicationsView,
 )
-from recruitment.views.job_offers import (
+from .views.job_offers import (
     JobOffersApplyView,
     JobOffersCreateView,
     JobOffersDetailView,
