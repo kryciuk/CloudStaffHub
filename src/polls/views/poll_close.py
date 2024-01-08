@@ -1,7 +1,7 @@
 import datetime
 import json
 
-from django.shortcuts import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 from funcy import join_with
@@ -10,8 +10,9 @@ from polls.forms import PollUpdateForm
 from polls.models import Poll, PollAnswer, PollResults
 
 
-class PollCloseView(UpdateView):
+class PollCloseView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Poll
+    permission_required = "polls.change_poll"
     context_object_name = "poll"
     success_url = reverse_lazy("poll-list")
     form_class = PollUpdateForm
