@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 
 import environ
-from django.urls import reverse_lazy
 
 from .env import env
 
@@ -64,11 +63,11 @@ INSTALLED_EXTENSIONS = [
     "evaluation",
     "recruiter",
     "organizations",
-    "landing",
     "dashboards",
     "polls",
     "events",
     "owner",
+    "landing",
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
