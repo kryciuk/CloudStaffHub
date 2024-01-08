@@ -16,7 +16,7 @@ class Questionnaire(models.Model):
     status = models.BooleanField(default=True, help_text="will this questionnaire be ever used again")
     type = models.TextField(choices=Type.choices)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}"
 
 
@@ -25,24 +25,24 @@ class Answer(models.Model):
     score = models.IntegerField(null=True, blank=True)
     question = models.ForeignKey("Question", on_delete=models.CASCADE, related_name="answers")
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.score is None:
             return f"{self.answer}"
-        else:
-            return f"{self.answer} ({self.score})"
 
-    def __repr__(self):
+        return f"{self.answer} ({self.score})"
+
+    def __repr__(self) -> str:
         if self.score is None:
             return f"{self.answer}"
-        else:
-            return f"{self.answer} ({self.score})"
+
+        return f"{self.answer} ({self.score})"
 
 
 class Question(models.Model):
     text = models.CharField(max_length=200)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE, related_name="questions")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.text}"
 
     def get_absolute_url(self):
@@ -58,7 +58,7 @@ class Evaluation(models.Model):
     result = models.JSONField("", null=True, blank=True)
     status = models.BooleanField(default=False, help_text="true if evaluation filled by an employee")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.questionnaire}"
 
     def get_absolute_url(self):
