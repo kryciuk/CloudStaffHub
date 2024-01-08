@@ -1,60 +1,51 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load static %}
 {% block content %}
     {% load crispy_forms_tags %}
     {% load auth_extras %}
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <title>{{ title }}</title>
-            <style>
-        .container {
-            width: 600px;
-            margin-top: 20px;
-            margin-bottom: auto;
-            background: #f8f9fa;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
-            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 5px;
+    {% block title %}
+        {{ title }}
+    {% endblock title %}
+    <style>
+        .btn-outline-info {
+            width: 175px;
         }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="card card-body">
-                    <article class="media content-section">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <legend class="border-bottom mb-4">{{ poll }}</legend>
-                                <div>
-                                    <form action="{% url 'poll-answer' poll.id %}" method="post">
-                                        {% csrf_token %}
-                                        {% for question, possible_answers in answers.items %}
-                                            <label>{{ question }}</label>
-                                            {% for answer in possible_answers %}
-                                                <li>
-                                                    <input type="radio"
-                                                           id="{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
-                                                           name="{{ question }}"
-                                                           value="{{ answer.id }}">
-                                                    <label for="{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer }}</label>
-                                                </li>
-                                            {% endfor %}
+        .legend-heading {
+            color: #f06161;
+        }
+    </style>
+    <body>
+        <div class="container">
+            <div class="card card-body">
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <legend class="legend-heading border-bottom mb-4">{{ poll }}</legend>
+                            <div>
+                                <form action="{% url 'poll-answer' poll.id %}" method="post">
+                                    {% csrf_token %}
+                                    {% for question, possible_answers in answers.items %}
+                                        <label>{{ question }}</label>
+                                        {% for answer in possible_answers %}
+                                            <li>
+                                                <input type="radio"
+                                                       id="{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                                                       name="{{ question }}"
+                                                       value="{{ answer.id }}">
+                                                <label for="{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer }}</label>
+                                            </li>
                                         {% endfor %}
-                                        <input type="submit" value="Send" class="btn btn-primary">
-                                    </form>
-                                </div>
+                                    {% endfor %}
+                                    <br>
+                                    <div class="form-group">
+                                        <input type="submit" value="Send" class="btn btn-outline-info">
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </article>
-                </div>
+                    </div>
+                </article>
             </div>
-        </body>
-    </html>
-{% endblock %}
+        </div>
+    </body>
+{% endblock content %}

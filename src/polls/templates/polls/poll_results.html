@@ -1,52 +1,14 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load static %}
 {% block content %}
     {% load crispy_forms_tags %}
     <title>{{ title }}</title>
     <style>
-        .container {
-            width: 600px;
-            margin-top: 20px;
-            margin-bottom: auto;
-            background: #f8f9fa;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 5px 0 rgba(0, 0, 0, 0.19);
-            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 5px;
+        .legend-heading {
+        color: #f06161;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-group input[type="text"],
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .form-group select {}
-
-        .form-group input[type="text"]:focus,
-        .form-group select:focus {
-            outline: none;
+        .li-special {
+            color: #17a2b8;
         }
     </style>
     <div class="container">
@@ -54,17 +16,17 @@
             <article class="media content-section">
                 <div class="media-body">
                     <div class="article-metadata">
-                        <form method="GET">
+                        <form method="get">
                             {% csrf_token %}
                             <fieldset class="form-group">
-                                <legend class="d-flex justify-content-center">{{ poll_results.poll }} results</legend>
+                                <legend class="legend-heading border-bottom mb-4">{{ poll_results.poll }} results</legend>
                                 <div class="form-group">
                                     {% for question, answers in display_results.items %}
                                         <label>{{ question }}</label>
                                         <ul>
                                             {% for answer, votes in answers.items %}
                                                 {% if answer in most_picked %}
-                                                    <li style="color: blue;">
+                                                    <li class="li-special">
                                                         <strong>
                                                         {% else %}
                                                             <li>
@@ -82,4 +44,4 @@
                 </article>
             </div>
         </div>
-    {% endblock %}
+    {% endblock content %}

@@ -1,111 +1,67 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
+{% load static %}
+{% load auth_extras %}
+{% load crispy_forms_filters %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    {% load auth_extras %}
-    {% load crispy_forms_filters %}
     <style>
-    /* CSS Styles */
-    .container {
-      width: auto;
-      margin: 20px auto;
-      background: #f8f9fa;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      padding: 10px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-      border-radius: 5px;
-    }
-
-    .centered {
-      margin: 20px;
-      text-align: center;
-    }
-
-    .table-submit {
-      margin-top: 20px;
-    }
-
-    /* Form Styles */
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .form-group input[type="text"],
-    .form-group select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-
-    .form-group select {
-      /* Add any necessary styles for select elements */
-    }
-
-    .form-group input[type="text"]:focus,
-    .form-group select:focus {
-      outline: none;
-    }
+      .container-polls {
+        width: 80%;
+        margin: 20px auto;
+        background: #f8f9fa;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+      }
+      .h2-special {
+            color: #f06161;
+        }
     </style>
-    <div class="container">
+    <div class="container-polls">
         <div class="card card-body">
-            <h2 class="centered">POLLS</h2>
+            <h2 class="h2-special text-center">POLLS</h2>
             {% csrf_token %}
-            <div class="row">
-                {#        <div class="col-md-3">#}
-                {#          <!-- Left Side Options -->#}
-                {#          <fieldset class="form-group">#}
-                {#            <form method="GET" action="">#}
-                {# <div><button class="btn btn-outline-info" type="submit">Submit</button></div> #}
-                {#            </form>#}
-                {#          </fieldset>#}
-                {#        </div>#}
-                {#        <div class="col-md-9">#}
-                <div class="m-sm-auto">
-                    <!-- Table -->
-                    <table class="table table-submit">
-                        <thead>
+            <div>
+                <table class="table table-submit">
+                    <thead>
+                        <tr>
+                            <th>Poll</th>
+                            <th>Created by</th>
+                            <th>Date of creation</th>
+                            <th>Deadline</th>
+                            <th>Close</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for poll in polls %}
                             <tr>
-                                <th>Poll</th>
-                                <th>Created by</th>
-                                <th>Date of creation</th>
-                                <th>Deadline</th>
-                                <th>Close</th>
+                                <td>
+                                    <a href="{% url 'questionnaire-detail' poll.questionnaire.id %}">{{ poll.questionnaire }}</a>
+                                </td>
+                                <td>{{ poll.created_by }}</td>
+                                <td>{{ poll.date_created }}</td>
+                                <td>{{ poll.date_end }}</td>
+                                <td>
+                                    <form method="post" action="{% url 'poll-close' poll.id %}">
+                                        {% csrf_token %}
+                                        {% if poll.status == True %}
+                                            <button type="submit" class="btn btn-danger">CLOSE</button>
+                                        {% else %}
+                                            <p>CLOSED</p>
+                                        {% endif %}
+                                    </form>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% for poll in polls %}
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'questionnaire-detail' poll.questionnaire.id %}">{{ poll.questionnaire }}</a>
-                                    </td>
-                                    <td>{{ poll.created_by }}</td>
-                                    <td>{{ poll.date_created }}</td>
-                                    <td>{{ poll.date_end }}</td>
-                                    <td>
-                                        <form method="POST" action="{% url 'poll-close' poll.id %}">
-                                            {% csrf_token %}
-                                            {% if poll.status == True %}
-                                                <button type="submit" class="btn btn-danger">CLOSE</button>
-                                            {% else %}
-                                                <p>CLOSED</p>
-                                            {% endif %}
-                                        </form>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
