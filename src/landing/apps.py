@@ -9,7 +9,6 @@ class LandingConfig(AppConfig):
     name = "landing"
 
     def ready(self):
-        from users.signals import create_profile
 
         post_migrate.connect(self.populate_models, sender=self)
         post_migrate.connect(self.create_industries, sender=self)
@@ -18,9 +17,10 @@ class LandingConfig(AppConfig):
         from django.contrib.auth.models import Group
 
         from organizations.models import City, Company, Position
+        from polls.models import Poll
         from recruitment.models import JobApplication, JobOffer
 
-        models_to_fetch = [JobOffer, JobApplication, City, Company, Position]
+        models_to_fetch = [JobOffer, JobApplication, City, Company, Position, Poll]
 
         owner, _ = Group.objects.get_or_create(name="Owner")
         perms = _get_perms_for_models(models_to_fetch)
