@@ -27,12 +27,6 @@ class PollCloseForm(ModelForm):
         fields = ["status"]
 
 
-class PollUpdateForm(ModelForm):
-    class Meta:
-        model = Poll
-        fields = ["status"]
-
-
 class PollAnswerCreateForm(ModelForm):
     class Meta:
         model = PollAnswer

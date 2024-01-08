@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 from funcy import join_with
 
-from polls.forms import PollUpdateForm
+from polls.forms import PollCloseForm
 from polls.models import Poll, PollAnswer, PollResults
 
 
@@ -15,7 +15,7 @@ class PollCloseView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     permission_required = "polls.change_poll"
     context_object_name = "poll"
     success_url = reverse_lazy("poll-list")
-    form_class = PollUpdateForm
+    form_class = PollCloseForm
 
     def post(self, request, *args, **kwargs):
         poll_id = kwargs["pk"]

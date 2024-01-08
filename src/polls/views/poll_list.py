@@ -22,4 +22,6 @@ class PollListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
         return HttpResponseRedirect(reverse("dashboard-employee"))
 
     def get_queryset(self):
-        return super().get_queryset().filter(questionnaire__company=self.request.user.profile.company)
+        queryset = super().get_queryset().filter(questionnaire__company=self.request.user.profile.company)
+        queryset = queryset.order_by("-status", "-date_created")
+        return queryset
