@@ -309,6 +309,6 @@ class TestPollResultsView(TransactionTestCase):
 
     def test_correct_template_is_used(self):
         self.client.force_login(self.user_owner1)
-        response = self.client.get(reverse("poll-results"))
+        response = self.client.get(reverse("poll-results", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTemplateUsed(response, "polls/poll_results.html")
