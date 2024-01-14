@@ -17,24 +17,26 @@ class LandingConfig(AppConfig):
     def populate_models(self, sender, **kwargs):
         from django.contrib.auth.models import Group
 
-        from organizations.models import City, Company, Position
+        from organizations.models import City, Company, Position, Department
         from recruitment.models import JobApplication, JobOffer
         from polls.models import Poll
 
-        models_to_fetch = [JobOffer, JobApplication, City, Company, Position, Poll]
+        models_to_fetch_owner = [JobOffer, JobApplication, City, Company, Position, Poll, Department]
+        models_to_fetch_manager = [JobOffer, JobApplication, City, Company, Position, Poll]
+        models_to_fetch_recruiter = [JobOffer, JobApplication, City, Position]
 
         owner, _ = Group.objects.get_or_create(name="Owner")
-        perms = _get_perms_for_models(models_to_fetch)
-        owner.permissions.set(perms)
+        owner.permissions.set(_get_perms_for_models(models_to_fetch_owner))
+
+        manager, _ = Group.objects.get_or_create(name="Manager")
+        manager.permissions.set(_get_perms_for_models(models_to_fetch_manager))
 
         recruiter, _ = Group.objects.get_or_create(name="Recruiter")
-        recruiter.permissions.set(perms)
+        recruiter.permissions.set(_get_perms_for_models(models_to_fetch_recruiter))
 
         employee, _ = Group.objects.get_or_create(name="Employee")
 
         candidate, _ = Group.objects.get_or_create(name="Candidate")
-
-        manager, _ = Group.objects.get_or_create(name="Manager")
 
     def create_industries(self, sender, **kwargs):
         from organizations.models import Industry
