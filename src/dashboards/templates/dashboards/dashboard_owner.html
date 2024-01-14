@@ -1,10 +1,12 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
+{% load static %}
+{% load auth_extras %}
+{% load crispy_forms_filters %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <title>Your Title Here</title>
-            <style>
+    <style>
         #content {
             margin: 20px;
             padding: 20px;
@@ -26,45 +28,46 @@
             border-radius: 5px;
             box-sizing: border-box; /* Include padding in width calculation */
         }
-            </style>
-        </head>
-        <body>
-            <div id="content">
-                <div class="info-container">
-                    <div class="info-box">
-                        <div class="d-flex justify-content-center">
-                            <h3>Owner's tools:</h3>
-                        </div>
-                        <div>
-                            <br>
-                            <h5>Departments:</h5>
-                            {% url 'department-create' as url %}
-                            <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="
-                               page
-                               "
-                               href="{% url 'department-create' %}">Add depertment</a>
-                        </div>
-                        <br>
-                    </div>
-                    <div class="info-box">
-                        <h3>Read a new article about:</h3>
-                        <h2>{{ request.user.profile.interested_in }}</h2>
-                        <p>Some information here...</p>
-                    </div>
-                    <div class="info-box">
-                        <h3 class="account-heading">Company {{ user.profile.company }} employees:</h3>
-                        {% for employee in employees %}
-                            <p style="text-align: left; margin-left: 27px;">
-                                <a class="mb-5" href="{% url 'profile' employee.profile.id %}">{{ employee.username }}</a>
-                            </p>
-                        {% endfor %}
-                    </div>
-                    <div class="info-box">
-                        <h3>Info Box 4</h3>
-                        <p>Some information here...</p>
-                    </div>
+    </style>
+    <div id="content">
+        <div class="info-container">
+            <div class="info-box">
+                <div class="d-flex justify-content-center">
+                    <h3>Owner's tools:</h3>
                 </div>
+                <div>
+                    <br>
+                    <h5>Departments:</h5>
+                    {% url 'department-create' as url %}
+                    <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="
+                       page
+                       "
+                       href="{% url 'department-create' %}">Add department</a>
+                    {% url 'department-list' as url %}
+                    <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="
+                       page
+                       "
+                       href="{% url 'department-list' %}">List of departments</a>
+                </div>
+                <br>
             </div>
-        </body>
-    </html>
-{% endblock %}
+            <div class="info-box">
+                <h3>Read a new article about:</h3>
+                <h2>{{ request.user.profile.interested_in }}</h2>
+                <p>Some information here...</p>
+            </div>
+            <div class="info-box">
+                <h3 class="account-heading">Company {{ user.profile.company }} employees:</h3>
+                {% for employee in employees %}
+                    <p style="text-align: left; margin-left: 27px;">
+                        <a class="mb-5" href="{% url 'profile' employee.profile.id %}">{{ employee.username }}</a>
+                    </p>
+                {% endfor %}
+            </div>
+            <div class="info-box">
+                <h3>Info Box 4</h3>
+                <p>Some information here...</p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,126 @@
+{% extends "landing/base.html" %}
+{% load static %}
+{% load auth_extras %}
+{% load crispy_forms_filters %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block content %}
+    <style>
+        .container-departments {
+            width: 80%;
+            margin: 20px auto;
+            background: #f8f9fa;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+        }
+
+        .h2-special {
+            color: #f06161;
+        }
+
+        .confirm-delete {
+            background-color: #f06161 !important;
+            color: #fff;
+            padding: 10px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .table-submit {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        .table-submit th,
+        .table-submit td {
+            text-align: left;
+        }
+
+        .table-submit th:nth-child(3),
+        .table-submit td:nth-child(3) {
+            width: 45%;
+        }
+        .table-submit th:nth-child(4),
+        .table-submit td:nth-child(4) {
+            width: 15%;
+        }
+    </style>
+    <div class="container-departments">
+        <div class="card card-body">
+            <h2 class="h2-special text-center">DEPARTMENTS</h2>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="centered">
+                        <a class="btn btn-info mb-0" href="{% url 'department-create' %}">Add new department</a>
+                    </div>
+                    <fieldset class="form-group">
+                        <form method="get" action="{% url 'department-list' %}">
+                            {{ form | crispy }}
+                            <div class="centered">
+                                <button class="btn btn-info mb-0" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+                <div class="col-md-9">
+                    {% csrf_token %}
+                    <div>
+                        <table class="table table-submit">
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th>Manager</th>
+                                    <th>List of employees</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for department in departments %}
+                                    <tr>
+                                        <td>{{ department }}</td>
+                                        <td>
+                                            <a href="{% url 'profile' department.manager.profile.id %}">{{ department.manager }}</a>
+                                        </td>
+                                        <td>
+                                            {% for k, v in employees.items %}
+                                                {% if k == department %}
+                                                    {% if not v %}
+                                                        <a class="text-muted">No employees assigned.</a>
+                                                    {% else %}
+                                                        {% for employee in v %}
+                                                            <a href="{% url 'profile' employee.profile.id %}">{{ employee }}</a>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            <form method="post" action="{% url 'department-delete' department.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="confirm-delete">DELETE</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block javascript %}
+    <script>
+        $(document).on('click', '.confirm-delete', function(){
+            return confirm('Are you sure you want to delete this?');
+        });
+    </script>
+{% endblock javascript %}

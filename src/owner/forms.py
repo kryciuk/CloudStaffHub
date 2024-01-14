@@ -6,4 +6,4 @@ from organizations.models import Department
 class DepartmentForm(ModelForm):
     class Meta:
         model = Department
-        fields = ['name']
+        fields = ["name", "manager"]

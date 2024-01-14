@@ -1,17 +1,33 @@
-from django.views.generic import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import User
 from django.shortcuts import reverse
+from django.views.generic import CreateView
 
+from core.base import has_group
 from owner.forms import DepartmentForm
 
 
-class DepartmentCreateView(CreateView):
+class DepartmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = DepartmentForm
+    permission_required = "organizations.add_department"
     template_name = "owner/department_create.html"
     context_object_name = "department"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        managers_ids = [
+            manager.id
+            for manager in User.objects.filter(profile__company=self.request.user.profile.company).all()
+            if has_group(manager, "Manager")
+        ]
+        managers = User.objects.filter(pk__in=managers_ids)
+        context["form"].fields["manager"].queryset = managers
+        context["title"] = "Department Create - CloudStaffHub"
+        return context
 
     def form_valid(self, form):
         form.instance.company = self.request.user.profile.company
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('dashboard-owner')
+        return reverse("department-list")
