@@ -1,6 +1,6 @@
 import json
 
-from django.test import TransactionTestCase
+from django.test import TransactionTestCase, tag
 from django.urls import reverse
 from icecream import ic
 from rest_framework import status
@@ -71,6 +71,7 @@ class TestPollCreateView(TransactionTestCase):
         self.assertTemplateUsed(response, "polls/poll_create.html")
 
 
+@tag("x")
 class TestPollFillView(TransactionTestCase):
     reset_sequences = True
 
@@ -171,13 +172,14 @@ class TestPollCloseView(TransactionTestCase):
                 respondent=user_employee, date_filled="2030-10-10", poll=self.poll, result=results
             )
 
-    # @tag("x")
-    # def test_if_poll_is_successfully_closed(self):
-    #     self.client.force_login(self.user_owner1)
-    #     response = self.client.post(reverse("poll-close", kwargs={"pk": 1}), follow=True)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(PollResults.objects.count(), 1)
-    #     self.assertFalse(self.poll.status)
+    @tag("x")
+    def test_if_poll_is_successfully_closed(self):
+        self.client.force_login(self.user_owner1)
+        response = self.client.post(reverse("poll-close", kwargs={"pk": 1}), follow=True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(PollResults.objects.count(), 1)
+        self.poll.refresh_from_db()
+        self.assertFalse(self.poll.status)
 
     def test_if_poll_results_are_created_after_closing_poll(self):
         self.client.force_login(self.user_owner1)

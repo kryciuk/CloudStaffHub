@@ -1,18 +1,22 @@
 from itertools import chain
 
 from django.contrib import messages
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.views.generic import DetailView
 
+from core.base import redirect_to_dashboard_based_on_group
 from evaluation.models import Questionnaire
 from polls.models import Poll, PollAnswer
 
 
-class PollFillView(UserPassesTestMixin, DetailView):
+class PollFillView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DetailView):
     model = Poll
     context_object_name = "poll"
+    permission_required = ["Poll.view_poll"]
     template_name = "polls/poll_fill.html"
 
     def handle_no_permission(self):
@@ -22,27 +26,16 @@ class PollFillView(UserPassesTestMixin, DetailView):
             "lack the necessary permissions or this poll is already closed.",
         )
         group = self.request.user.groups.first()
-        match group.name:
-            case "Candidate":
-                return HttpResponseRedirect(reverse("dashboard-candidate"))
-            case "Recruiter":
-                return HttpResponseRedirect(reverse("dashboard-recruiter"))
-            case "Manager":
-                return HttpResponseRedirect(reverse("dashboard-manager"))
-            case "Owner":
-                return HttpResponseRedirect(reverse("dashboard-owner"))
-            case _:
-                return HttpResponseRedirect(reverse("dashboard-employee"))
+        return redirect_to_dashboard_based_on_group(group.name)
 
     def test_func(self):
         poll = self.get_object()
-        user_groups = ["Employee", "Recruiter", "Manager", "Owner"]
+        # user_groups = ["Employee", "Recruiter", "Manager", "Owner"]
         poll_answer_user_check = PollAnswer.objects.filter(poll=poll, respondent=self.request.user)
-        return (
-            self.request.user.is_superuser
-            or self.request.user.is_authenticated
-            and (self.request.user.profile.company == poll.questionnaire.company)
-            and (self.request.user.groups.filter(name__in=user_groups).exists())
+        return self.request.user.is_superuser or (
+            # or (self.request.user.is_authenticated
+            (self.request.user.profile.company == poll.questionnaire.company)
+            # and (self.request.user.groups.filter(name__in=user_groups).exists())
             and not poll_answer_user_check
             and poll.status
         )

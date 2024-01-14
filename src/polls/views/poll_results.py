@@ -2,10 +2,9 @@ from itertools import chain
 
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.views.generic import DetailView
 
+from core.base import redirect_to_dashboard_based_on_group
 from evaluation.models import Answer
 from polls.models import PollResults
 
@@ -18,17 +17,7 @@ class PollResultsView(UserPassesTestMixin, DetailView):
     def handle_no_permission(self):
         messages.warning(self.request, "You don't have the required permissions to view results of this poll.")
         group = self.request.user.groups.first()
-        match group.name:
-            case "Candidate":
-                return HttpResponseRedirect(reverse("dashboard-candidate"))
-            case "Recruiter":
-                return HttpResponseRedirect(reverse("dashboard-recruiter"))
-            case "Manager":
-                return HttpResponseRedirect(reverse("dashboard-manager"))
-            case "Owner":
-                return HttpResponseRedirect(reverse("dashboard-owner"))
-            case _:
-                return HttpResponseRedirect(reverse("dashboard-employee"))
+        return redirect_to_dashboard_based_on_group(group.name)
 
     def test_func(self):
         poll_results = self.get_object()
