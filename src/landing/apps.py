@@ -9,6 +9,7 @@ class LandingConfig(AppConfig):
     name = "landing"
 
     def ready(self):
+        from users.signals import create_profile
 
         post_migrate.connect(self.populate_models, sender=self)
         post_migrate.connect(self.create_industries, sender=self)
@@ -17,8 +18,8 @@ class LandingConfig(AppConfig):
         from django.contrib.auth.models import Group
 
         from organizations.models import City, Company, Position
-        from polls.models import Poll
         from recruitment.models import JobApplication, JobOffer
+        from polls.models import Poll
 
         models_to_fetch = [JobOffer, JobApplication, City, Company, Position, Poll]
 
