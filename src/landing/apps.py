@@ -14,8 +14,6 @@ class LandingConfig(AppConfig):
         post_migrate.connect(self.create_industries, sender=self)
 
     def populate_models(self, sender, **kwargs):
-        from users.signals import create_profile
-
         from django.contrib.auth.models import Group
 
         from organizations.models import City, Company, Position
