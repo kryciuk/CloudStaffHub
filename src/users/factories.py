@@ -33,6 +33,10 @@ class OwnerFactory(factory.django.DjangoModelFactory):
         owner_group = Group.objects.get(name="Owner")
         owner_group.user_set.add(self)
 
+    @classmethod
+    def _after_postgeneration(cls, instance, create, results=None):
+        instance.save()
+
 
 class EmployeeFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -50,8 +54,12 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
     def set_employee_status(self, create, extracted, **kwargs):
         if not create:
             return
-        owner_group = Group.objects.get(name="Employee")
-        owner_group.user_set.add(self)
+        employee_group = Group.objects.get(name="Employee")
+        employee_group.user_set.add(self)
+
+    @classmethod
+    def _after_postgeneration(cls, instance, create, results=None):
+        instance.save()
 
 
 class CandidateFactory(factory.django.DjangoModelFactory):
@@ -68,8 +76,12 @@ class CandidateFactory(factory.django.DjangoModelFactory):
     def set_candidate_status(self, create, extracted, **kwargs):
         if not create:
             return
-        owner_group = Group.objects.get(name="Candidate")
-        owner_group.user_set.add(self)
+        candidate_group = Group.objects.get(name="Candidate")
+        candidate_group.user_set.add(self)
+
+    @classmethod
+    def _after_postgeneration(cls, instance, create, results=None):
+        instance.save()
 
 
 # # python manage.py shell
