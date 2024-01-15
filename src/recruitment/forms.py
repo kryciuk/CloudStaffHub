@@ -43,6 +43,8 @@ class JobOfferForm(ModelForm):
 
 
 class JobOfferFormUpdate(ModelForm):
+    country = ChoiceField(choices=[])
+
     class Meta:
         model = JobOffer
         fields = "__all__"
@@ -57,6 +59,15 @@ class JobOfferFormUpdate(ModelForm):
             "status": None,
         }
         error_messages = {"expiry_date_future": "The expiry date must be in the future."}
+
+    def __init__(self, *args, **kwargs):
+        super(JobOfferFormUpdate, self).__init__(*args, **kwargs)
+
+        countries_with_cities = City.objects.values_list("country", flat=True).distinct()
+
+        country_choices = [(country_code, City.Country(country_code).label) for country_code in countries_with_cities]
+
+        self.fields["country"].choices = country_choices
 
     def clean_expiry_date(self):
         expiry_date = self.cleaned_data["expiry_date"]

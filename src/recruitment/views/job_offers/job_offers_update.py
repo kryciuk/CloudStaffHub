@@ -14,10 +14,9 @@ class JobOffersUpdateView(PermissionRequiredMixin, UserPassesTestMixin, UpdateVi
 
     def test_func(self):
         job_offer = self.get_object()
-        return self.request.user.is_authenticated and (
-                self.request.user.profile.company == job_offer.company)
+        return self.request.user.is_authenticated and (self.request.user.profile.company == job_offer.company)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Job Offer Update - CloudStaffHub"
+        context["title"] = "Job Offer Update - CloudStaffHub"
         return context
