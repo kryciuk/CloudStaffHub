@@ -166,7 +166,7 @@ class TestJobOfferListView(TransactionTestCase):
     def test_if_owner_can_view_active_job_offers_only_assigned_to_his_company(self):
         self.client.force_login(self.user_owner_1)
         response = self.client.get(reverse("job-offers"))
-        self.assertQuerysetEqual(
+        self.assertQuerySetEqual(
             response.context["object_list"],
             JobOffer.objects.filter(company=self.user_owner_1.profile.company, status=True).order_by(
                 "-published_date"
@@ -176,7 +176,7 @@ class TestJobOfferListView(TransactionTestCase):
     def test_if_candidate_can_view_all_active_job_offers(self):
         self.client.force_login(self.user_candidate)
         response = self.client.get(reverse("job-offers"))
-        self.assertQuerysetEqual(
+        self.assertQuerySetEqual(
             response.context["object_list"], JobOffer.objects.filter(status=True).order_by("-published_date")[:5]
         )
 
