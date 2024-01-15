@@ -3,13 +3,13 @@ import os
 
 from django.test import TransactionTestCase
 from django.urls import reverse
-from rest_framework import status
 from django.utils import timezone
+from rest_framework import status
 
-from users.factories import CandidateFactory, OwnerFactory, EmployeeFactory
+from organizations.factories import CityFactory, PositionFactory
 from recruitment.factories import JobOfferFactory
-from organizations.factories import PositionFactory, CityFactory
 from recruitment.models import JobOffer
+from users.factories import CandidateFactory, EmployeeFactory, OwnerFactory
 
 
 class TestJobOfferApplyView(TransactionTestCase):
@@ -25,10 +25,10 @@ class TestJobOfferApplyView(TransactionTestCase):
     def test_correct_user_data_is_loaded_initially(self):
         self.client.force_login(self.user_candidate)
         response = self.client.get(reverse("job-offer-apply", kwargs={"pk": 1}))
-        self.assertEqual(response.context['form'].initial['first_name'], self.user_candidate.first_name)
-        self.assertEqual(response.context['form'].initial['last_name'], self.user_candidate.last_name)
-        self.assertEqual(response.context['form'].initial['email'], self.user_candidate.email)
-        self.assertEqual(response.context['form'].initial['phone_number'], self.user_candidate.profile.phone_number)
+        self.assertEqual(response.context["form"].initial["first_name"], self.user_candidate.first_name)
+        self.assertEqual(response.context["form"].initial["last_name"], self.user_candidate.last_name)
+        self.assertEqual(response.context["form"].initial["email"], self.user_candidate.email)
+        self.assertEqual(response.context["form"].initial["phone_number"], self.user_candidate.profile.phone_number)
 
     def test_candidate_cant_apply_for_non_existing_job_offer(self):
         self.client.force_login(self.user_candidate)
@@ -58,9 +58,13 @@ class TestJobOfferCreateView(TransactionTestCase):
         self.position = PositionFactory.create(company=self.user_owner.profile.company)
         self.user_employee = EmployeeFactory.create()
         self.city = CityFactory.create()
-        self.data = {"position": self.position.pk, "description": "placeholder text",
-                     "city": self.city.pk,
-                     "expiry_date": timezone.datetime(2024, 10, 12)}
+        self.data = {
+            "position": self.position.pk,
+            "description": "placeholder text",
+            "country": self.city.country,
+            "city": self.city.pk,
+            "expiry_date": timezone.datetime(2024, 10, 12),
+        }
 
     def test_if_job_offer_is_created_correctly(self):
         self.client.force_login(self.user_owner)
@@ -81,7 +85,9 @@ class TestJobOfferCreateView(TransactionTestCase):
         self.assertEqual(created_job_offer.city.id, self.data.get("city"))
         self.assertEqual(created_job_offer.company, self.user_owner.profile.company)
         self.assertEqual(created_job_offer.published_date, timezone.datetime.today().date())
-        self.assertEqual(created_job_offer.expiry_date, timezone.datetime(2024, 10, 12, 0, 0, tzinfo=datetime.timezone.utc))
+        self.assertEqual(
+            created_job_offer.expiry_date, timezone.datetime(2024, 10, 12, 0, 0, tzinfo=datetime.timezone.utc)
+        )
 
     def test_if_job_offer_is_not_created_if_missing_data(self):
         self.client.force_login(self.user_owner)
@@ -101,9 +107,9 @@ class TestJobOfferDetailView(TransactionTestCase):
     def setUp(self):
         self.user_candidate = CandidateFactory.create()
         self.job_offer = JobOfferFactory.create()
-        self.pdf_path = 'test_pdf.pdf'
-        with open(self.pdf_path, 'wb') as pdf:
-            pdf.write(b'%PDF-1.4PDF mock file content\n')
+        self.pdf_path = "test_pdf.pdf"
+        with open(self.pdf_path, "wb") as pdf:
+            pdf.write(b"%PDF-1.4PDF mock file content\n")
 
     def tearDown(self):
         if os.path.exists(self.pdf_path):
@@ -116,15 +122,19 @@ class TestJobOfferDetailView(TransactionTestCase):
 
     def test_if_job_offer_is_not_open_if_previously_applied(self):
         self.client.force_login(self.user_candidate)
-        with open(self.pdf_path, 'rb') as pdf:
-            self.client.post(reverse("job-offer-apply", kwargs={"pk": 1}),
-                             data={"first_name": self.user_candidate.first_name,
-                                   "last_name": self.user_candidate.last_name,
-                                   "phone_number": "504400500",
-                                   "email": self.user_candidate.email,
-                                   "expected_salary": 9000,
-                                   "cv": pdf,
-                                   "consent_processing_data": True})
+        with open(self.pdf_path, "rb") as pdf:
+            self.client.post(
+                reverse("job-offer-apply", kwargs={"pk": 1}),
+                data={
+                    "first_name": self.user_candidate.first_name,
+                    "last_name": self.user_candidate.last_name,
+                    "phone_number": "504400500",
+                    "email": self.user_candidate.email,
+                    "expected_salary": 9000,
+                    "cv": pdf,
+                    "consent_processing_data": True,
+                },
+            )
         response = self.client.get(reverse("job-offer-detail", kwargs={"pk": 1}))
         self.assertEqual(response.context["user_application"], True)
 
@@ -148,21 +158,25 @@ class TestJobOfferListView(TransactionTestCase):
         self.client.force_login(self.user_candidate)
         response = self.client.get(reverse("job-offers"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue('is_paginated' in response.context)
+        self.assertTrue("is_paginated" in response.context)
         self.assertEqual(len(response.context["job_offers"]), 5)
 
     def test_if_owner_can_view_active_job_offers_only_assigned_to_his_company(self):
         self.client.force_login(self.user_owner_1)
         response = self.client.get(reverse("job-offers"))
-        self.assertQuerysetEqual(response.context['object_list'],
-                                 JobOffer.objects.filter(company=self.user_owner_1.profile.company,
-                                                         status=True).order_by("-published_date")[:5])
+        self.assertQuerysetEqual(
+            response.context["object_list"],
+            JobOffer.objects.filter(company=self.user_owner_1.profile.company, status=True).order_by(
+                "-published_date"
+            )[:5],
+        )
 
     def test_if_candidate_can_view_all_active_job_offers(self):
         self.client.force_login(self.user_candidate)
         response = self.client.get(reverse("job-offers"))
-        self.assertQuerysetEqual(response.context['object_list'],
-                                 JobOffer.objects.filter(status=True).order_by("-published_date")[:5])
+        self.assertQuerysetEqual(
+            response.context["object_list"], JobOffer.objects.filter(status=True).order_by("-published_date")[:5]
+        )
 
     def test_if_there_is_info_displayed_if_there_are_no_job_offers(self):
         self.client.force_login(self.user_candidate)
