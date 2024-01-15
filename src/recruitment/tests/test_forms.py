@@ -33,10 +33,12 @@ class TestJobOfferForm(TestCase):
 
 class TestJobOfferFormUpdate(TestCase):
     def setUp(self):
+        self.city = CityFactory.create()
         self.form_data = {
             "position": PositionFactory.create(),
             "description": "sentence",
-            "city": CityFactory.create(),
+            "country": self.city.country,
+            "city": self.city.pk,
             "expiry_date": timezone.datetime.now(),
             "status": False,
         }

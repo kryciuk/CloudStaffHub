@@ -151,8 +151,10 @@ class TestJobOfferListView(TransactionTestCase):
         self.user_owner_1 = OwnerFactory.create()
         self.user_owner_2 = OwnerFactory.create()
         self.user_candidate = CandidateFactory.create()
-        self.job_offers_for_owner_1 = JobOfferFactory.create_batch(100, company=self.user_owner_1.profile.company)
-        self.job_offers_for_owner_2 = JobOfferFactory.create_batch(150, company=self.user_owner_2.profile.company)
+        self.job_offers = JobOfferFactory.create_batch(50, company=self.user_owner_1.profile.company)
+        for job_offer in self.job_offers:
+            job_offer.company = self.user_owner_2.profile.company
+            job_offer.save()
 
     def test_if_view_is_paginated_by_5(self):
         self.client.force_login(self.user_candidate)
