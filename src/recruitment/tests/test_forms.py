@@ -1,23 +1,20 @@
-import os
-
+from django.test import TestCase
 from django.utils import timezone
 
-from django.test import TestCase, tag
-
-from organizations.factories import PositionFactory, CityFactory
-from users.factories import CandidateFactory
-
-from recruitment.forms import JobOfferForm, JobOfferFormUpdate, JobApplicationForm, JobApplicationStatusForm
+from organizations.factories import CityFactory, PositionFactory
+from recruitment.forms import JobApplicationStatusForm, JobOfferForm, JobOfferFormUpdate
 
 
 class TestJobOfferForm(TestCase):
-
     def setUp(self):
-        self.form_data = {"position": PositionFactory.create(),
-                          "description": "sentence",
-                          "city": CityFactory.create(),
-                          "expiry_date": timezone.datetime.now()
-                          }
+        self.city = CityFactory.create()
+        self.form_data = {
+            "position": PositionFactory.create(),
+            "description": "sentence",
+            "country": self.city.country,
+            "city": self.city.pk,
+            "expiry_date": timezone.datetime.now(),
+        }
 
     def test_if_job_offer_is_created_if_correct_data(self):
         form = JobOfferForm(data=self.form_data)
@@ -35,14 +32,16 @@ class TestJobOfferForm(TestCase):
 
 
 class TestJobOfferFormUpdate(TestCase):
-
     def setUp(self):
-        self.form_data = {"position": PositionFactory.create(),
-                          "description": "sentence",
-                          "city": CityFactory.create(),
-                          "expiry_date": timezone.datetime.now(),
-                          "status": False
-                          }
+        self.city = CityFactory.create()
+        self.form_data = {
+            "position": PositionFactory.create(),
+            "description": "sentence",
+            "country": self.city.country,
+            "city": self.city.pk,
+            "expiry_date": timezone.datetime.now(),
+            "status": False,
+        }
 
     def test_if_job_offer_is_updated_if_correct_data(self):
         form = JobOfferFormUpdate(data=self.form_data)
@@ -80,8 +79,8 @@ class TestJobOfferFormUpdate(TestCase):
 #         self.assertTrue(form.is_valid())
 #
 
-class TestJobApplicationStatusForm(TestCase):
 
+class TestJobApplicationStatusForm(TestCase):
     def test_if_job_application_is_updated_if_correct_status(self):
         form = JobApplicationStatusForm(data={"status": 1})
         self.assertTrue(form.is_valid())

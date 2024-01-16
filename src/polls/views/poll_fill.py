@@ -1,11 +1,7 @@
 from itertools import chain
 
 from django.contrib import messages
-from django.contrib.auth.mixins import (
-    LoginRequiredMixin,
-    PermissionRequiredMixin,
-    UserPassesTestMixin,
-)
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import DetailView
 
 from core.base import redirect_to_dashboard_based_on_group
@@ -13,10 +9,9 @@ from evaluation.models import Questionnaire
 from polls.models import Poll, PollAnswer
 
 
-class PollFillView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DetailView):
+class PollFillView(UserPassesTestMixin, DetailView):
     model = Poll
     context_object_name = "poll"
-    permission_required = ["Poll.view_poll"]
     template_name = "polls/poll_fill.html"
 
     def handle_no_permission(self):
@@ -30,12 +25,12 @@ class PollFillView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMi
 
     def test_func(self):
         poll = self.get_object()
-        # user_groups = ["Employee", "Recruiter", "Manager", "Owner"]
+        user_groups = ["Employee", "Recruiter", "Manager", "Owner"]
         poll_answer_user_check = PollAnswer.objects.filter(poll=poll, respondent=self.request.user)
         return self.request.user.is_superuser or (
-            # or (self.request.user.is_authenticated
-            (self.request.user.profile.company == poll.questionnaire.company)
-            # and (self.request.user.groups.filter(name__in=user_groups).exists())
+            self.request.user.is_authenticated
+            and (self.request.user.profile.company == poll.questionnaire.company)
+            and (self.request.user.groups.filter(name__in=user_groups).exists())
             and not poll_answer_user_check
             and poll.status
         )

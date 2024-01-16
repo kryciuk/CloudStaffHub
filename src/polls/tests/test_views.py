@@ -2,7 +2,6 @@ import json
 
 from django.test import TransactionTestCase, tag
 from django.urls import reverse
-from icecream import ic
 from rest_framework import status
 
 from evaluation.factories import AnswerFactory, QuestionFactory, QuestionnaireFactory
@@ -300,7 +299,6 @@ class TestPollResultsView(TransactionTestCase):
         self.client.force_login(self.user_owner1)
         response = self.client.get(reverse("poll-results", kwargs={"pk": 1}))
         self.assertEqual(response.context["most_picked"][0].id, 3)
-        ic(response.context["most_picked"][0].id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_if_answers_are_correctly_counted(self):
