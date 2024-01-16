@@ -30,6 +30,7 @@ jobs:
         poetry install
     - name: Run Tests
       run: |
-        poetry run python src/manage.py test
+        cd src
+        poetry run python manage.py test
       env:
         ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
