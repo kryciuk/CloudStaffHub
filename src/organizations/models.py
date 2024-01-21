@@ -64,7 +64,7 @@ class Department(models.Model):
     manager = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ["name", "company"]
+        unique_together = ["name", "manager"]
 
     def __str__(self):
         return f"{self.name}"
