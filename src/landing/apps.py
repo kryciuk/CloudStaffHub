@@ -17,11 +17,11 @@ class LandingConfig(AppConfig):
     def populate_models(self, sender, **kwargs):
         from django.contrib.auth.models import Group
 
-        from organizations.models import City, Company, Position, Department
+        from organizations.models import City, Company, Position, Department, CompanyProfile
         from recruitment.models import JobApplication, JobOffer
         from polls.models import Poll
 
-        models_to_fetch_owner = [JobOffer, JobApplication, City, Company, Position, Poll, Department]
+        models_to_fetch_owner = [JobOffer, JobApplication, City, Company, Position, Poll, Department, CompanyProfile]
         models_to_fetch_manager = [JobOffer, JobApplication, City, Company, Position, Poll]
         models_to_fetch_recruiter = [JobOffer, JobApplication, City, Position]
 
