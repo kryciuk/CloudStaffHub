@@ -1,7 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView
 
+from core.base import redirect_to_dashboard_based_on_group
 from organizations.models import Department
 from owner.filters import DepartmentFilter
 
@@ -11,6 +13,11 @@ class DepartmentListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = "organizations.add_department"
     template_name = "owner/department_list.html"
     context_object_name = "departments"
+
+    def handle_no_permission(self):
+        messages.warning(self.request, "You don't have the required permissions to manage departments.")
+        group = self.request.user.groups.first()
+        return redirect_to_dashboard_based_on_group(group.name)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -24,6 +31,7 @@ class DepartmentListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             ]
         context["employees"] = employees
         context["form"] = self.filterset.form
+        context["title"] = "Manage Departments - CloudStaffHub"
         return context
 
     def get_queryset(self):
