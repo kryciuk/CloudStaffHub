@@ -71,44 +71,50 @@
                 </div>
                 <div class="col-md-9">
                     {% csrf_token %}
-                    <div>
-                        <table class="table table-submit">
-                            <thead>
-                                <tr>
-                                    <th>Department</th>
-                                    <th>Manager</th>
-                                    <th>List of employees</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for department in departments %}
+                    {% if not departments %}
+                        <div class="centered">
+                            <a class="text-muted">Currently there are no departments...</a>
+                        </div>
+                    {% else %}
+                        <div>
+                            <table class="table table-submit">
+                                <thead>
                                     <tr>
-                                        <td>{{ department }}</td>
-                                        <td>
-                                            <a href="{% url 'profile' department.manager.profile.id %}">{{ department.manager }}</a>
-                                        </td>
-                                        <td>
-                                            {% for k, v in employees.items %}
-                                                {% if k == department %}
-                                                    {% if not v %}
-                                                        <a class="text-muted">No employees assigned.</a>
-                                                    {% else %}
-                                                        {% for employee in v %}
-                                                            <a href="{% url 'profile' employee.profile.id %}">{{ employee }}</a>
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        </td>
-                                        <td>
-                                            <form method="post" action="{% url 'department-delete' department.id %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="confirm-delete">DELETE</button>
-                                            </form>
-                                        </td>
+                                        <th>Department</th>
+                                        <th>Manager</th>
+                                        <th>List of employees</th>
+                                        <th>Delete</th>
                                     </tr>
-                                {% endfor %}
+                                </thead>
+                                <tbody>
+                                    {% for department in departments %}
+                                        <tr>
+                                            <td>{{ department }}</td>
+                                            <td>
+                                                <a href="{% url 'profile' department.manager.profile.id %}">{{ department.manager }}</a>
+                                            </td>
+                                            <td>
+                                                {% for k, v in employees.items %}
+                                                    {% if k == department %}
+                                                        {% if not v %}
+                                                            <a class="text-muted">No employees assigned.</a>
+                                                        {% else %}
+                                                            {% for employee in v %}
+                                                                <a href="{% url 'profile' employee.profile.id %}">{{ employee }}</a>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                            <td>
+                                                <form method="post" action="{% url 'department-delete' department.id %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="confirm-delete">DELETE</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
