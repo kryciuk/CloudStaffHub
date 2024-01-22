@@ -1,17 +1,34 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.views.generic import UpdateView
 
-from dashboards.views.dashboard_owner import UserHasOwnerOrHigherGroup
-from users.forms import AdminEditFormSet, UserInfoEditByOwnerForm
+from core.base import redirect_to_dashboard_based_on_group
 from organizations.models import Department
+from users.forms import AdminEditFormSet, UserInfoEditByOwnerForm
 
 
-class UserInfoEditByOwnerView(UserHasOwnerOrHigherGroup, UpdateView):
+class UserInfoEditByOwnerView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
+    permission_required = "users.change_profile"
     template_name = "users/profile/profile_edit_by_owner.html"
     form_class = UserInfoEditByOwnerForm
+
+    def handle_no_permission(self):
+        messages.warning(self.request, "You don't have the required permissions to access this page.")
+        if self.request.user.is_authenticated:
+            group = self.request.user.groups.first()
+            return redirect_to_dashboard_based_on_group(group.name)
+        return redirect_to_dashboard_based_on_group("")
+
+    def test_func(self):
+        user = self.get_object()
+        return self.request.user.profile.company == user.profile.company
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -41,5 +58,5 @@ class UserInfoEditByOwnerView(UserHasOwnerOrHigherGroup, UpdateView):
         return reverse("profile-edit", kwargs={"pk": self.object.id})
 
     def post(self, request, *args, **kwargs):
-        messages.success(request, f"User information successfully updated.")
+        messages.success(request, "User information successfully updated.")
         return super().post(request, *args, *kwargs)

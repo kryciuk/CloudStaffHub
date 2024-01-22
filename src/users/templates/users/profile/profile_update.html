@@ -1,13 +1,25 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load crispy_forms_tags %}
 {% load auth_extras %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
+    <style>
+        .legend-heading {
+        color: #f06161;
+        }
+        .btn-outline-info {
+            width: 175px;
+        }
+    </style>
     <div class="container">
         <div class="card card-body">
             <div class="content-section">
                 <div class="media">
                     <img src="{{ object.user.profile.profile_pic.url }}"
+                         width="100"
+                         height="100"
                          alt="Profile Picture"
                          class="profile-picture">
                     <div class="media-body">
@@ -17,7 +29,8 @@
                     </div>
                     {% if user.company == object.user.company %}
                         {% if request.user|has_group:"Owner" or request.user.is_superuser %}
-                            <a class="btn-light" href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
+                            <a class="btn-light"
+                               href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
                         {% endif %}
                     {% endif %}
                 </div>
@@ -25,13 +38,11 @@
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <fieldset class="form-group">
-                        <legend class="border-bottom mb-4">
-                            <span style="color: #f06161;">Profile Info</span>
-                        </legend>
+                        <legend class="legend-heading border-bottom mb-4">Profile Info</legend>
                         {{ form.phone_number | as_crispy_field }}
                         {{ form.interested_in | as_crispy_field }}
                         {{ form.profile_pic | as_crispy_field }}
-                        <div class="text-center">
+                        <div>
                             <button class="btn btn-outline-info" type="submit">Update</button>
                         </div>
                     </fieldset>
@@ -39,4 +50,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

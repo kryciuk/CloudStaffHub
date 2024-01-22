@@ -31,5 +31,7 @@ def redirect_to_dashboard_based_on_group(group):
             return HttpResponseRedirect(reverse("dashboard-manager"))
         case "Owner":
             return HttpResponseRedirect(reverse("dashboard-owner"))
-        case _:
+        case "Employee":
             return HttpResponseRedirect(reverse("dashboard-employee"))
+        case _:
+            return HttpResponseRedirect(reverse("login"))
