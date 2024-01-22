@@ -137,6 +137,10 @@
                                     <li>
                                         <a class="dropdown-item" href="{% url 'department-list' %}">Company's Departments</a>
                                     </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="{% url 'company-profile' request.user.profile.company.id %}">Company's Profile</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
