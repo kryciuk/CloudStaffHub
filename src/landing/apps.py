@@ -16,10 +16,13 @@ class LandingConfig(AppConfig):
 
     def populate_models(self, sender, **kwargs):
         from django.contrib.auth.models import Group
+        from django.contrib.auth.models import Permission
+        from django.contrib.contenttypes.models import ContentType
 
         from organizations.models import City, Company, Position, Department, CompanyProfile
         from recruitment.models import JobApplication, JobOffer
         from polls.models import Poll
+        from users.models import Profile
 
         models_to_fetch_owner = [JobOffer, JobApplication, City, Company, Position, Poll, Department, CompanyProfile]
         models_to_fetch_manager = [JobOffer, JobApplication, City, Company, Position, Poll]
@@ -27,6 +30,9 @@ class LandingConfig(AppConfig):
 
         owner, _ = Group.objects.get_or_create(name="Owner")
         owner.permissions.set(_get_perms_for_models(models_to_fetch_owner))
+        content_type = ContentType.objects.get_for_model(Profile)
+        permission_update_profile = Permission.objects.get(codename="change_profile", content_type=content_type)
+        owner.permissions.add(permission_update_profile)
 
         manager, _ = Group.objects.get_or_create(name="Manager")
         manager.permissions.set(_get_perms_for_models(models_to_fetch_manager))
