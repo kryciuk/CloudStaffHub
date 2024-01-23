@@ -35,3 +35,17 @@ def redirect_to_dashboard_based_on_group(group):
             return HttpResponseRedirect(reverse("dashboard-employee"))
         case _:
             return HttpResponseRedirect(reverse("login"))
+
+
+def make_nice_error_keys(error_dict):
+    for k, v in list(error_dict.items()):
+        new_key = []
+        for letter in k:
+            if letter.isalpha():
+                new_key.append(letter)
+            elif letter == "_":
+                new_key.append(" ")
+        new_key = "".join(new_key)
+        new_key = new_key.title()
+        error_dict[new_key] = error_dict.pop(k)
+    return error_dict
