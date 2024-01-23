@@ -16,8 +16,10 @@ class DepartmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
 
     def handle_no_permission(self):
         messages.warning(self.request, "You don't have the required permissions to add a department.")
-        group = self.request.user.groups.first()
-        return redirect_to_dashboard_based_on_group(group.name)
+        if self.request.user.is_authenticated:
+            group = self.request.user.groups.first()
+            return redirect_to_dashboard_based_on_group(group.name)
+        return redirect_to_dashboard_based_on_group("")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

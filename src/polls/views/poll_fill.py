@@ -20,8 +20,10 @@ class PollFillView(UserPassesTestMixin, DetailView):
             "You cannot view this poll. It appears you've either already completed it, "
             "lack the necessary permissions or this poll is already closed.",
         )
-        group = self.request.user.groups.first()
-        return redirect_to_dashboard_based_on_group(group.name)
+        if self.request.user.is_authenticated:
+            group = self.request.user.groups.first()
+            return redirect_to_dashboard_based_on_group(group.name)
+        return redirect_to_dashboard_based_on_group("")
 
     def test_func(self):
         poll = self.get_object()
