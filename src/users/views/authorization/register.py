@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from django.shortcuts import redirect
 from django.views.generic import FormView
 
-from core.base import has_group
+from core.base import has_group, make_nice_error_keys
 from recruitment.models import Company
 from users.forms import CreateUserForm
 from users.models import Profile
@@ -15,11 +15,11 @@ class RegisterView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Register - CloudStaffHub"
+        context["title"] = "Register - CloudStaffHub"
         return context
 
     def form_invalid(self, form):
-        messages.warning(self.request, form.errors)
+        messages.warning(self.request, make_nice_error_keys(form.errors))
         return super().form_invalid(form)
 
     def form_valid(self, form):
