@@ -34,3 +34,12 @@ jobs:
         poetry run python manage.py test
       env:
         ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+    - name: Run Bandit
+      run: |
+        poetry run bandit -r .
+    - name: Run Safety
+      run: |
+        poetry run safety check
+    - name: Run Ruff
+      run: |
+        poetry run ruff src
