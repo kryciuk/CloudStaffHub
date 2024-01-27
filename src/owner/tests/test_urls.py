@@ -29,16 +29,26 @@ class TestUrls(TestCase):
                 res = self.client.post(url)
                 self.assertEqual(res.status_code, status.HTTP_302_FOUND)
 
-    def test_polls_urls_are_forbidden_for_candidate(self):
+    def test_polls_urls_are_redirecting_for_candidate(self):
         self.client.force_login(self.user_candidate)
-        for name, url in self.urls1.items() | self.urls2.items():
+        for name, url in self.urls1.items():
             with self.subTest(url_name=name):
                 res = self.client.get(url)
-                self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+                self.assertEqual(res.status_code, status.HTTP_302_FOUND)
 
-    def test_polls_urls_are_forbidden_for_regular_employee(self):
+    def test_polls_urls_delete_is_forbidden_for_candidate(self):
+        self.client.force_login(self.user_candidate)
+        res = self.client.get(self.urls2["department-delete"])
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_polls_urls_are_redirecting_for_regular_employee(self):
         self.client.force_login(self.user_employee)
-        for name, url in self.urls1.items() | self.urls2.items():
+        for name, url in self.urls1.items():
             with self.subTest(url_name=name):
                 res = self.client.get(url)
-                self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+                self.assertEqual(res.status_code, status.HTTP_302_FOUND)
+
+    def test_polls_urls_delete_if_forbidden_for_regular_employee(self):
+        self.client.force_login(self.user_employee)
+        res = self.client.get(self.urls2["department-delete"])
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
