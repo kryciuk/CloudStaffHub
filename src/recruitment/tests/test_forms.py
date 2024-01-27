@@ -1,3 +1,5 @@
+from random import choice
+
 from django.test import TestCase
 from django.utils import timezone
 
@@ -13,7 +15,7 @@ class TestJobOfferForm(TestCase):
             "description": "sentence",
             "country": self.city.country,
             "city": self.city.pk,
-            "expiry_date": timezone.datetime.now(),
+            "expiry_date": timezone.datetime.now() + timezone.timedelta(days=choice(range(30, 60))),
         }
 
     def test_if_job_offer_is_created_if_correct_data(self):
@@ -39,7 +41,7 @@ class TestJobOfferFormUpdate(TestCase):
             "description": "sentence",
             "country": self.city.country,
             "city": self.city.pk,
-            "expiry_date": timezone.datetime.now(),
+            "expiry_date": timezone.datetime.now() + timezone.timedelta(days=choice(range(30, 60))),
             "status": False,
         }
 
