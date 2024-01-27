@@ -9,6 +9,11 @@ class Company(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    # def save(self, *args, **kwargs):
+    #     if not self.pk:
+    #         company_profile = CompanyProfile.objects.create(company=self)
+    #         company_profile.save()
+
 
 class Department(models.Model):
     class DepartmentChoices(models.TextChoices):
@@ -353,8 +358,9 @@ class Industry(models.Model):
         return f"{self.industry}"
 
 
+# onetoone
 class CompanyProfile(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.OneToOneField(Company, on_delete=models.CASCADE)
     industries = models.ManyToManyField(Industry, blank=True)
     info = models.TextField(help_text="few words about company", null=True, blank=True)
 
