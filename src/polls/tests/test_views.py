@@ -40,7 +40,7 @@ class TestPollCreateView(TransactionTestCase):
         self.client.force_login(self.user_candidate)
         response = self.client.get(reverse("poll-create"), follow=True)
         message = list(response.context.get("messages"))[0]
-        self.assertEqual(message.message, "You don't have the required permissions to create a poll.")
+        self.assertEqual(message.message, "You don't have the required permissions to access this page.")
 
     def test_if_owner_can_access_view(self):
         self.client.force_login(self.user_owner)
@@ -187,7 +187,7 @@ class TestPollCloseView(TransactionTestCase):
     def test_if_regular_employee_cant_close_poll(self):
         self.client.force_login(self.user_employee)
         response = self.client.post(reverse("poll-close", kwargs={"pk": 1}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
         self.assertEqual(PollResults.objects.count(), 0)
 
 

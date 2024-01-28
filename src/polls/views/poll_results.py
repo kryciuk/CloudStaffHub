@@ -15,9 +15,12 @@ class PollResultsView(UserPassesTestMixin, DetailView):
     context_object_name = "poll_results"
 
     def handle_no_permission(self):
-        messages.warning(self.request, "You don't have the required permissions to view results of this poll.")
-        group = self.request.user.groups.first()
-        return redirect_to_dashboard_based_on_group(group.name)
+        if self.request.user.is_authenticated:
+            messages.warning(self.request, "You don't have the required permissions to access this page.")
+            group = self.request.user.groups.first()
+            return redirect_to_dashboard_based_on_group(group.name)
+        messages.warning(self.request, "You are not logged in.")
+        return redirect_to_dashboard_based_on_group("")
 
     def test_func(self):
         poll_results = self.get_object()
@@ -53,4 +56,5 @@ class PollResultsView(UserPassesTestMixin, DetailView):
 
         context["display_results"] = display_results
         context["most_picked"] = list(chain(*most_picked))
+        context["title"] = "Poll Results - CloudStaffHub"
         return context

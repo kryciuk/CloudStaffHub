@@ -1,7 +1,7 @@
 from itertools import chain
 
 from django.contrib import messages
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import DetailView
 
 from core.base import redirect_to_dashboard_based_on_group
@@ -9,20 +9,17 @@ from evaluation.models import Questionnaire
 from polls.models import Poll, PollAnswer
 
 
-class PollFillView(UserPassesTestMixin, DetailView):
+class PollFillView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Poll
     context_object_name = "poll"
     template_name = "polls/poll_fill.html"
 
     def handle_no_permission(self):
-        messages.warning(
-            self.request,
-            "You cannot view this poll. It appears you've either already completed it, "
-            "lack the necessary permissions or this poll is already closed.",
-        )
         if self.request.user.is_authenticated:
+            messages.warning(self.request, "You don't have the required permissions to access this page.")
             group = self.request.user.groups.first()
             return redirect_to_dashboard_based_on_group(group.name)
+        messages.warning(self.request, "You are not logged in.")
         return redirect_to_dashboard_based_on_group("")
 
     def test_func(self):
@@ -47,4 +44,5 @@ class PollFillView(UserPassesTestMixin, DetailView):
         context["questions"] = questions
         context["answers"] = answers
         context["poll_id"] = self.object.id
+        context["title"] = "Poll Fill - CloudStaffHub"
         return context

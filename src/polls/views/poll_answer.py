@@ -5,6 +5,7 @@ from django.shortcuts import reverse
 from django.utils import timezone
 from django.views.generic import RedirectView
 
+from core.consts import GROUPS
 from polls.models import Poll, PollAnswer
 
 
@@ -23,13 +24,15 @@ class PollAnswerView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         group = self.request.user.groups.first()
         match group.name:
-            case "Candidate":
-                return reverse("dashboard-candidate")
-            case "Recruiter":
-                return reverse("dashboard-recruiter")
-            case "Manager":
-                return reverse("dashboard-manager")
-            case "Owner":
+            case GROUPS.GROUP__OWNER:
                 return reverse("dashboard-owner")
+            case GROUPS.GROUP__EMPLOYEE:
+                return reverse("dashboard-employee")
+            case GROUPS.GROUP__MANAGER:
+                return reverse("dashboard-manager")
+            case GROUPS.GROUP__CANDIDATE:
+                return reverse("dashboard-candidate")
+            case GROUPS.GROUP__RECRUITER:
+                return reverse("dashboard-recruiter")
             case _:
                 return reverse("dashboard-employee")
