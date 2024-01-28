@@ -32,7 +32,7 @@ class TestDepartmentCreateView(TransactionTestCase):
         message = list(response.context.get("messages"))[0]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertRedirects(response, reverse("dashboard-manager"))
-        self.assertEqual(message.message, "You don't have the required permissions to add a department.")
+        self.assertEqual(message.message, "You don't have the required permissions to access this page.")
 
     def test_if_employee_cant_access_view_and_is_redirected_to_correct_dashboard(self):
         self.client.force_login(self.user_employee)
@@ -40,7 +40,7 @@ class TestDepartmentCreateView(TransactionTestCase):
         message = list(response.context.get("messages"))[0]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertRedirects(response, reverse("dashboard-employee"))
-        self.assertEqual(message.message, "You don't have the required permissions to add a department.")
+        self.assertEqual(message.message, "You don't have the required permissions to access this page.")
 
     def test_if_only_managers_from_company_are_possible_choice(self):
         self.client.force_login(self.user_owner)
@@ -99,7 +99,7 @@ class TestDepartmentListView(TransactionTestCase):
         response = self.client.get(reverse("department-list"), follow=True)
         message = list(response.context.get("messages"))[0]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(message.message, "You don't have the required permissions to manage departments.")
+        self.assertEqual(message.message, "You don't have the required permissions to access this page.")
 
     def test_if_title_if_correct(self):
         self.client.force_login(self.user_owner)

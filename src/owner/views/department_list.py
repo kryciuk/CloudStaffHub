@@ -15,10 +15,11 @@ class DepartmentListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     context_object_name = "departments"
 
     def handle_no_permission(self):
-        messages.warning(self.request, "You don't have the required permissions to manage departments.")
         if self.request.user.is_authenticated:
+            messages.warning(self.request, "You don't have the required permissions to access this page.")
             group = self.request.user.groups.first()
             return redirect_to_dashboard_based_on_group(group.name)
+        messages.warning(self.request, "You are not logged in.")
         return redirect_to_dashboard_based_on_group("")
 
     def get_context_data(self, **kwargs):
