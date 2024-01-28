@@ -1,24 +1,38 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    {% load crispy_forms_tags %}
-    <title>{{ title }}</title>
+    <style>
+        .legend-heading {
+        color: #f06161;
+        }
+        .btn-outline-info {
+            width: 175px;
+        }
+        .btn-outline-secondary {
+            width: 175px;
+        }
+    </style>
     <body>
         <div class="container">
             <div class="card card-body">
                 <article class="media content-section">
                     <div class="media-body">
                         <div class="article-metadata">
-                            <form method="POST">
+                            <form method="post">
                                 {% csrf_token %}
                                 <fieldset class="form-group">
-                                    <legend class="d-flex justify-content-center" style="color: #f06161;">Add Position</legend>
+                                    <legend class="legend-heading d-flex justify-content-center">Add Position</legend>
                                     {{ form | crispy }}
                                 </fieldset>
-                                    <div class="form-group">
+                                <div class="form-group">
                                     <button class="btn btn-outline-info add-button" type="submit">Add</button>
                                     <div class="float-right">
-                                        <a class="btn btn-outline-secondary" href="{% url 'department-create' %}">Add New Department</a>
+                                        <a class="btn btn-outline-secondary"
+                                           href="{% url 'department-create' %}">Add Department</a>
                                     </div>
                                 </div>
                             </form>
@@ -28,4 +42,4 @@
             </div>
         </div>
     </body>
-{% endblock %}
+{% endblock content %}

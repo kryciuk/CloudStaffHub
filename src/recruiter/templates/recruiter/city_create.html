@@ -1,26 +1,36 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    {% load crispy_forms_tags %}
-    <title>{{ title }}</title>
+    <style>
+        .legend-heading {
+        color: #f06161;
+        }
+        .btn-outline-info {
+            width: 175px;
+        }
+    </style>
     <div class="container">
         <div class="card card-body">
             <article class="media content-section">
                 <div class="media-body">
                     <div class="article-metadata">
-                        <form method="POST">
+                        <form method="post">
                             {% csrf_token %}
                             <fieldset class="form-group">
-                                <legend class="d-flex justify-content-center" style="color: #f06161;">Add City</legend>
+                                <legend class="legend-heading d-flex justify-content-center">Add City</legend>
                                 {{ form | crispy }}
-                                <div class="form-group">
-                                    <button class="btn btn-outline-info" type="submit">Add</button>
-                                </div>
                             </fieldset>
+                            <div class="form-group">
+                                <button class="btn btn-outline-info" type="submit">Add</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </article>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

@@ -1,7 +1,10 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
+{% load auth_extras %}
+{% load crispy_forms_filters %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    {% load auth_extras %}
-    {% load crispy_forms_filters %}
     <style>
       .container-positions {
         width: 80%;
@@ -16,6 +19,10 @@
         border-radius: 5px;
       }
 
+      .h2-special {
+            color: #f06161;
+        }
+
       .table-submit {
         width: 100%;
         table-layout: fixed;
@@ -27,18 +34,26 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         }
+      .btn-danger {
+        width: 175px;
+      }
     </style>
     <div class="container-positions">
         <div class="card card-body">
-            <h2 class="centered" style="color: #f06161;">POSITIONS</h2>
+            <h2 class="h2-special centered">POSITIONS</h2>
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-3">
+                    <div class="centered">
+                        {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Owner" %}
+                            <a class="btn btn-danger mb-0" href="{% url 'job-offer-create' %}">Add New Position</a>
+                        {% endif %}
+                    </div>
                     <fieldset class="form-group">
-                        <form method="GET" action="{% url 'positions-list' %}">
+                        <form method="get" action="{% url 'positions-list' %}">
                             {{ form | crispy }}
-                            <div>
-                                <button class="btn btn-outline-info" type="submit">Submit</button>
+                            <div class="centered">
+                                <button class="btn btn-danger" type="submit">Submit</button>
                             </div>
                         </form>
                     </fieldset>
@@ -60,7 +75,7 @@
                                     <td>{{ position.get_level_display }}</td>
                                     <td>{{ position.department }}</td>
                                     <td>
-                                        <form method="POST" action="{% url 'positions-delete' position.id %}">
+                                        <form method="post" action="{% url 'positions-delete' position.id %}">
                                             {% csrf_token %}
                                             <button type="submit" class="btn btn-danger">DELETE</button>
                                         </form>
@@ -73,4 +88,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
