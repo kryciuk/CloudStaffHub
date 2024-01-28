@@ -3,16 +3,15 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
-from core.base import has_group
+from core.consts import GROUPS
 
 
 class UserLoginView(LoginView):
     template_name = "users/authorization/login.html"
-    success_url = reverse_lazy("profile")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Login - CloudStaffHub"
+        context["title"] = "Login - CloudStaffHub"
         return context
 
     def form_invalid(self, form):
@@ -24,14 +23,35 @@ class UserLoginView(LoginView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        if has_group(self.request.user, "Candidate"):
-            return reverse_lazy("dashboard-candidate")
-        return reverse_lazy("dashboard-employee")
+        group = self.request.user.groups.first()
+        match group.name:
+            case GROUPS.GROUP__OWNER:
+                return reverse_lazy("dashboard-owner")
+            case GROUPS.GROUP__EMPLOYEE:
+                return reverse_lazy("dashboard-employee")
+            case GROUPS.GROUP__MANAGER:
+                return reverse_lazy("dashboard-manager")
+            case GROUPS.GROUP__CANDIDATE:
+                return reverse_lazy("dashboard-candidate")
+            case GROUPS.GROUP__RECRUITER:
+                return reverse_lazy("dashboard-recruiter")
+            case _:
+                return reverse_lazy("dashboard-employee")
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
-            if has_group(self.request.user, "Candidate"):
-                return redirect("dashboard-candidate")
-            return redirect("dashboard-employee")
+            group = self.request.user.groups.first()
+            match group.name:
+                case GROUPS.GROUP__OWNER:
+                    return redirect("dashboard-owner")
+                case GROUPS.GROUP__EMPLOYEE:
+                    return redirect("dashboard-employee")
+                case GROUPS.GROUP__MANAGER:
+                    return redirect("dashboard-manager")
+                case GROUPS.GROUP__CANDIDATE:
+                    return redirect("dashboard-candidate")
+                case GROUPS.GROUP__RECRUITER:
+                    return redirect("dashboard-recruiter")
+                case _:
+                    return redirect("dashboard-employee")
         return super().get(request, *args, **kwargs)
-

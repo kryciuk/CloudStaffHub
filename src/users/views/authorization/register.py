@@ -3,7 +3,8 @@ from django.contrib.auth.models import Group
 from django.shortcuts import redirect
 from django.views.generic import FormView
 
-from core.base import has_group, make_nice_error_keys
+from core.base import make_nice_error_keys
+from core.consts import GROUPS
 from recruitment.models import Company
 from users.forms import CreateUserForm
 from users.models import Profile
@@ -42,7 +43,18 @@ class RegisterView(FormView):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            if has_group(request.user, "Candidate"):
-                return redirect("dashboard-candidate")
-            return redirect("dashboard-employee")
+            group = self.request.user.groups.first()
+            match group.name:
+                case GROUPS.GROUP__OWNER:
+                    return redirect("dashboard-owner")
+                case GROUPS.GROUP__EMPLOYEE:
+                    return redirect("dashboard-employee")
+                case GROUPS.GROUP__MANAGER:
+                    return redirect("dashboard-manager")
+                case GROUPS.GROUP__CANDIDATE:
+                    return redirect("dashboard-candidate")
+                case GROUPS.GROUP__RECRUITER:
+                    return redirect("dashboard-recruiter")
+                case _:
+                    return redirect("dashboard-employee")
         return super().get(request, *args, **kwargs)
