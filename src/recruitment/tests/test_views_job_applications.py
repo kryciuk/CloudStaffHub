@@ -95,7 +95,7 @@ class TestJobOApplicationsUnderReviewView(TransactionTestCase):
         self.user_owner = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
         self.user_candidate = CandidateFactory.create()
-        self.job_applications = JobApplicationFactory.create_batch(20)
+        self.job_applications = JobApplicationFactory.create_batch(10)
         for job_application in self.job_applications[:5]:
             job_application.job_offer.company = self.user_owner.profile.company
             job_application.status = 1

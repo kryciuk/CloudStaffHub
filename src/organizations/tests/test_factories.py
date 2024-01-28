@@ -31,10 +31,12 @@ class TestDepartmentFactory(TestCase):
 
 class TestCityFactory(TestCase):
     def test_city_via_factory(self):
+        City.objects.all().delete()
         CityFactory.create()
         self.assertEqual(City.objects.count(), 1)
 
     def test_city_batch_factory(self):
+        City.objects.all().delete()
         CityFactory.create_batch(5)
         self.assertEqual(City.objects.count(), 5)
 
