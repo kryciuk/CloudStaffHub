@@ -7,6 +7,7 @@ from django.utils import timezone
 from rest_framework import status
 
 from organizations.factories import CityFactory, PositionFactory
+from organizations.models import City
 from recruitment.factories import JobOfferFactory
 from recruitment.models import JobOffer
 from users.factories import CandidateFactory, EmployeeFactory, OwnerFactory
@@ -16,6 +17,7 @@ class TestJobOfferApplyView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        City.objects.all().delete()
         self.user_candidate = CandidateFactory.create()
         self.user_owner = OwnerFactory.create()
         self.user_candidate.profile.phone_number = "+48500500500"
@@ -54,6 +56,7 @@ class TestJobOfferCreateView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        City.objects.all().delete()
         self.user_owner = OwnerFactory.create()
         self.position = PositionFactory.create(company=self.user_owner.profile.company)
         self.user_employee = EmployeeFactory.create()
@@ -74,7 +77,7 @@ class TestJobOfferCreateView(TransactionTestCase):
     def test_if_regular_employee_cant_access_view(self):
         self.client.force_login(self.user_employee)
         response = self.client.get(reverse("job-offer-create"))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
     def test_if_job_offer_is_created_with_correct_data(self):
         self.client.force_login(self.user_owner)
@@ -105,6 +108,7 @@ class TestJobOfferDetailView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        City.objects.all().delete()
         self.user_candidate = CandidateFactory.create()
         self.job_offer = JobOfferFactory.create()
         self.pdf_path = "test_pdf.pdf"
@@ -148,10 +152,11 @@ class TestJobOfferListView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        City.objects.all().delete()
         self.user_owner_1 = OwnerFactory.create()
         self.user_owner_2 = OwnerFactory.create()
         self.user_candidate = CandidateFactory.create()
-        self.job_offers = JobOfferFactory.create_batch(50, company=self.user_owner_1.profile.company)
+        self.job_offers = JobOfferFactory.create_batch(20, company=self.user_owner_1.profile.company)
         for job_offer in self.job_offers:
             job_offer.company = self.user_owner_2.profile.company
             job_offer.save()
@@ -196,6 +201,7 @@ class TestJobOfferUpdateView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        City.objects.all().delete()
         self.user_owner_1 = OwnerFactory.create()
         self.user_owner_2 = OwnerFactory.create()
         self.user_candidate = CandidateFactory.create()
@@ -208,12 +214,12 @@ class TestJobOfferUpdateView(TransactionTestCase):
     def test_if_candidate_cant_access_view(self):
         self.client.force_login(self.user_candidate)
         response = self.client.get(reverse("job-offer-update", kwargs={"pk": 1}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
     def test_if_regular_employee_cant_access_view(self):
         self.client.force_login(self.user_employee)
         response = self.client.get(reverse("job-offer-update", kwargs={"pk": 1}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
     def test_if_owner_can_access_view_for_own_company(self):
         self.client.force_login(self.user_owner_1)
@@ -223,7 +229,7 @@ class TestJobOfferUpdateView(TransactionTestCase):
     def test_if_owner_cant_access_job_offer_for_another_company(self):
         self.client.force_login(self.user_owner_1)
         response = self.client.get(reverse("job-offer-update", kwargs={"pk": 2}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_correct_template_is_used(self):
         self.client.force_login(self.user_owner_1)

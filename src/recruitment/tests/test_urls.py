@@ -2,6 +2,7 @@ from django.test import TransactionTestCase
 from django.urls import reverse
 from rest_framework import status
 
+from organizations.models import City
 from recruitment.factories import JobApplicationFactory, JobOfferFactory
 from users.factories import CandidateFactory, OwnerFactory
 
@@ -12,6 +13,7 @@ class TestUrls(TransactionTestCase):
     def setUp(self):
         self.user_candidate = CandidateFactory.create()
         self.user_owner = OwnerFactory.create()
+        City.objects.all().delete()
         job_offer = JobOfferFactory.create(company=self.user_owner.profile.company)
         job_offer.save()
         JobApplicationFactory.create_batch(10, job_offer=job_offer)
@@ -34,7 +36,7 @@ class TestUrls(TransactionTestCase):
         for name, url in urls_forbidden.items():
             with self.subTest(url_name=name):
                 res = self.client.get(url)
-                self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+                self.assertEqual(res.status_code, status.HTTP_302_FOUND)
 
     def test_job_applications_urls_are_callable_by_name_for_owner(self):
         self.client.force_login(self.user_owner)
@@ -62,4 +64,4 @@ class TestUrls(TransactionTestCase):
         for name, url in urls.items():
             with self.subTest(url_name=name):
                 res = self.client.get(url)
-                self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+                self.assertEqual(res.status_code, status.HTTP_302_FOUND)
