@@ -39,6 +39,7 @@
                                 {{ form.country | as_crispy_field }}
                                 {{ form.city | as_crispy_field }}
                                 {{ form.expiry_date | as_crispy_field }}
+                                {% if not request.path == '/recruitment/job-offers/create' %}{{ form.status | as_crispy_field }}{% endif %}
                             </fieldset>
                             <div class="form-group">
                                 <button class="btn btn-outline-info" type="submit">

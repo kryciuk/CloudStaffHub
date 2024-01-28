@@ -1,20 +1,27 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView
 
+from core.base import redirect_to_dashboard_based_on_group
 from recruitment.forms import JobApplicationForm
 from recruitment.models import JobOffer
 
 
-class JobOffersApplyView(UserPassesTestMixin, CreateView):
+class JobOffersApplyView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = JobApplicationForm
+    permission_required = "recruitment.add_jobapplication"
     template_name = "recruitment/job_offers/job_offer_apply.html"
     context_object_name = "job_application"
 
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.groups.filter(name="Candidate").exists()
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            messages.warning(self.request, "You don't have the required permissions to access this page.")
+            group = self.request.user.groups.first()
+            return redirect_to_dashboard_based_on_group(group.name)
+        messages.warning(self.request, "You are not logged in.")
+        return redirect_to_dashboard_based_on_group("")
 
     def get_initial(self):
         initial = super(JobOffersApplyView, self).get_initial()
@@ -43,14 +50,11 @@ class JobOffersApplyView(UserPassesTestMixin, CreateView):
         form.instance.job_offer = obj
         if self.request.user.is_authenticated:
             form.instance.candidate = self.request.user
+        messages.success(self.request, "The application was sent.")
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["job_offer"] = get_object_or_404(JobOffer, pk=self.kwargs.get("pk"))
-        context['title'] = "Job Offer Apply - CloudStaffHub"
+        context["title"] = "Job Offer Apply - CloudStaffHub"
         return context
-
-    def post(self, request, *args, **kwargs):
-        messages.success(request, f"The application was sent.")
-        return super().post(request, *args, *kwargs)
