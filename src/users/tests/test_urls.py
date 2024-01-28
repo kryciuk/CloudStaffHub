@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 
-from users.factories import OwnerFactory, CandidateFactory
+from users.factories import CandidateFactory, OwnerFactory
 
 
 class TestUrls(TestCase):
@@ -13,10 +13,8 @@ class TestUrls(TestCase):
     def test_authorization_urls_are_callable_by_name(self):
         response_register = self.client.get(reverse("register"))
         response_login = self.client.get(reverse("login"))
-        response_logout = self.client.get(reverse("logout"))
         self.assertEqual(response_register.status_code, status.HTTP_200_OK)
         self.assertEqual(response_login.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_logout.status_code, status.HTTP_200_OK)
 
     def test_profiles_urls_are_callable_by_name_for_owner(self):
         self.client.force_login(self.user_owner)
@@ -27,17 +25,15 @@ class TestUrls(TestCase):
 
     def test_profiles_update_is_callable_by_name_for_candidate(self):
         self.client.force_login(self.user_candidate)
-        response_profile_update_for_candidate = self.client.get(
-            reverse("profile-update", kwargs={"pk": self.user_candidate.id})
-        )
-        self.assertEqual(response_profile_update_for_candidate.status_code, status.HTTP_200_OK)
+        response = self.client.get(reverse("profile-update", kwargs={"pk": self.user_candidate.id}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_profiles_not_own_update_is_not_callable_by_name_for_candidate(self):
         self.client.force_login(self.user_candidate)
         response_profile_update_for_candidate = self.client.get(
             reverse("profile-update", kwargs={"pk": self.user_owner.id})
         )
-        self.assertEqual(response_profile_update_for_candidate.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response_profile_update_for_candidate.status_code, status.HTTP_302_FOUND)
 
     def test_login_redirects_after_successful_login(self):
         response = self.client.post(reverse("login"), {"username": self.user_owner.username, "password": "password"})

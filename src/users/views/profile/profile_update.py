@@ -17,9 +17,7 @@ class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         user = User.objects.get(id=self.object.id)
-        context[
-            "title"
-        ] = f"Profile Update - {user.first_name} {user.last_name} from {user.profile.company.name} - CloudStaffHub"
+        context["title"] = f"Profile Update - {user.first_name} {user.last_name} - CloudStaffHub"
         return context
 
     def handle_no_permission(self):

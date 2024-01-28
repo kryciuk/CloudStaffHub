@@ -32,10 +32,7 @@ class UserInfoEditByOwnerView(LoginRequiredMixin, PermissionRequiredMixin, Updat
         for form in formset:
             form.fields["department"].queryset = Department.objects.filter(company=self.object.profile.company)
         data["admin_edit_formset"] = formset
-        data["title"] = (
-            f"Edit Profile {self.object.first_name} {self.object.last_name} "
-            f"from {self.object.profile.company.name} - CloudStaffHub"
-        )
+        data["title"] = f"Edit Profile {self.object.first_name} {self.object.last_name} - CloudStaffHub"
         return data
 
     def get_initial(self):
