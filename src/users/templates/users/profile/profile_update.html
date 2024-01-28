@@ -6,12 +6,39 @@
 {% endblock title %}
 {% block content %}
     <style>
-        .legend-heading {
+    .legend-heading {
         color: #f06161;
-        }
-        .btn-outline-info {
-            width: 175px;
-        }
+    }
+
+    .btn-outline-info {
+        width: 175px;
+    }
+
+    .btn-outline-secondary {
+        width: 175px;
+    }
+
+    .btn-container a {
+        margin-right: 10px;
+        width: 75px;
+        display: inline-block;
+        text-align: center;
+        line-height: 1;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .custom-file {
+        margin-bottom: 20px; /* Adjust the margin as needed */
+    }
+
+    .custom-file-label {
+        display: block;
+        margin-top: 10px; /* Adjust the margin as needed */
+    }
     </style>
     <div class="container">
         <div class="card card-body">
@@ -27,12 +54,6 @@
                         <h2 class="account-heading">{{ object.user.first_name }} {{ object.user.last_name }}</h2>
                         <p class="text-secondary">{{ object.user.email }}</p>
                     </div>
-                    {% if user.company == object.user.company %}
-                        {% if request.user|has_group:"Owner" or request.user.is_superuser %}
-                            <a class="btn-light"
-                               href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
-                        {% endif %}
-                    {% endif %}
                 </div>
                 <br>
                 <form method="post" enctype="multipart/form-data">
@@ -43,7 +64,11 @@
                         {{ form.interested_in | as_crispy_field }}
                         {{ form.profile_pic | as_crispy_field }}
                         <div>
-                            <button class="btn btn-outline-info" type="submit">Update</button>
+                            <button class="btn btn-outline-info" type="submit">Save Changes</button>
+                            <div class="float-right">
+                                <a class="btn btn-outline-secondary"
+                                   href="{% url 'profile' object.pk %}">Profile</a>
+                            </div>
                         </div>
                     </fieldset>
                 </form>
@@ -51,3 +76,14 @@
         </div>
     </div>
 {% endblock content %}
+{#<script>#}
+{#    document.getElementById('{{ form.profile_pic.id_for_label }}').addEventListener('change', function(e) {#}
+{#        var fileName = e.target.files[0].name;#}
+{#        var nextSibling = e.target.nextElementSibling;#}
+{#        nextSibling.innerText = fileName;#}
+{#    });#}
+{#</script>#}
+{# <div class="custom-file">
+{#    {{ form.profile_pic | as_crispy_field }}#}
+{#    <label class="custom-file-label" for="{{ form.profile_pic.id_for_label }}">Choose file</label>#}
+{#</div> #}

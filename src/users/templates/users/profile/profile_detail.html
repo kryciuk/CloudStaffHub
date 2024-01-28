@@ -9,6 +9,13 @@
         .legend-heading {
         color: #f06161;
         }
+        .btn-container a {
+            margin-right: 10px;
+            width: 75px;
+            display: inline-block;
+            text-align: center;
+            line-height: 1;
+        }
     </style>
     <div class="container">
         <div class="card card-body">
@@ -26,8 +33,12 @@
                     </div>
                     {% if request.user.profile.company == object.user.profile.company %}
                         {% if request.user|has_group:"Owner" or request.user.is_superuser %}
-                            <a class="btn-light"
-                               href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
+                            <div class="btn-container">
+                                <a class="btn-light"
+                                   href="{% url 'profile-update' object.user.profile.id %}">UPDATE</a>
+                                <a class="btn-light"
+                                   href="{% url 'profile-edit' object.user.profile.id %}">EDIT</a>
+                            </div>
                         {% endif %}
                     {% endif %}
                 </div>

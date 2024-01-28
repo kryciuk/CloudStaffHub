@@ -15,6 +15,13 @@
         .btn-outline-secondary {
             width: 175px;
         }
+        .btn-container {
+            margin-right: 10px;
+            width: 75px;
+            display: inline-block;
+            text-align: center;
+            line-height: 1;
+        }
     </style>
     <div class="container">
         <div class="card card-body">
@@ -25,10 +32,10 @@
                         <legend class="legend-heading border-bottom mb-4">Edit User Information</legend>
                         {{ form | crispy }}
                         {{ admin_edit_formset | crispy }}
-                        <button class="btn btn-outline-info add-button" type="submit">Update</button>
+                        <button class="btn btn-outline-info add-button" type="submit">Save Changes</button>
                         <div class="float-right">
                             <a class="btn btn-outline-secondary"
-                               href="{% url 'profile-update' object.pk %}">Profile</a>
+                               href="{% url 'profile' object.pk %}">Profile</a>
                         </div>
                     </fieldset>
                 </form>
@@ -36,3 +43,7 @@
         </div>
     </div>
 {% endblock content %}
+{#                        {% if request.user|has_group:"Owner" or request.user.is_superuser %}#}
+{#                            <a class="btn-light"#}
+{#                               href="{% url 'profile-update' object.id %}">UPDATE</a>#}
+{#                        {% endif %}#}

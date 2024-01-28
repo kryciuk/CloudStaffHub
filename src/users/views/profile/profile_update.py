@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.views.generic import UpdateView
 
@@ -12,6 +13,14 @@ class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = "users/profile/profile_update.html"
     model = Profile
     form_class = UserProfileUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        user = User.objects.get(id=self.object.id)
+        context[
+            "title"
+        ] = f"Profile Update - {user.first_name} {user.last_name} from {user.profile.company.name} - CloudStaffHub"
+        return context
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
