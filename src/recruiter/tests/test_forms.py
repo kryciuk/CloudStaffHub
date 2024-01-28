@@ -1,19 +1,12 @@
-from django.test import tag
-
 from django.test import TestCase
 
-from recruiter.forms import PositionsForm, CityForm
 from organizations.factories import DepartmentFactory
+from recruiter.forms import CityForm, PositionsForm
 
 
 class TestPositionsForm(TestCase):
-
     def setUp(self):
-        self.form_data = {
-            "title": "Accountant",
-            "level": "Entry",
-            "department": DepartmentFactory.create()
-        }
+        self.form_data = {"title": "Accountant", "level": "Entry", "department": DepartmentFactory.create()}
 
     def test_if_position_is_created_if_correct_data(self):
         form = PositionsForm(data=self.form_data)
@@ -31,12 +24,8 @@ class TestPositionsForm(TestCase):
 
 
 class TestCityForm(TestCase):
-
     def setUp(self):
-        self.form_data = {
-            "name": "Warsaw",
-            "country": "Poland"
-        }
+        self.form_data = {"name": "Cracow", "country": "Poland"}
 
     def test_if_city_is_created_if_correct_data(self):
         form = CityForm(data=self.form_data)
