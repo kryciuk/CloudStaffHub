@@ -15,38 +15,83 @@ class LandingConfig(AppConfig):
         post_migrate.connect(self.create_industries, sender=self)
 
     def populate_models(self, sender, **kwargs):
-        from django.contrib.auth.models import Group
-        from django.contrib.auth.models import Permission
+        from django.contrib.auth.models import Group, Permission
         from django.contrib.contenttypes.models import ContentType
 
-        from organizations.models import City, Company, Position, Department, CompanyProfile
-        from recruitment.models import JobApplication, JobOffer
+        from organizations.models import (
+            City,
+            Company,
+            CompanyProfile,
+            Department,
+            Position,
+        )
         from polls.models import Poll
+        from recruitment.models import JobApplication, JobOffer
         from users.models import Profile
 
-        models_to_fetch_owner = [JobOffer, JobApplication, City, Company, Position, Poll, Department]
-        models_to_fetch_manager = [JobOffer, JobApplication, City, Company, Position, Poll]
-        models_to_fetch_recruiter = [JobOffer, JobApplication, City, Position]
+        # all model permissions
+
+        models_to_fetch_owner = [JobOffer, City, Company, Position, Poll, Department]
+        models_to_fetch_manager = [JobOffer, City, Company, Position, Poll]
+        models_to_fetch_recruiter = [JobOffer, City, Position]
+
+        # single permissions
+
+        content_type_profile = ContentType.objects.get_for_model(Profile)
+        content_type_company = ContentType.objects.get_for_model(CompanyProfile)
+        content_type_job_application = ContentType.objects.get_for_model(JobApplication)
+
+        permission_update_profile = Permission.objects.get(
+            codename="change_profile", content_type=content_type_profile
+        )
+        permission_update_company_profile = Permission.objects.get(
+            codename="change_companyprofile", content_type=content_type_company
+        )
+        permission_create_job_application = Permission.objects.get(
+            codename="add_jobapplication", content_type=content_type_job_application
+        )
+        permission_update_job_application = Permission.objects.get(
+            codename="change_jobapplication", content_type=content_type_job_application
+        )
+        permission_view_job_application = Permission.objects.get(
+            codename="view_jobapplication", content_type=content_type_job_application
+        )
+
+        # owner
 
         owner, _ = Group.objects.get_or_create(name="Owner")
         owner.permissions.set(_get_perms_for_models(models_to_fetch_owner))
-        content_type_profile = ContentType.objects.get_for_model(Profile)
-        content_type_company = ContentType.objects.get_for_model(CompanyProfile)
-        permission_update_profile = Permission.objects.get(codename="change_profile", content_type=content_type_profile)
-        permission_update_company_profile = Permission.objects.get(codename="change_companyprofile",
-                                                                   content_type=content_type_company)
         owner.permissions.add(permission_update_profile)
         owner.permissions.add(permission_update_company_profile)
+        owner.permissions.add(permission_update_job_application)
+        owner.permissions.add(permission_view_job_application)
+
+        # manager
 
         manager, _ = Group.objects.get_or_create(name="Manager")
         manager.permissions.set(_get_perms_for_models(models_to_fetch_manager))
+        manager.permissions.add(permission_update_job_application)
+        manager.permissions.add(permission_view_job_application)
+
+        # recruiter
 
         recruiter, _ = Group.objects.get_or_create(name="Recruiter")
         recruiter.permissions.set(_get_perms_for_models(models_to_fetch_recruiter))
+        recruiter.permissions.add(permission_update_job_application)
+        recruiter.permissions.add(permission_view_job_application)
+
+        # employee
 
         employee, _ = Group.objects.get_or_create(name="Employee")
 
+        # candidate
+
         candidate, _ = Group.objects.get_or_create(name="Candidate")
+        candidate.permissions.add(permission_create_job_application)
+
+        # default city
+
+        city, _ = City.objects.get_or_create(name="Warsaw", country="Poland")
 
     def create_industries(self, sender, **kwargs):
         from organizations.models import Industry
