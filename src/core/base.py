@@ -2,7 +2,9 @@ from itertools import chain
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+
 from .consts import GROUPS
+
 
 def _get_perms_for_models(models):
     from django.contrib.auth.models import Permission
