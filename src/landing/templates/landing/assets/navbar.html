@@ -145,18 +145,17 @@
                             </div>
                         </li>
                     {% endif %}
-                    {% url 'logout' as logout_url %}
-                    <li>
-                        <a class="nav-link {% if request.path == logout_url %}active{% endif %}"
-                           aria-current="page"
-                           href="{% url 'logout' %}">Logout</a>
-                    </li>
+                    <form method="post" action="{% url 'logout' %}" id="logoutForm">
+                        {% csrf_token %}
+                        <li>
+                            <a class="nav-link {% if request.path == logout_url %}active{% endif %}"
+                               aria-current="page"
+                               href="#"
+                               onclick="document.getElementById('logoutForm').submit()">Logout</a>
+                        </li>
+                    </form>
                 {% endif %}
             </ul>
         </div>
     </div>
 </nav>
-{#            <li>#}
-{#                {% url 'dashboard' as url %}#}
-{#                <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="page" href="{% url 'dashboard' %}">Profile</a>#}
-{#            </li>#}
