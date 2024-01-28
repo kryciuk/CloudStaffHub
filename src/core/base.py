@@ -2,7 +2,7 @@ from itertools import chain
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+from .consts import GROUPS
 
 def _get_perms_for_models(models):
     from django.contrib.auth.models import Permission
@@ -23,15 +23,15 @@ def has_group(user, group):
 
 def redirect_to_dashboard_based_on_group(group):
     match group:
-        case "Candidate":
+        case GROUPS.GROUP__CANDIDATE:
             return HttpResponseRedirect(reverse("dashboard-candidate"))
-        case "Recruiter":
+        case GROUPS.GROUP__RECRUITER:
             return HttpResponseRedirect(reverse("dashboard-recruiter"))
-        case "Manager":
+        case GROUPS.GROUP__MANAGER:
             return HttpResponseRedirect(reverse("dashboard-manager"))
-        case "Owner":
+        case GROUPS.GROUP__OWNER:
             return HttpResponseRedirect(reverse("dashboard-owner"))
-        case "Employee":
+        case GROUPS.GROUP__EMPLOYEE:
             return HttpResponseRedirect(reverse("dashboard-employee"))
         case _:
             return HttpResponseRedirect(reverse("login"))
