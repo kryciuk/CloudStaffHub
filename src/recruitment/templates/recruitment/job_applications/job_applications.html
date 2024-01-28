@@ -1,46 +1,49 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load crispy_forms_tags %}
 {% load auth_extras %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
     <div class="centered">
         {% if request.path == '/recruitment/job-applications/received' %}
-        <a class="centered" href="{% url 'job-applications-closed' %}">
-            <button class="btn btn-outline-info" type="submit">View closed applications</button>
-        </a>
+            <a class="centered" href="{% url 'job-applications-closed' %}">
+                <button class="btn btn-outline-info" type="submit">View closed applications</button>
+            </a>
         {% else %}
-        <a class="centered" href="{% url 'job-applications' %}">
-            <button class="btn btn-outline-info" type="submit">View open applications</button>
-        </a>
+            <a class="centered" href="{% url 'job-applications' %}">
+                <button class="btn btn-outline-info" type="submit">View open applications</button>
+            </a>
         {% endif %}
     </div>
     {% if job_applications %}
-    {% for job_application in job_applications %}
-        {% if job_application.job_offer.company == request.user.profile.company %}
-            <div class="container">
-                <div class="card card-body">
-                    <article class="media content-section">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <a class="btn" style="float: right"
-                                   href="{% url 'job-applications-detail' job_application.id %}">DETAILS</a>
-                                <a class="mb-5" href="#">{{ job_application.candidate.first_name }} {{ job_application.candidate.last_name }}</a>
+        {% for job_application in job_applications %}
+            {% if job_application.job_offer.company == request.user.profile.company %}
+                <div class="container">
+                    <div class="card card-body">
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="btn"
+                                       style="float: right"
+                                       href="{% url 'job-applications-detail' job_application.id %}">DETAILS</a>
+                                    <a class="mb-5" href="#">{{ job_application.candidate.first_name }} {{ job_application.candidate.last_name }}</a>
+                                </div>
+                                <div>
+                                    <small class="text-muted"> Applied for job offer ID:
+                                        <a class="justify-content-center"
+                                           href="{% url 'job-offer-detail' job_application.job_offer.id %}">
+                                            {{ job_application.job_offer.id }} ({{ job_application.job_offer.position }},
+                                            {{ job_application.job_offer.company }})
+                                        </a>
+                                    </small>
+                                </div>
                             </div>
-                            <div>
-                                <small class="text-muted"> Applied for job offer ID:
-                                    <a class="justify-content-center"
-                                       href="{% url 'job-offer-detail' job_application.job_offer.id %}">
-                                        {{ job_application.job_offer.id }} ({{ job_application.job_offer.position }},
-                                        {{ job_application.job_offer.company }})
-                                    </a>
-                                </small>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
     {% else %}
         <div class="centered">
             <a class="text-muted">Currently there are no job applications...</a>
@@ -92,4 +95,4 @@
             {% endif %}
         </div>
     {% endif %}
-{% endblock %}
+{% endblock content %}
