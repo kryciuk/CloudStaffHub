@@ -22,7 +22,7 @@ urlpatterns = []
 urlpatterns_job_offers = [
     path("job-offers", JobOffersListView.as_view(), name="job-offers"),
     path("job-offers/<int:pk>", JobOffersDetailView.as_view(), name="job-offer-detail"),
-    path("job-offers/update/<int:pk>", JobOffersUpdateView.as_view(), name="job-offer-update"),
+    path("job-offers/<int:pk>/update", JobOffersUpdateView.as_view(), name="job-offer-update"),
     path("job-offers/create", JobOffersCreateView.as_view(), name="job-offer-create"),
     path("job-offers/<int:pk>/apply", JobOffersApplyView.as_view(), name="job-offer-apply"),
 ]
