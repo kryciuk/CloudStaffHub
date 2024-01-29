@@ -39,5 +39,5 @@ class CompanyProfileForm(forms.ModelForm):
 
     class Meta:
         model = CompanyProfile
-        fields = ["industries", "info"]
+        fields = ["industries", "info", "company_logo"]
         help_texts = {"info": None}

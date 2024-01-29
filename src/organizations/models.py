@@ -363,6 +363,9 @@ class CompanyProfile(models.Model):
     company = models.OneToOneField(Company, on_delete=models.CASCADE)
     industries = models.ManyToManyField(Industry, blank=True)
     info = models.TextField(help_text="few words about company", null=True, blank=True)
+    company_logo = models.ImageField(
+        upload_to="organizations/company_logo", default="organizations" "/company_logo/default.jpg"
+    )
 
     def __str__(self):
         return f"{self.company} Profile"

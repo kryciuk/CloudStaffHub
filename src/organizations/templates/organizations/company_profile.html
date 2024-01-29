@@ -1,19 +1,20 @@
 {% extends "landing/base.html" %}
 {% load crispy_forms_tags %}
 {% load auth_extras %}
+{% load bootstrap4 %}
 {% block title %}
     {{ title }}
 {% endblock title %}
 {% block content %}
     <style>
-    .btn-outline-secondary {
-        width: 175px;
-    }
     .btn-outline-info {
         width: 175px;
     }
     .legend-heading {
         color: #f06161;
+    }
+    .img-special {
+        width: 100%;
     }
     </style>
     <div class="container">
@@ -21,13 +22,24 @@
             <article class="media content-section">
                 <div class="media-body">
                     <div class="article-metadata">
-                        <form method="post">
+                        <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <fieldset class="form-group">
                                 <legend class="legend-heading border-bottom mb-4">Update Company Info</legend>
                                 <div class="row">
                                     <div class="col-md-3">{{ form.industries | as_crispy_field }}</div>
-                                    <div class="col-md-9">{{ form.info | as_crispy_field }}</div>
+                                    <div class="col-md-9">
+                                        <div style="text-align: center;">
+                                            <div style="display: inline-block;">
+                                                <img src="{{ object.company_logo.url }}"
+                                                     alt="Company Logo"
+                                                     class="company_logo img-special">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        {{ form.company_logo | as_crispy_field }}
+                                        {{ form.info | as_crispy_field }}
+                                    </div>
                                 </div>
                             </fieldset>
                             <div class="form-group">
