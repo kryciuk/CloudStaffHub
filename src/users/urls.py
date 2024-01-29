@@ -20,8 +20,8 @@ urlpatterns_authorization = [
 ]
 
 urlpatterns_profiles = [
-    path("profiles/update/<int:pk>", ProfileUpdateView.as_view(), name="profile-update"),
-    path("profiles/edit/<int:pk>", UserInfoEditByOwnerView.as_view(), name="profile-edit"),
+    path("profiles/<int:pk>/update", ProfileUpdateView.as_view(), name="profile-update"),
+    path("profiles/<int:pk>/edit", UserInfoEditByOwnerView.as_view(), name="profile-edit"),
     path("profiles/<int:pk>", ProfileDetailView.as_view(), name="profile"),
 ]
 
