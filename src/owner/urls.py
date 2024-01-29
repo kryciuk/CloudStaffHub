@@ -5,7 +5,7 @@ from .views import DepartmentCreateView, DepartmentDeleteView, DepartmentListVie
 urlpatterns_departments = [
     path("departments/create", DepartmentCreateView.as_view(), name="department-create"),
     path("departments/list", DepartmentListView.as_view(), name="department-list"),
-    path("departments/delete/<int:pk>", DepartmentDeleteView.as_view(), name="department-delete"),
+    path("departments/<int:pk>/delete", DepartmentDeleteView.as_view(), name="department-delete"),
 ]
 
 urlpatterns = []
