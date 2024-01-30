@@ -15,6 +15,9 @@ class Company(models.Model):
     #         company_profile.save()
 
 
+# INDSUTRY (IT) -> DATA_ANALYTISCT / DESIGN itd.
+
+
 class Department(models.Model):
     class DepartmentChoices(models.TextChoices):
         ACCOUNTING = "Accounting"
