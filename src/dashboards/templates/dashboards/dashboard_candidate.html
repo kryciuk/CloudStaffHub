@@ -1,41 +1,65 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    <!DOCTYPE html>
-    <head>
-        <title></title>
-        <style>
+    <style>
         #content {
             margin: 20px;
             padding: 20px;
             text-align: center;
         }
+
         .info-container {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: center; /* Center the content horizontally */
-            align-items: flex-start; /* Align items to the top */
+            justify-content: center;
+            align-items: flex-start;
         }
+
         .info-box {
-            flex: 1; /* Distribute available space equally among info-boxes */
-            max-width: calc(25% - 20px); /* Set a maximum width for each box */
-            background-color: #f4f4f4;
+            flex: 1;
+            max-width: calc(25% - 20px);
+            background-color: #f4f4f6;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            box-sizing: border-box; /* Include padding in width calculation */
+            box-sizing: border-box;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        </style>
-    </head>
+
+        .btn-info
+        {
+           width: 300px;
+        }
+        .h3-special
+        {
+           color: #17a2b8;
+        }
+        .img-special {
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
     <body>
         <div id="content">
             <div class="info-container">
                 <div class="info-box">
-                    <h3>Latest job offers in:</h3>
-                    <h2>{{ request.user.profile.interested_in }}</h2>
+                    {% if request.user.profile.interested_in %}
+                        <h3 class="h3-special">Latest job offers in:</h3>
+                        <h2>{{ request.user.profile.interested_in }}</h2>
+                        <br>
+                    {% else %}
+                        <h3 class="h3-special">Latest job offers:</h3>
+                        <br>
+                    {% endif %}
                     {% for entry in newest_entries %}
                         <p>
-                            <a href="{% url 'job-offer-detail' entry.id %}">{{ entry }}</a>
+                            <button class="btn btn-info" href='{% url 'job-offer-detail' entry.id %}'>{{ entry }}</button>
                         </p>
                     {% endfor %}
                 </div>
@@ -45,15 +69,17 @@
                     <p>Some information here...</p>
                 </div>
                 <div class="info-box">
-                    <h3>Info Box 3</h3>
+                    <h3>Info Box 4</h3>
                     <p>Some information here...</p>
                 </div>
                 <div class="info-box">
-                    <h3>Info Box 4</h3>
-                    <p>Some information here...</p>
+                    <h3 class="h3-special">Learn more about {{ random_company.name }}:</h3>
+                    <img src="{{ random_company.companyprofile.company_logo.url }}"
+                         alt="Company Logo"
+                         class="company_logo img-special">
+                    <p>{{ random_company.companyprofile.info }}</p>
                 </div>
             </div>
         </div>
     </body>
-</html>
-{% endblock %}
+{% endblock content %}
