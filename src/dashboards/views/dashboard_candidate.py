@@ -17,8 +17,10 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
 
         # random company
 
-        random_company = randrange(1, len(Company.objects.all()) + 1)
-        context["random_company"] = Company.objects.get(id=random_company)
+        context["random_company"] = None
+        if len(Company.objects.all()) != 0:
+            random_company = randrange(1, len(Company.objects.all()) + 1)
+            context["random_company"] = Company.objects.get(id=random_company)
 
         # job offers tailored to user
 
@@ -38,11 +40,18 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
             .exclude(company__companyprofile__industries=user_interested_in_field)
             .order_by("-id")[:5]
         )
-        proposed_job_offers_by_field = (
-            JobOffer.objects.filter(company__companyprofile__industries=user_interested_in_field, status=True)
-            .exclude(position__department__name=user_interested_in_department.name)
-            .order_by("-id")[:5]
-        )
+        if user_interested_in_department is not None:
+            proposed_job_offers_by_field = (
+                JobOffer.objects.filter(company__companyprofile__industries=user_interested_in_field, status=True)
+                .exclude(position__department__name=user_interested_in_department.name)
+                .order_by("-id")[:5]
+            )
+        else:
+            proposed_job_offers_by_field = (
+                JobOffer.objects.filter(company__companyprofile__industries=user_interested_in_field, status=True)
+                .exclude(id__in=proposed_job_offers)
+                .order_by("-id")[:5]
+            )
         context["newest_entries"] = proposed_job_offers
         context["newest_entries_department"] = proposed_job_offers_by_department
         context["newest_entries_field"] = proposed_job_offers_by_field
