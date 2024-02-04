@@ -3,6 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 
 from organizations.factories import DepartmentFactory, PositionFactory
+from organizations.models import Department
 from users.factories import CandidateFactory, OwnerFactory
 
 
@@ -10,6 +11,7 @@ class TestUrls(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        Department.objects.all().delete()
         self.user_candidate = CandidateFactory.create()
         self.user_owner = OwnerFactory.create()
         department = DepartmentFactory.create(company=self.user_owner.profile.company)

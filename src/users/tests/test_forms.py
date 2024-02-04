@@ -3,19 +3,25 @@ from django.contrib.auth.models import Group
 from django.test import TestCase
 from django.urls import reverse
 
-from users.forms import CreateUserForm, UserInfoEditByOwnerForm, PasswordResetFormCustom, UserProfileUpdateForm
 from organizations.models import Industry
+from users.forms import (
+    CreateUserForm,
+    EmployeeProfileUpdateForm,
+    PasswordResetFormCustom,
+    UserInfoEditByOwnerForm,
+)
 
 
 class TestCreateUserForm(TestCase):
-
     def setUp(self):
-        self.form_data = {"username": "BossABC",
-                          "first_name": "Test",
-                          "last_name": "User",
-                          "email": "testuser@gmail.com",
-                          "password1": "Miksery1!",
-                          "password2": "Miksery1!"}
+        self.form_data = {
+            "username": "BossABC",
+            "first_name": "Test",
+            "last_name": "User",
+            "email": "testuser@gmail.com",
+            "password1": "Miksery1!",
+            "password2": "Miksery1!",
+        }
 
     def test_if_user_is_registered_if_correct_data(self):
         form = CreateUserForm(data=self.form_data)
@@ -35,14 +41,14 @@ class TestCreateUserForm(TestCase):
 
 
 class TestUserInfoEditByOwnerForm(TestCase):
-
     def setUp(self):
         self.group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
-        self.form_data = {"first_name": "Test",
-                          "last_name": "User",
-                          "email": "testuser@gmail.com",
-                          "group": self.group.queryset[1]
-                          }
+        self.form_data = {
+            "first_name": "Test",
+            "last_name": "User",
+            "email": "testuser@gmail.com",
+            "group": self.group.queryset[1],
+        }
 
     def test_if_user_data_is_changed(self):
         form = UserInfoEditByOwnerForm(data=self.form_data)
@@ -54,15 +60,13 @@ class TestUserInfoEditByOwnerForm(TestCase):
         self.assertFalse(form.is_valid())
 
 
-class TestUserProfileUpdateForm(TestCase):
-
+class TestEmployeeProfileUpdateForm(TestCase):
     def setUp(self):
         self.interested_in = Industry.objects.get(industry=Industry.IndustryChoice.ACCOUNTING)
-        self.form_data = {"phone_number": "503440576",
-                          "interested_in": self.interested_in}
+        self.form_data = {"phone_number": "503440576", "interested_in": self.interested_in}
 
     def test_if_valid_if_correct_data(self):
-        form = UserProfileUpdateForm(data=self.form_data)
+        form = EmployeeProfileUpdateForm(data=self.form_data)
         self.assertTrue(form.is_valid())
 
 
@@ -86,12 +90,16 @@ class TestUserProfileUpdateForm(TestCase):
 
 
 class TestPasswordResetFormCustom(TestCase):
-
     def setUp(self):
         self.form_data = {"email": "testuser@gmail.com"}
-        self.data = {"username": "testuser", "first_name": "John",
-                     "last_name": "Smith", "email": f"testuser@gmail.com",
-                     "password1": "Miksery1!", "password2": "Miksery1!"}
+        self.data = {
+            "username": "testuser",
+            "first_name": "John",
+            "last_name": "Smith",
+            "email": "testuser@gmail.com",
+            "password1": "Miksery1!",
+            "password2": "Miksery1!",
+        }
 
     def test_if_error_if_no_email_in_database(self):
         form = PasswordResetFormCustom(data=self.form_data)

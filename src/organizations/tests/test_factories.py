@@ -21,10 +21,12 @@ class TestCompanyFactories(TestCase):
 
 class TestDepartmentFactory(TestCase):
     def test_department_via_factory(self):
+        Department.objects.all().delete()
         DepartmentFactory.create()
         self.assertEqual(Department.objects.count(), 1)
 
     def test_department_batch_factory(self):
+        Department.objects.all().delete()
         DepartmentFactory.create_batch(5)
         self.assertEqual(Department.objects.count(), 5)
 

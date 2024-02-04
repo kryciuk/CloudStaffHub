@@ -6,6 +6,7 @@ from rest_framework import status
 
 from evaluation.factories import AnswerFactory, QuestionFactory, QuestionnaireFactory
 from evaluation.models import Questionnaire
+from organizations.models import Department
 from polls.factories import PollFactory
 from polls.models import Poll, PollAnswer, PollResults
 from users.factories import CandidateFactory, EmployeeFactory, OwnerFactory
@@ -15,6 +16,7 @@ class TestPollCreateView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        Department.objects.all().delete()
         self.user_owner = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
         self.user_candidate = CandidateFactory.create()
@@ -74,6 +76,7 @@ class TestPollFillView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        Department.objects.all().delete()
         self.user_owner1 = OwnerFactory.create()
         self.user_owner2 = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
@@ -195,6 +198,7 @@ class TestPollListView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        Department.objects.all().delete()
         self.user_owner1 = OwnerFactory.create()
         self.user_owner2 = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
@@ -244,6 +248,7 @@ class TestPollResultsView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        Department.objects.all().delete()
         self.user_owner1 = OwnerFactory.create()
         self.user_owner2 = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()

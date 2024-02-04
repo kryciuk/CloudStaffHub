@@ -3,6 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 
 from organizations.factories import PositionFactory
+from organizations.models import Department
 from users.factories import CandidateFactory, EmployeeFactory, OwnerFactory
 
 
@@ -68,6 +69,7 @@ class TestPositionDeleteView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        Department.objects.all().delete()
         self.user_owner = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
         self.user_candidate = CandidateFactory.create()
