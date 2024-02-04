@@ -37,7 +37,11 @@
         }
         .h3-special
         {
-           color: #17a2b8;
+           color: #08879B;
+        }
+        .h4-special
+        {
+           color: #08879B;
         }
         .img-special {
             width: 100%;
@@ -49,19 +53,49 @@
         <div id="content">
             <div class="info-container">
                 <div class="info-box">
-                    {% if request.user.profile.interested_in %}
-                        <h3 class="h3-special">Latest job offers in:</h3>
-                        <h2>{{ request.user.profile.interested_in }}</h2>
-                        <br>
+                    {% if request.user.profile.interested_in and request.user.profile.department %}
+                        <h3 class="h3-special">Latest job offers that are a perfect fit for you:</h3>
                     {% else %}
                         <h3 class="h3-special">Latest job offers:</h3>
+                    {% endif %}
+                    {% if newest_entries %}
+                        {% for entry in newest_entries %}
+                            <p>
+                                <button class="btn btn-info" href='{% url 'job-offer-detail' entry.id %}'>{{ entry }}</button>
+                            </p>
+                        {% endfor %}
+                    {% else %}
+                        <small>Currently, there are no job offers that match your profile...</small>
                         <br>
                     {% endif %}
-                    {% for entry in newest_entries %}
-                        <p>
-                            <button class="btn btn-info" href='{% url 'job-offer-detail' entry.id %}'>{{ entry }}</button>
-                        </p>
-                    {% endfor %}
+                    {% if request.user.profile.department %}
+                        <br>
+                        <h4 class="h4-special">Best match for your skills:</h4>
+                        {% if newest_entries_department %}
+                            {% for entry in newest_entries_department %}
+                                <p>
+                                    <button class="btn btn-info" href='{% url 'job-offer-detail' entry.id %}'>{{ entry }}</button>
+                                </p>
+                            {% endfor %}
+                        {% else %}
+                            <small>Currently, there are no job offers that match your skills...</small>
+                            <br>
+                        {% endif %}
+                    {% endif %}
+                    {% if request.user.profile.interested_in %}
+                        <br>
+                        <h4 class="h4-special">You might like:</h4>
+                        {% if newest_entries_field %}
+                            {% for entry in newest_entries_field %}
+                                <p>
+                                    <button class="btn btn-info" href='{% url 'job-offer-detail' entry.id %}'>{{ entry }}</button>
+                                </p>
+                            {% endfor %}
+                        {% else %}
+                            <small>Currently, there are no job offers in the field you are interested in...</small>
+                            <br>
+                        {% endif %}
+                    {% endif %}
                 </div>
                 <div class="info-box">
                     <h3>Read new article about:</h3>

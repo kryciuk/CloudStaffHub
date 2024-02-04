@@ -9,10 +9,10 @@ from organizations.models import Company, Department, Industry
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = PhoneNumberField(null=True, blank=True)
-    interested_in = models.ForeignKey(Industry, on_delete=models.CASCADE, null=True, blank=True)
+    interested_in = models.ForeignKey(Industry, on_delete=models.SET_NULL, null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
-    profile_pic = models.ImageField(upload_to="users/profile_pic", default="users/profile_pic/default.jpg")
+    profile_pic = models.ImageField(upload_to="users/media/profile_pic", default="users/media/profile_pic/default.jpg")
 
     def __str__(self):
         return f"{self.user} profile"

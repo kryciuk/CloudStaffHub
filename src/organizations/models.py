@@ -68,8 +68,8 @@ class Department(models.Model):
         TRAINING_DEVELOPMENT = "Training Development"
 
     name = models.CharField(choices=DepartmentChoices.choices, max_length=100)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    manager = models.ForeignKey(User, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    manager = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:
         unique_together = ["name", "manager"]

@@ -4,8 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 
-from organizations.consts import INDUSTRY_DEPARTMENT_MAP
-from organizations.models import Company, Department, Industry
+from organizations.models import Company
 from recruitment.models import JobOffer
 
 
@@ -23,21 +22,29 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
 
         # job offers tailored to user
 
-        user_interested_in = self.request.user.profile.interested_in
-        if not user_interested_in:
-            context["newest_entries"] = JobOffer.objects.filter(status=True).order_by("-id")[:10]
-        else:
-            user_interested_in = self.request.user.profile.interested_in
-            interests = []
+        user_interested_in_field = self.request.user.profile.interested_in
+        user_interested_in_department = self.request.user.profile.department
 
-            for k, v in Industry.IndustryChoice._member_map_.items():
-                if v == user_interested_in.industry:
-                    interests.append(v)
-            key = interests[0]
+        proposed_job_offers = JobOffer.objects.filter(status=True).order_by("-id")[:5]
 
-            proposed_departments_for_users_industry = INDUSTRY_DEPARTMENT_MAP[key]
-            active_departments = Department.objects.filter(name__in=proposed_departments_for_users_industry)
-            proposed_job_offers = JobOffer.objects.filter(position__department__in=active_departments, status=True)
-            context["newest_entries"] = proposed_job_offers
+        if user_interested_in_department is not None and user_interested_in_field is not None:
+            proposed_job_offers = JobOffer.objects.filter(
+                company__companyprofile__industries=user_interested_in_field,
+                position__department__name=user_interested_in_department.name,
+                status=True,
+            ).order_by("-id")[:5]
+        proposed_job_offers_by_department = (
+            JobOffer.objects.filter(position__department__name=user_interested_in_department, status=True)
+            .exclude(company__companyprofile__industries=user_interested_in_field)
+            .order_by("-id")[:5]
+        )
+        proposed_job_offers_by_field = (
+            JobOffer.objects.filter(company__companyprofile__industries=user_interested_in_field, status=True)
+            .exclude(position__department__name=user_interested_in_department.name)
+            .order_by("-id")[:5]
+        )
+        context["newest_entries"] = proposed_job_offers
+        context["newest_entries_department"] = proposed_job_offers_by_department
+        context["newest_entries_field"] = proposed_job_offers_by_field
 
         return context

@@ -61,7 +61,10 @@
                     <fieldset class="form-group">
                         <legend class="legend-heading border-bottom mb-4">Profile Info</legend>
                         {{ form.phone_number | as_crispy_field }}
-                        {{ form.interested_in | as_crispy_field }}
+                        {% if request.user|has_group:"Candidate" %}
+                            {{ form.interested_in | as_crispy_field }}
+                            {{ form.department | as_crispy_field }}
+                        {% endif %}
                         {{ form.profile_pic | as_crispy_field }}
                         <div>
                             <button class="btn btn-outline-info" type="submit">Save Changes</button>
