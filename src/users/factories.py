@@ -19,7 +19,7 @@ class OwnerFactory(factory.django.DjangoModelFactory):
         model = User
         exclude = ["sub_object"]
 
-    username = factory.Faker("user_name")
+    username = factory.Sequence(lambda n: f"owner{n}")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     sub_object = factory.SubFactory(CompanyFactory)
@@ -43,7 +43,7 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
         model = User
         exclude = ["sub_object"]
 
-    username = factory.Faker("user_name")
+    username = factory.Sequence(lambda n: f"employee{n}")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     sub_object = factory.SubFactory(CompanyFactory)
@@ -66,7 +66,7 @@ class CandidateFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    username = factory.Faker("user_name")
+    username = factory.Sequence(lambda n: f"candidate{n}")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     email = factory.LazyAttribute(lambda obj: f"{obj.username}@example.com")
