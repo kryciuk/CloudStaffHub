@@ -68,9 +68,9 @@
                                             </div>
                                         </div>
                                         <br>
-                                        <div class="file-input">
-                                        <input type="file" name="company_logo" id="company_logo" required>
-                                        <label for="company_logo" class="file-input">Change Logo</label>
+                                        <div class="custom-file">
+                                            <label class="custom-file-label" for="company_logo">Pick New Logo</label>
+                                            <input type="file" class="custom-file-input" name="company_logo">
                                         </div>
                                         {{ form.info | as_crispy_field }}
                                     </div>
