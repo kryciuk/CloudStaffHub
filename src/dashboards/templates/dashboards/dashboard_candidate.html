@@ -6,6 +6,12 @@
 {% endblock title %}
 {% block content %}
     <style>
+        #content {
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+
         .info-container {
             display: flex;
             flex-wrap: wrap;
@@ -13,6 +19,7 @@
             justify-content: center;
             align-items: flex-start;
         }
+
         .info-box {
             flex: 1;
             max-width: calc(25% - 20px);
@@ -24,18 +31,18 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-info
-        {
-           width: 300px;
+        .btn-info {
+            width: 300px;
         }
-        .h3-special
-        {
-           color: #08879B;
+
+        .h3-special {
+            color: #08879B;
         }
-        .h4-special
-        {
-           color: #08879B;
+
+        .h4-special {
+            color: #08879B;
         }
+
         .img-special {
             width: 100%;
             margin-top: 10px;
@@ -91,22 +98,22 @@
                     {% endif %}
                 </div>
                 <div class="info-box">
-                    <h3 class="h3-special">Read new article about:</h3>
-                    <h2 class="h3-special">{{ request.user.profile.interested_in }}</h2>
-                    <p>{{ article_industry.title }}</p>
-                    {% if article_industry.description %}<small>{{ article_industry.description }}</small>{% endif %}
-                    <br>
-                    <br>
+                    <div class="mb-4">
+                        <h3 class="h3-special">Read new article about:</h3>
+                        <h2 class="h3-special">{{ industry }}</h2>
+                        <p>{{ article_industry.title }}</p>
+                        {% if article_industry.description %}<small>{{ article_industry.description }}</small>{% endif %}
+                    </div>
                     <p>
                         <a class="btn btn-info" href="{{ article_industry.url }}">CONTINUE READING</a>
                     </p>
                 </div>
                 <div class="info-box">
-                    <h3 class="h3-special">You may find this interesting:</h3>
-                    <p>{{ article_tips.title }}</p>
-                    {% if article_tips.description %}<small>{{ article_tips.description }}</small>{% endif %}
-                    <br>
-                    <br>
+                    <div class="mb-4">
+                        <h3 class="h3-special">You may find this interesting:</h3>
+                        <p>{{ article_tips.title }}</p>
+                        {% if article_tips.description %}<small>{{ article_tips.description }}</small>{% endif %}
+                    </div>
                     <p>
                         <a class="btn btn-info" href="{{ article_tips.url }}">CONTINUE READING</a>
                     </p>

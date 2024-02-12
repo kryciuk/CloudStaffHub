@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.views.generic import TemplateView
 
-from organizations.models import Company
+from organizations.models import Company, Industry
 from recruitment.models import JobOffer
 
 
@@ -74,7 +74,14 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
         yesterday = timezone.datetime.now() - timezone.timedelta(days=1)
         oldest_article_date = yesterday.strftime("%Y-%m-%d")
 
-        industry = user_interested_in_field.industry
+        try:
+            industry = user_interested_in_field.industry
+        except AttributeError:
+            industries = list(Industry.objects.all())
+            random_industry = random.choice(industries)
+            industry = random_industry.industry
+
+        context["industry"] = industry
         results_industry = requests.get(
             f"https://newsapi.org/v2/everything?q={industry}&sortby=relevancy&language=en&from={oldest_article_date}&apiKey=063c8ff3b9ab476297774505a481006d"
         ).json()
