@@ -5,19 +5,28 @@ from django.shortcuts import reverse
 from django.views.generic import UpdateView
 
 from core.base import has_group, redirect_to_dashboard_based_on_group
-from users.forms import UserProfileUpdateForm
+from organizations.models import Department
+from users.forms import CandidateProfileUpdateForm, EmployeeProfileUpdateForm
 from users.models import Profile
 
 
 class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = "users/profile/profile_update.html"
     model = Profile
-    form_class = UserProfileUpdateForm
+
+    def get_form_class(self):
+        if has_group(self.request.user, "Candidate"):
+            return CandidateProfileUpdateForm
+        return EmployeeProfileUpdateForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         user = User.objects.get(id=self.object.id)
         context["title"] = f"Profile Update - {user.first_name} {user.last_name} - CloudStaffHub"
+        if has_group(self.request.user, "Candidate"):
+            form = context["form"]
+            form.fields["department"].queryset = Department.objects.filter(company=None)
+            context["form"] = form
         return context
 
     def handle_no_permission(self):

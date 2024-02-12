@@ -2,7 +2,7 @@ from django.test import TransactionTestCase
 from django.urls import reverse
 from rest_framework import status
 
-from organizations.models import City
+from organizations.models import City, Department
 from recruitment.factories import JobApplicationFactory
 from recruitment.models import JobApplication
 from users.factories import CandidateFactory, EmployeeFactory, OwnerFactory
@@ -13,6 +13,7 @@ class TestJobOApplicationsView(TransactionTestCase):
 
     def setUp(self):
         City.objects.all().delete()
+        Department.objects.all().delete()
         self.user_owner = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
         self.job_applications = JobApplicationFactory.create_batch(20)
@@ -49,6 +50,7 @@ class TestJobOApplicationsClosedView(TransactionTestCase):
 
     def setUp(self):
         City.objects.all().delete()
+        Department.objects.all().delete()
         self.user_owner = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
         self.user_candidate = CandidateFactory.create()
@@ -92,6 +94,7 @@ class TestJobOApplicationsUnderReviewView(TransactionTestCase):
 
     def setUp(self):
         City.objects.all().delete()
+        Department.objects.all().delete()
         self.user_owner = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
         self.user_candidate = CandidateFactory.create()
@@ -135,6 +138,7 @@ class TestJobOApplicationsDetailView(TransactionTestCase):
 
     def setUp(self):
         City.objects.all().delete()
+        Department.objects.all().delete()
         self.user_owner_1 = OwnerFactory.create()
         self.user_owner_2 = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()

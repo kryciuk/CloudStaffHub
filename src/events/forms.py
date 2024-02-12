@@ -8,7 +8,7 @@ class AssigmentForm(ModelForm):
         model = Assignment
         fields = "__all__"
         exclude = ["manager", "status"]
-        labels = {"name": "Name", "event_date": "Event Date and Time", "employee": "Assigned Employees"}
+        labels = {"name": "Name", "event_date": "Deadline", "employee": "Assigned Employees"}
 
 
 class AssigmentStatusForm(ModelForm):

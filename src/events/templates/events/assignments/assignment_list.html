@@ -1,44 +1,28 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load static %}
 {% block content %}
     {% load crispy_forms_tags %}
-    {% block head %}
-        {% block title %}
-            {{ title }}
-        {% endblock title %}
-        <style>
-        .container {
-            width: 600px;
-            margin-top: 20px;
-            margin-bottom: auto;
-            background: #f8f9fa;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
-            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 5px;
+    {% block title %}
+        {{ title }}
+    {% endblock title %}
+    <style>
+        .btn-outline-secondary {
+            width: 175px;
         }
-        .event-box {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            background-color: #f9f9f9;
+        .article-metadata
+        {
+            text-align: center;
         }
-        </style>
-    {% endblock head %}
-    <body>
-        <div class="container">
-            <div class="card card-body">
-                <article class="media content-section">
-                    <div class="media-body">
-                        <div class="article-metadata" style="text-align: center;">
-                            <legend class="border-bottom mb-4">Assignments List</legend>
-                            {% for assignment in open_assignment_for_user %}
-                                <div class="event-box">
+    </style>
+    <div class="container">
+        <div class="card card-body">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <legend class="border-bottom mb-4">Assignments List</legend>
+                        {% if assignments %}
+                            {% for assignment in assignments %}
+                                <div class="event-box mb-3">
                                     <strong>{{ assignment }}</strong>
                                     <br>
                                     <small>Deadline: {{ assignment.event_date }}</small>
@@ -50,16 +34,26 @@
                                         {% endif %}
                                     {{ assignment.days_till }}</small>
                                     {% if assignment.manager is not None %}<small>| Assigned by {{ assignment.manager }}</small>{% endif %}
-                                    <form method="POST" action="{% url 'assignments-close' assignment.id %}">
+                                    <form method="post" action="{% url 'assignments-close' assignment.id %}">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-outline-dark">Mark as complete</button>
                                     </form>
                                 </div>
                             {% endfor %}
-                        </div>
+                        {% else %}
+                            <strong>No assignments...</strong>
+                        {% endif %}
                     </div>
-                </article>
+                </div>
+            </article>
+            <div class="form-group m-0 mt-4">
+                <a class="btn btn-outline-secondary"
+                   href="{% url "calendar" year month %}">Calendar</a>
+                <div class="float-right">
+                    <a class="btn btn-outline-secondary"
+                       href="{% url "assignments-create" %}">Add Assignment</a>
+                </div>
             </div>
         </div>
-    </body>
-{% endblock %}
+    </div>
+{% endblock content %}

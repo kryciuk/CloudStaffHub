@@ -13,6 +13,7 @@ class LandingConfig(AppConfig):
 
         post_migrate.connect(self.populate_models, sender=self)
         post_migrate.connect(self.create_industries, sender=self)
+        post_migrate.connect(self.create_departments, sender=self)
 
     def populate_models(self, sender, **kwargs):
         from django.contrib.auth.models import Group, Permission
@@ -98,3 +99,9 @@ class LandingConfig(AppConfig):
 
         for industry in Industry.IndustryChoice:
             new_industry, _ = Industry.objects.get_or_create(industry=industry)
+
+    def create_departments(self, sender, **kwargs):
+        from organizations.models import Department
+
+        for department in Department.DepartmentChoices:
+            department, _ = Department.objects.get_or_create(name=department, company=None, manager=None)

@@ -2,7 +2,7 @@ from django.test import TransactionTestCase
 from django.urls import reverse
 from rest_framework import status
 
-from organizations.models import City
+from organizations.models import City, Department
 from recruitment.factories import JobApplicationFactory, JobOfferFactory
 from users.factories import CandidateFactory, OwnerFactory
 
@@ -11,6 +11,7 @@ class TestUrls(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        Department.objects.all().delete()
         self.user_candidate = CandidateFactory.create()
         self.user_owner = OwnerFactory.create()
         City.objects.all().delete()

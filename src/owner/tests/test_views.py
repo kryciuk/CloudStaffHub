@@ -63,6 +63,7 @@ class TestDepartmentDeleteView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        Department.objects.all().delete()
         self.user_owner = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
         self.department = DepartmentFactory.create(company=self.user_owner.profile.company)
@@ -84,6 +85,7 @@ class TestDepartmentListView(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        Department.objects.all().delete()
         self.user_owner = OwnerFactory.create()
         self.user_employee = EmployeeFactory.create()
         self.department = DepartmentFactory.create_batch(5, company=self.user_owner.profile.company)

@@ -3,6 +3,7 @@ from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.models import Group, User
 from django.forms import inlineformset_factory
 
+from organizations.models import Department
 from users.models import Profile
 
 
@@ -81,11 +82,25 @@ class UserInfoEditByOwnerForm(forms.ModelForm):
         return email.lower()
 
 
-class UserProfileUpdateForm(forms.ModelForm):
+class CandidateProfileUpdateForm(forms.ModelForm):
+    department = Department.objects.filter(company=None)
+
     class Meta:
         model = Profile
-        fields = ["phone_number", "interested_in", "profile_pic"]
-        labels = {"phone_number": "Phone Number", "interested_in": "Interests", "profile_pic": "Profile Picture"}
+        fields = ["phone_number", "interested_in", "profile_pic", "department"]
+        labels = {
+            "phone_number": "Phone Number",
+            "interested_in": "I'm interested in working in field",
+            "profile_pic": "Profile Picture",
+            "department": "I'm interested in working in department",
+        }
+
+
+class EmployeeProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["phone_number", "profile_pic"]
+        labels = {"phone_number": "Phone Number", "profile_pic": "Profile Picture"}
 
 
 AdminEditFormSet = inlineformset_factory(

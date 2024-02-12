@@ -7,7 +7,7 @@ from django.utils import timezone
 from rest_framework import status
 
 from organizations.factories import CityFactory, PositionFactory
-from organizations.models import City
+from organizations.models import City, Department
 from recruitment.factories import JobOfferFactory
 from recruitment.models import JobOffer
 from users.factories import CandidateFactory, EmployeeFactory, OwnerFactory
@@ -18,6 +18,7 @@ class TestJobOfferApplyView(TransactionTestCase):
 
     def setUp(self):
         City.objects.all().delete()
+        Department.objects.all().delete()
         self.user_candidate = CandidateFactory.create()
         self.user_owner = OwnerFactory.create()
         self.user_candidate.profile.phone_number = "+48500500500"
@@ -153,6 +154,7 @@ class TestJobOfferListView(TransactionTestCase):
 
     def setUp(self):
         City.objects.all().delete()
+        Department.objects.all().delete()
         self.user_owner_1 = OwnerFactory.create()
         self.user_owner_2 = OwnerFactory.create()
         self.user_candidate = CandidateFactory.create()
@@ -202,6 +204,7 @@ class TestJobOfferUpdateView(TransactionTestCase):
 
     def setUp(self):
         City.objects.all().delete()
+        Department.objects.all().delete()
         self.user_owner_1 = OwnerFactory.create()
         self.user_owner_2 = OwnerFactory.create()
         self.user_candidate = CandidateFactory.create()
