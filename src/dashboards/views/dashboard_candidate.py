@@ -15,7 +15,7 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
     model = User
     template_name = "dashboards/dashboard_candidate.html"
 
-    def get_context_data(self, randit=None, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # random company
