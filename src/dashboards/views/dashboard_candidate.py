@@ -71,7 +71,7 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
 
         # articles interested in
 
-        yesterday = timezone.datetime.now() - timezone.timedelta(days=1)
+        yesterday = timezone.datetime.now() - timezone.timedelta(days=2)
         oldest_article_date = yesterday.strftime("%Y-%m-%d")
 
         try:
