@@ -15,6 +15,21 @@ jobs:
       matrix:
         python-version: ["3.10.9"]
 
+    services:
+      db:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -33,7 +48,11 @@ jobs:
         cd src
         poetry run python manage.py test
       env:
-        ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
     - name: Run Bandit
       run: |
         poetry run bandit -r .

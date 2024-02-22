@@ -1,27 +1,30 @@
 import calendar
 from datetime import date, timedelta
 
+import requests
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 
+from core.base import redirect_to_dashboard_based_on_group
 from evaluation.models import Evaluation
 from polls.models import Poll, PollResults
 
 
-class UserHasEmployeeOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
-    def test_func(self):
-        return self.request.user.is_authenticated and (
-            self.request.user.groups.filter(name="Employee").exists()
-            or self.request.user.groups.filter(name="Recruiter").exists()
-            or self.request.user.groups.filter(name="Manager").exists()
-            or self.request.user.groups.filter(name="Owner").exists()
-            or self.request.user.is_superuser
-        )
-
-
-class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
+class EmployeeDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = "dashboards/dashboard_employee.html"
+
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            messages.warning(self.request, "You don't have the required permissions to access this page.")
+            group = self.request.user.groups.first()
+            return redirect_to_dashboard_based_on_group(group.name)
+        messages.warning(self.request, "You are not logged in.")
+        return redirect_to_dashboard_based_on_group("")
+
+    def test_func(self):
+        groups = ["Employee", "Recruiter", "Manager", "Owner"]
+        return self.request.user.is_authenticated and (self.request.user.groups.filter(name__in=groups).exists())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,5 +63,13 @@ class EmployeeDashboardView(UserHasEmployeeOrHigherGroup, TemplateView):
         context["year"] = year
         context["month_number"] = month_number
         context["month_name"] = month_name
+
+        # weather
+
+        results = requests.get(
+            "https://api.openweathermap.org/data/2.5/weather?lat=52.2319581&lon=21.0067249&units=metric&appid"
+            "=f539c944fc495f7a160041b0d2bd8f21"
+        ).json()
+        context["weather"] = results
 
         return context

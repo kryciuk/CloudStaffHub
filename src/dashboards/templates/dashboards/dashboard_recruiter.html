@@ -1,87 +1,115 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    <!DOCTYPE html>
-    <head>
-        <title></title>
-        <style>
+    <style>
         #content {
             margin: 20px;
             padding: 20px;
             text-align: center;
         }
+
         .info-container {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: center; /* Center the content horizontally */
-            align-items: flex-start; /* Align items to the top */
+            justify-content: center;
+            align-items: flex-start;
         }
+
         .info-box {
-            flex: 1; /* Distribute available space equally among info-boxes */
-            max-width: calc(25% - 20px); /* Set a maximum width for each box */
-            background-color: #f4f4f4;
+            flex: 1;
+            max-width: calc(25% - 20px);
+            background-color: #f4f4f6;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            box-sizing: border-box; /* Include padding in width calculation */
+            box-sizing: border-box;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        </style>
-    </head>
-    <body>
-        <div id="content">
-            <div class="info-container">
-                <div class="info-box">
-                    <div class="d-flex justify-content-center">
-                        <h3>Recruiter's tools:</h3>
-                    </div>
-                    <div>
-                        <br>
-                        <h5>Positions:</h5>
-                        {% url 'positions-list' as url %}
-                        <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="
-                           page
-                           "
-                           href="{% url 'positions-list' %}">View positions</a>
-                        {% url 'positions-create' as url %}
-                        <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="
-                           page
-                           "
-                           href="{% url 'positions-create' %}">Add positions</a>
-                    </div>
-                    <br>
-                    <h5>Cities:</h5>
-                    <div class="d-flex justify-content-center">
-                        {% url 'city-create' as url %}
-                        <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="
-                           page
-                           "
-                           href="{% url 'city-create' %}">Add cities</a>
-                    </div>
-                    <br>
-                    <h5>Job offers:</h5>
-                    <div class="d-flex justify-content-center">
-                        {% url 'job-offer-create' as url %}
-                        <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="
-                           page
-                           "
-                           href="{% url 'job-offer-create' %}">Add job offers</a>
-                    </div>
+
+        .btn-info {
+            width: 300px;
+        }
+
+        .h3-special {
+            color: #08879B;
+        }
+    </style>
+    <div id="content">
+        <div class="info-container">
+            <div class="info-box">
+                <div class="d-flex justify-content-center mb-2">
+                    <h3 class="h3-special">Recruiter's tools:</h3>
                 </div>
-                <div class="info-box">
-                    <h3>Read new article about:</h3>
-                    <h2>{{ request.user.profile.interested_in }}</h2>
-                    <p>Some information here...</p>
+                <div class="mb-4">
+                    <h5 class="h3-special">Positions:</h5>
+                    <p>
+                        <a class="btn btn-info" href="{% url 'positions-list' %}">View Positions</a>
+                    </p>
+                    <p>
+                        <a class="btn btn-info" href="{% url 'positions-create' %}">Add Positions</a>
+                    </p>
                 </div>
-                <div class="info-box">
-                    <h3>Info Box 3</h3>
-                    <p>Some information here...</p>
+                <h5 class="h3-special">Cities:</h5>
+                <div class="mb-4">
+                    <p>
+                        <a class="btn btn-info" href="{% url 'city-create' %}">Add Cities</a>
+                    </p>
                 </div>
-                <div class="info-box">
-                    <h3>Info Box 4</h3>
-                    <p>Some information here...</p>
+                <h5 class="h3-special">Job Offers:</h5>
+                <div class="mb-4">
+                    <p>
+                        <a class="btn btn-info" href="{% url 'job-offers' %}">View Job Offers</a>
+                    </p>
+                    <p>
+                        <a class="btn btn-info" href="{% url 'job-offer-create' %}">Add Job Offers</a>
+                    </p>
                 </div>
             </div>
+            <div class="info-box">
+                <div class="mb-3">
+                    <h3 class="h3-special">Ongoing recruitment:</h3>
+                </div>
+                <div class="mb-2">
+                    {% if number_of_applications > 0 %}
+                        <small>There are {{ number_of_applications }} applications that are left unanswered.</small>
+                        <div>
+                            <small>Currently showing
+                                {% if number_of_applications > 5 %}
+                                    5
+                                {% else %}
+                                    {{ number_of_applications }}
+                                {% endif %}
+                            most recent...</small>
+                        </div>
+                    </div>
+                    {% for k, v in recruitment_info.items %}
+                        <div class="mt-4">
+                            <h5 class="h3-special">{{ k }}</h5>
+                        </div>
+                        {% for application in v %}
+                            <div class="mb-2">
+                                <a class="btn btn-info"
+                                   href="{% url 'job-applications-detail' application.id %}">{{ application }}</a>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    <p>No applications...</p>
+                {% endif %}
+            </div>
+            <div class="info-box">
+                <h3>Info Box 3</h3>
+                <p>Some information here...</p>
+            </div>
+            <div class="info-box">
+                <h3>Info Box 4</h3>
+                <p>Some information here...</p>
+            </div>
         </div>
-    </body>
-</html>
-{% endblock %}
+    </div>
+{% endblock content %}
