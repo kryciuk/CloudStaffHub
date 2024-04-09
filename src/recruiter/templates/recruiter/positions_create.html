@@ -25,7 +25,7 @@
                             <form method="post">
                                 {% csrf_token %}
                                 <fieldset class="form-group">
-                                    <legend class="legend-heading d-flex justify-content-center">Add Position</legend>
+                                    <legend class="border-bottom mb-4 legend-heading">Add New Position</legend>
                                     {{ form | crispy }}
                                 </fieldset>
                                 <div class="form-group">
@@ -33,6 +33,7 @@
                                     <div class="float-right">
                                         <a class="btn btn-outline-secondary"
                                            href="{% url 'department-create' %}">Add Department</a>
+                                        <a class="btn btn-outline-secondary" href="{% url 'positions-list' %}">View Positions</a>
                                     </div>
                                 </div>
                             </form>

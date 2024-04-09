@@ -20,7 +20,7 @@
       }
 
       .h2-special {
-            color: #f06161;
+            color: #E84D7A;
         }
 
       .table-submit {
@@ -46,14 +46,14 @@
                 <div class="col-md-3">
                     <div class="centered">
                         {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Owner" %}
-                            <a class="btn btn-danger mb-0" href="{% url 'job-offer-create' %}">Add New Position</a>
+                            <a class="btn btn-danger mb-0" href="{% url 'positions-create' %}">Add New Position</a>
                         {% endif %}
                     </div>
                     <fieldset class="form-group">
                         <form method="get" action="{% url 'positions-list' %}">
                             {{ form | crispy }}
                             <div class="centered">
-                                <button class="btn btn-danger" type="submit">Submit</button>
+                                <button class="btn btn-danger" type="submit">Search</button>
                             </div>
                         </form>
                     </fieldset>
