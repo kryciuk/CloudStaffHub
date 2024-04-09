@@ -1,8 +1,10 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load static %}
 {% load auth_extras %}
 {% load crispy_forms_filters %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
     <style>
       .container {
@@ -32,73 +34,76 @@
       .btn-info {
         width: 175px;
       }
+      .h2-special {
+          color: #f06161;
+      }
     </style>
     <div class="container-jobs">
         <div class="card card-body">
-            <h2 class="text-center" style="color: #f06161;">JOB OFFERS</h2>
+            <h2 class="h2-special text-center">JOB OFFERS</h2>
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-3">
                     <div class="centered">
-                        {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Owner"%}
-                            <a class="btn btn-info mb-0" href="{% url 'job-offer-create' %}">Create new job offer</a>
+                        {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Owner" %}
+                            <a class="btn btn-info mb-0" href="{% url 'job-offer-create' %}">Create Job Offer</a>
                         {% endif %}
                     </div>
                     <fieldset class="form-group">
-                        <form method="GET" action="{% url 'job-offers' %}">
+                        <form method="get" action="{% url 'job-offers' %}">
                             {{ form | crispy }}
                             <div class="centered">
-                                <button class="btn btn-info mb-0" type="submit">Submit</button>
+                                <button class="btn btn-info mb-0" type="submit">Search</button>
                             </div>
                         </form>
                     </fieldset>
                 </div>
                 <div class="col-md-9">
                     {% if job_offers %}
-                    {% for job_offer in job_offers %}
-                        {% if request.user.profile.company is None or job_offer.company == request.user.profile.company %}
-                            <div class="job-offer">
-                                <div class="container">
-                                    <div class="card card-body">
-                                        <article class="media content-section">
-                                            <div class="media-body">
-                                                <div class="article-metadata">
-                                                    <a class="mb-5" style="color: #f06161;">{{ job_offer.position.title }} ({{ job_offer.position.get_level_display }}) - {{ job_offer.city }}</a>
-                                                </div>
-                                                <div>
-                                                    <small class="text-muted">Company: {{ job_offer.company }}</small>
-                                                </div>
-                                                <div>
-                                                    <small class="text-muted">Offer posted: {{ job_offer.published_date }}</small>
-                                                </div>
-                                                {% if job_offer.status == True %}
-                                                    <div class="mb-2">
-                                                        <small class="text-muted">Recruitment ends: {{ job_offer.expiry_date }}</small>
+                        {% for job_offer in job_offers %}
+                            {% if request.user.profile.company is None or job_offer.company == request.user.profile.company %}
+                                <div class="job-offer">
+                                    <div class="container">
+                                        <div class="card card-body">
+                                            <article class="media content-section">
+                                                <div class="media-body">
+                                                    <div class="article-metadata">
+                                                        <a class="mb-5" style="color: #f06161;">{{ job_offer.position.title }} ({{ job_offer.position.get_level_display }}) - {{ job_offer.city }}</a>
                                                     </div>
-                                                    <div class="card-group m-0">
-                                                        <a href="{% url 'job-offer-detail' job_offer.id %}">
-                                                            {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Owner"%}
-                                                            <button class="btn btn-outline-info" type="submit">View details or modify job offer!</button>
-                                                            {% else %}
-                                                            <button class="btn btn-outline-info" type="submit">View details and upload your CV!</button>
-                                                            {% endif %}
-                                                        </a>
+                                                    <div>
+                                                        <small class="text-muted">Company: {{ job_offer.company }}</small>
                                                     </div>
-                                                {% elif job_offer.status == False %}
-                                                    <div class="card-group m-0">
-                                                        <small class="alert-danger">Recruitment closed</small>
+                                                    <div>
+                                                        <small class="text-muted">Offer posted: {{ job_offer.published_date }}</small>
                                                     </div>
-                                                {% endif %}
-                                            </div>
-                                        </article>
+                                                    {% if job_offer.status == True %}
+                                                        <div class="mb-2">
+                                                            <small class="text-muted">Recruitment ends: {{ job_offer.expiry_date }}</small>
+                                                        </div>
+                                                        <div class="card-group m-0">
+                                                            <a href="{% url 'job-offer-detail' job_offer.id %}">
+                                                                {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Owner" %}
+                                                                    <button class="btn btn-outline-info" type="submit">View details or modify job offer!</button>
+                                                                {% else %}
+                                                                    <button class="btn btn-outline-info" type="submit">View details and upload your CV!</button>
+                                                                {% endif %}
+                                                            </a>
+                                                        </div>
+                                                    {% elif job_offer.status == False %}
+                                                        <div class="card-group m-0">
+                                                            <small class="alert-danger">Recruitment closed</small>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </article>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                        {% else %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
                         <div class="centered">
-                        <a class="text-muted">Currently there are no job offers available...</a>
+                            <a class="text-muted">Currently there are no job offers available...</a>
                         </div>
                     {% endif %}
                     <div class="centered">
@@ -137,4 +142,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}
