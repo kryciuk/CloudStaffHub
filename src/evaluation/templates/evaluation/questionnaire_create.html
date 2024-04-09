@@ -1,76 +1,42 @@
-{% extends 'landing/base.html' %}
-{% load static %}
+{% extends "landing/base.html" %}
+{% load crispy_forms_tags %}
+{% load auth_extras %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% load bootstrap4 %}
 {% block content %}
-    {% load crispy_forms_tags %}
-    <title>{{ title }}</title>
-    <head>
-        <style>
-        .container {
-            width: 600px;
-            margin-top: 20px;
-            margin-bottom: auto;
-            background: #f8f9fa;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 5px 0 rgba(0, 0, 0, 0.19);
-            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 5px;
-        }
-
-        /* Styl dla formularza */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-group input[type="text"],
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .form-group select {
-            /* Dodatkowe style dla listy rozwijanej (zainteresowania) */
-        }
-
-        .form-group input[type="text"]:focus,
-        .form-group select:focus {
-            outline: none; /* Usunięcie pogrubionego obramowania po kliknięciu */
-        }
-
-
-        </style>
-    </head>
+    {{ form.media }}
+    <style>
+    .btn-outline-secondary {
+        width: 175px;
+    }
+    .btn-outline-info {
+        width: 175px;
+    }
+    .legend-heading {
+    color: #f06161;
+    }
+    </style>
     <body>
         <div class="container">
             <div class="card card-body">
                 <article class="media content-section">
                     <div class="media-body">
                         <div class="article-metadata">
-                            <form method="POST">
+                            <form method="post">
                                 {% csrf_token %}
                                 <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">New Questionnaire</legend>
+                                    <legend class="legend-heading border-bottom mb-4">New Questionnaire</legend>
                                     {{ form | crispy }}
-                                    {#                                    {{ form.name | as_crispy_field }}#}
                                 </fieldset>
                                 <div class="form-group">
                                     <button class="btn btn-outline-info" type="submit">Confirm</button>
+                                    <div class="float-right">
+                                        <a class="btn btn-outline-secondary" href="">View Help</a>
+                                        <a class="btn btn-outline-secondary"
+                                           href="{% url 'questionnaire-list' %}">Questionnaires</a>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -79,4 +45,4 @@
             </div>
         </div>
     </body>
-{% endblock %}
+{% endblock content %}

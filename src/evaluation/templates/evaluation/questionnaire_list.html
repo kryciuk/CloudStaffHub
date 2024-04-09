@@ -1,57 +1,108 @@
-{% extends 'landing/base.html' %}
-{% load static %}
+{% extends "landing/base.html" %}
+{% load auth_extras %}
+{% load crispy_forms_filters %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <title>{{ title }}</title>
-            <style>
-        .container {
-            width: 600px;
-            margin-top: 20px;
-            margin-bottom: auto;
-            background: #f8f9fa;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
-            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 5px;
+    <style>
+      .container-questionnaires {
+        width: 80%;
+        margin: 20px auto;
+        background: #f8f9fa;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+      }
+
+      .h2-special {
+            color: #E84D7A;
         }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="card card-body">
-                    <article class="media content-section">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <legend class="border-bottom mb-4">Created Questionnaires</legend>
-                                <div>
-                                    <p>EVALUATIONS</p>
-                                    {% for questionnaire in questionnaires_evaluation %}
-                                        <li>
-                                            <a href="{% url "questionnaire-detail" questionnaire.id %}">{{ questionnaire }}</a>
-                                        </li>
-                                    {% endfor %}
-                                </div>
-                                <br>
-                                <div>
-                                    <p>POLLS</p>
-                                    {% for questionnaire in questionnaires_polls %}
-                                        <li>
-                                            <a href="{% url "questionnaire-detail" questionnaire.id %}">{{ questionnaire }}</a>
-                                        </li>
-                                    {% endfor %}
-                                </div>
+
+      .table-submit {
+        width: 100%;
+        table-layout: fixed;
+        }
+
+      .table-submit th,
+      .table-submit td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        }
+      .btn-danger {
+        width: 175px;
+      }
+      .btn-outline-danger {
+        width: 125px;
+      }
+    </style>
+    <div class="container-questionnaires">
+        <div class="card card-body">
+            <h2 class="h2-special centered">QUESTIONNAIRES</h2>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="centered">
+                        {% if request.user|has_group:"Recruiter" or request.user|has_group:"Manager" or request.user|has_group:"Owner" %}
+                            <a class="btn btn-danger mb-0" href="{% url 'questionnaire-create' %}">New Questionnaire</a>
+                        {% endif %}
+                    </div>
+                    <fieldset class="form-group">
+                        <form method="get" action="{% url "questionnaire-list" %}">
+                            {{ form | crispy }}
+                            <div class="centered">
+                                <button class="btn btn-danger" type="submit">Search</button>
                             </div>
+                        </form>
+                    </fieldset>
+                </div>
+                <div class="col-md-9">
+                    {% if not questionnaires %}
+                        <div class="centered">
+                            <a class="text-muted">Currently there are no questionnaires...</a>
                         </div>
-                    </article>
+                    {% else %}
+                        <table class="table table-submit">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Created by</th>
+                                    <th>Type</th>
+                                    <th>View</th>
+                                    <th>Close</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for questionnaire in questionnaires %}
+                                    <tr>
+                                        <td>{{ questionnaire.name }}</td>
+                                        <td>{{ questionnaire.created_by }}</td>
+                                        <td>{{ questionnaire.type }}</td>
+                                        <td>
+                                            <form method="get"
+                                                  action="{% url "questionnaire-detail" questionnaire.id %}">
+                                                <button type="submit" class="btn btn-outline-danger">VIEW</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="post"
+                                                  action="{% url "questionnaire-close" questionnaire.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-danger">CLOSE</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </body>
-    </html>
-{% endblock %}
+        </div>
+    </div>
+{% endblock content %}

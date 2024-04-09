@@ -1,19 +1,24 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView
 
+from evaluation.filters import QuestionnaireFilter
 from evaluation.models import Questionnaire
 
 
-class QuestionnaireListByUserView(ListView):
+class QuestionnaireListByUserView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Questionnaire
     context_object_name = "questionnaires"
     template_name = "evaluation/questionnaire_list.html"
+    queryset = Questionnaire.objects.all()
+    permission_required = "questionnaire.add_questionnaire"
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        context["questionnaires_evaluation"] = Questionnaire.objects.filter(created_by=self.request.user).filter(
-            type=Questionnaire.Type.EVALUATION
-        )
-        context["questionnaires_polls"] = Questionnaire.objects.filter(created_by=self.request.user).filter(
-            type=Questionnaire.Type.POLL
-        )
+    def get_queryset(self):
+        queryset = Questionnaire.objects.filter(company=self.request.user.profile.company, status=True)
+        self.filterset = QuestionnaireFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["form"] = self.filterset.form
+        context["title"] = "Questionnaire List - CloudStaffHub"
         return context
