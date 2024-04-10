@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.forms import ModelForm
 
 from .models import Answer, Evaluation, Question, Questionnaire
@@ -29,11 +28,17 @@ class EvaluationCreateForm(ModelForm):
     class Meta:
         model = Evaluation
         fields = "__all__"
-        exclude = ["manager", "date_created", "result", "status"]
+        exclude = ["manager", "date_created", "result_employee", "result_manager", "status_employee", "status_manager"]
         labels = {"date_end": "Deadline"}
 
 
-class EvaluationUpdateForm(ModelForm):
+class EvaluationUpdateEmployeeForm(ModelForm):
     class Meta:
         model = Evaluation
-        fields = ["result"]
+        fields = ["result_employee"]
+
+
+class EvaluationUpdateManagerForm(ModelForm):
+    class Meta:
+        model = Evaluation
+        fields = ["result_manager"]

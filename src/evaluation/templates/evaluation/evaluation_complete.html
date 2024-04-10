@@ -1,87 +1,73 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    <html>
-        <head>
-            <title>{{ title }}</title>
-            <style>
-        .container {
-            width: 600px;
-            margin-top: 20px;
-            margin-bottom: auto;
-            background: #f8f9fa;
-            position: relative;
+    {{ form.media }}
+    <style>
+        .btn-outline-secondary {
+            width: 175px;
+        }
+
+        .btn-outline-info {
+            width: 175px;
+        }
+
+        .legend-heading {
+            color: #f06161;
+        }
+
+        .info-box-container {
             display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 5px 0 rgba(0, 0, 0, 0.19);
-            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 10px 0 rgba(0, 0, 0, 0.19);
-            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 10px 0 rgba(0, 0, 0, 0.19);
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px; /* Adjust the gap between the boxes */
+        }
+
+        .info-box {
+            flex: 1;
+            max-width: calc(50% - 20px); /* Set each box to take 50% width */
+            background-color: #f4f4f6;
+            padding: 20px;
+            border: 1px solid #ddd;
             border-radius: 5px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
-        /* Styl dla formularza */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-group input[type="text"],
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .form-group select {
-        }
-
-        .form-group input[type="text"]:focus,
-        .form-group select:focus {
-            outline: none; /* Usunięcie pogrubionego obramowania po kliknięciu */
-        }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="card card-body">
-                    <article class="media content-section">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <form method="GET">
-                                    <fieldset class="form-group">
-                                        <legend class="border-bottom mb-4">Evaluation ID: {{ evaluation.id }}</legend>
-                                        <div style="text-align:left">
-                                            <a class="text-muted" style="text-align: left"> Employee: {{ evaluation.employee.first_name }} {{ evaluation.employee.last_name }}</a>
-                                        </div>
-                                        <div style="text-align:left">
-                                            <a class="text-muted" style="text-align: left"> Manager: {{ evaluation.manager.first_name }} {{ evaluation.manager.last_name }}</a>
-                                        </div>
-                                        <div style="text-align:left">
-                                            <a class="text-muted" style="text-align: left">Created: {{ evaluation.date_created }}</a>
-                                        </div>
-                                        <div style="text-align:left">
-                                            <a class="text-muted" style="text-align: left">Deadline: {{ evaluation.date_end }}</a>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset class="form-group">
+    </style>
+    <div class="container">
+        <div class="card card-body">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <form method="get">
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4">Evaluation ID: {{ evaluation.id }}</legend>
+                                <div style="text-align:left">
+                                    <a class="text-muted" style="text-align: left"> Employee: {{ evaluation.employee.first_name }} {{ evaluation.employee.last_name }}</a>
+                                </div>
+                                <div style="text-align:left">
+                                    <a class="text-muted" style="text-align: left"> Manager: {{ evaluation.manager.first_name }} {{ evaluation.manager.last_name }}</a>
+                                </div>
+                                <div style="text-align:left">
+                                    <a class="text-muted" style="text-align: left">Created: {{ evaluation.date_created }}</a>
+                                </div>
+                                <div style="text-align:left">
+                                    <a class="text-muted" style="text-align: left">Deadline: {{ evaluation.date_end }}</a>
+                                </div>
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <div class="info-box-container">
+                                    <div class="info-box">
+                                        <h4>Employee's Answers</h4>
                                         {% for question, possible_answers in answers.items %}
                                             <label>{{ question }}</label>
                                             <ul>
                                                 {% for answer in possible_answers %}
-                                                    {% if answer.id in results_values %}
+                                                    {% if answer.id in results_employee_values %}
                                                         <li style="color: blue;">
                                                             <strong>{{ answer }}</strong>
                                                         </li>
@@ -91,13 +77,30 @@
                                                 {% endfor %}
                                             </ul>
                                         {% endfor %}
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
-                    </article>
+                                    </div>
+                                    <div class="info-box">
+                                        <h4>Manager's Answers</h4>
+                                        {% for question, possible_answers in answers.items %}
+                                            <label>{{ question }}</label>
+                                            <ul>
+                                                {% for answer in possible_answers %}
+                                                    {% if answer.id in results_manager_values %}
+                                                        <li style="color: blue;">
+                                                            <strong>{{ answer }}</strong>
+                                                        </li>
+                                                    {% else %}
+                                                        <li>{{ answer }}</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </body>
-    </html>
-{% endblock %}
+            </article>
+        </div>
+    </div>
+{% endblock content %}

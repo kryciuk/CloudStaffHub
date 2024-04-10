@@ -1,13 +1,12 @@
-{% extends 'landing/base.html' %}
+{% extends "landing/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    {% load crispy_forms_tags %}
-    {% load auth_extras %}
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <title>{{ title }}</title>
-            <style>
+    <style>
         .container {
             width: 600px;
             margin-top: 20px;
@@ -23,17 +22,22 @@
             -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
             border-radius: 5px;
         }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="card card-body">
-                    <article class="media content-section">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <legend class="border-bottom mb-4">Questionnaire: {{ questionnaire }}</legend>
-                                <div>
-                                    <form action="{% url 'evaluation-update' id_evaluation %}" method="post">
+    </style>
+    <body>
+        <div class="container">
+            <div class="card card-body">
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <legend class="border-bottom mb-4">Questionnaire: {{ questionnaire }}</legend>
+                            <div>
+                                {% if is_manager == "yes" %}
+                                    <form action="{% url 'evaluation-update-manager' id_evaluation %}"
+                                          method="post">
+                                    {% else %}
+                                        <form action="{% url 'evaluation-update-employee' id_evaluation %}"
+                                              method="post">
+                                        {% endif %}
                                         {% csrf_token %}
                                         {% for question, possible_answers in answers.items %}
                                             <label>{{ question }}</label>
@@ -56,5 +60,4 @@
                 </div>
             </div>
         </body>
-    </html>
-{% endblock %}
+    {% endblock content %}

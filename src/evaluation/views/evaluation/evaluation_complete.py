@@ -19,7 +19,10 @@ class EvaluationCompleteView(DetailView):
         for question in questions:
             answers[question] = list(chain(question.answers.all()))
         context["answers"] = answers
-        results = json.loads(evaluation.result)
-        results.pop("csrfmiddlewaretoken")
-        context["results_values"] = [int(element) for element in results.values()]
+        results_manager = json.loads(evaluation.result_manager)
+        results_manager.pop("csrfmiddlewaretoken")
+        context["results_manager_values"] = [int(element) for element in results_manager.values()]
+        results_employee = json.loads(evaluation.result_employee)
+        results_employee.pop("csrfmiddlewaretoken")
+        context["results_employee_values"] = [int(element) for element in results_employee.values()]
         return context

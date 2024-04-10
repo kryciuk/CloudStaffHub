@@ -1,11 +1,8 @@
 from itertools import chain
 
-from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.urls import reverse
 from django.views.generic import DetailView
 
-from evaluation.models import Questionnaire
+from evaluation.models import Evaluation, Questionnaire
 
 
 class QuestionnaireFillView(DetailView):
@@ -23,6 +20,11 @@ class QuestionnaireFillView(DetailView):
         context["questions"] = questions
         context["answers"] = answers
         context["id_evaluation"] = self.kwargs.get("id_evaluation")
+        evaluation = Evaluation.objects.get(id=self.kwargs.get("id_evaluation"))
+        if evaluation.manager.username == self.request.user.username:
+            context["is_manager"] = "yes"
+        else:
+            context["is_manager"] = "no"
         return context
 
     # def get_success_url(self):

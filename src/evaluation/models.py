@@ -55,8 +55,10 @@ class Evaluation(models.Model):
     date_created = models.DateField(null=True, blank=True)
     date_end = models.DateField(null=True, blank=True)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
-    result = models.JSONField("", null=True, blank=True)
-    status = models.BooleanField(default=False, help_text="true if evaluation filled by an employee")
+    result_employee = models.JSONField("", null=True, blank=True)
+    result_manager = models.JSONField("", null=True, blank=True)
+    status_employee = models.BooleanField(default=False, help_text="true if evaluation filled by the employee")
+    status_manager = models.BooleanField(default=False, help_text="true if evaluation filled by the manager")
 
     def __str__(self) -> str:
         return f"{self.questionnaire}"

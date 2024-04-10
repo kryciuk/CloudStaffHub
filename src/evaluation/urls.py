@@ -5,7 +5,8 @@ from evaluation.views import (
     EvaluationCompleteView,
     EvaluationCreateView,
     EvaluationDetailView,
-    EvaluationUpdateView,
+    EvaluationUpdateEmployeeView,
+    EvaluationUpdateManagerView,
     QuestionCreateView,
     QuestionnaireCloseView,
     QuestionnaireCreateView,
@@ -32,7 +33,8 @@ urlpatterns_evaluation = [
     path(
         "<int:id_evaluation>/detail/questionnaire/<int:pk>", QuestionnaireFillView.as_view(), name="questionnaire-fill"
     ),
-    path("<int:pk>/close", EvaluationUpdateView.as_view(), name="evaluation-update"),
+    path("<int:pk>/update-manager", EvaluationUpdateManagerView.as_view(), name="evaluation-update-manager"),
+    path("<int:pk>/update-employee", EvaluationUpdateEmployeeView.as_view(), name="evaluation-update-employee"),
     path("<int:pk>/complete", EvaluationCompleteView.as_view(), name="evaluation-complete"),
 ]
 
