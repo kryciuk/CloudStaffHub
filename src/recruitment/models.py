@@ -27,6 +27,7 @@ class JobApplication(models.Model):
         RECEIVED = 0
         UNDER_REVIEW = 1
         CLOSED = 2
+        APPROVED = 3
 
     candidate = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     job_offer = models.ForeignKey(JobOffer, on_delete=models.CASCADE, help_text="reply to job offer")

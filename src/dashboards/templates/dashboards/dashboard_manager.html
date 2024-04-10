@@ -84,8 +84,21 @@
                     </div>
                 </div>
                 <div class="info-box">
-                    <h3>Info Box 3</h3>
-                    <p>Some information here...</p>
+                    <div class="mb-2">
+                        <h3 class="h3-special">Job Applications to review:</h3>
+                    </div>
+                    <div>
+                        {% if number_of_applications == 1 %}
+                            <small>There is {{ number_of_applications }} application that is waiting for review.</small>
+                        {% elif number_of_applications > 1 %}
+                            <small>There are {{ number_of_applications }} applications that are waiting for review.</small>
+                        {% else %}
+                            <small>No applications...</small>
+                        {% endif %}
+                        <p class="mt-2">
+                            <a class="btn btn-info" href="{% url 'job-applications-review' %}">View</a>
+                        </p>
+                    </div>
                 </div>
                 <div class="info-box">
                     <div class="d-flex justify-content-center mb-2">
@@ -94,6 +107,5 @@
                     <p>Some information here...</p>
                 </div>
             </div>
-        </div>
-    </body>
-{% endblock content %}
+        </body>
+    {% endblock content %}

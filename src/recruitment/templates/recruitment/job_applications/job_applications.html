@@ -5,11 +5,24 @@
     {{ title }}
 {% endblock title %}
 {% block content %}
+    <style>
+        .btn-outline-info {
+        width: 250px;
+        }
+    </style>
     <div class="centered">
         {% if request.path == '/recruitment/job-applications/received' %}
             <a class="centered" href="{% url 'job-applications-closed' %}">
                 <button class="btn btn-outline-info" type="submit">View closed applications</button>
             </a>
+            <a class="centered" href="{% url 'job-applications-approved' %}">
+                <button class="btn btn-outline-info" type="submit">View approved applications</button>
+            </a>
+            {% if request.user|has_group:"Manager" or request.user|has_group:"Owner" %}
+                <a class="centered" href="{% url 'job-applications-review' %}">
+                    <button class="btn btn-outline-info" type="submit">View reviewed applications</button>
+                </a>
+            {% endif %}
         {% else %}
             <a class="centered" href="{% url 'job-applications' %}">
                 <button class="btn btn-outline-info" type="submit">View open applications</button>

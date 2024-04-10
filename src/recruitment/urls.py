@@ -1,8 +1,10 @@
 from django.urls import path
 
 from .views.job_applications import (
+    JobApplicationsApprovedView,
     JobApplicationsClosedView,
     JobApplicationsDetailView,
+    JobApplicationsSetStatusApprovedView,
     JobApplicationsSetStatusClosedView,
     JobApplicationsSetStatusUnderReviewView,
     JobApplicationsUnderReviewView,
@@ -31,6 +33,7 @@ urlpatterns_job_applications = [
     path("job-applications/received", JobApplicationsView.as_view(), name="job-applications"),
     path("job-applications/closed", JobApplicationsClosedView.as_view(), name="job-applications-closed"),
     path("job-applications/review", JobApplicationsUnderReviewView.as_view(), name="job-applications-review"),
+    path("job-applications/approved", JobApplicationsApprovedView.as_view(), name="job-applications-approved"),
     path("job-applications/<int:pk>/detail", JobApplicationsDetailView.as_view(), name="job-applications-detail"),
     path(
         "job-applications/<int:pk>/under-review",
@@ -39,6 +42,11 @@ urlpatterns_job_applications = [
     ),
     path(
         "job-applications/<int:pk>/close", JobApplicationsSetStatusClosedView.as_view(), name="job-applications-close"
+    ),
+    path(
+        "job-applications/<int:pk>/approve",
+        JobApplicationsSetStatusApprovedView.as_view(),
+        name="job-applications-approve",
     ),
     path("load_cities", load_cities, name="load-cities"),
 ]

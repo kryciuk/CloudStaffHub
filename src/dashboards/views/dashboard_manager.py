@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView
 
+from core.base import has_group
 from evaluation.models import Evaluation
+from recruitment.models import JobApplication
 
 
 class UserHasManagerOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
@@ -25,4 +27,18 @@ class ManagerDashboardView(UserHasManagerOrHigherGroup, TemplateView):
             "-date_end"
         )[:5]
         context["assigned_evaluations"] = assigned_evaluations
+
+        # job applications
+
+        review_job_applications = JobApplication.objects.filter(
+            job_offer__position__department__manager=self.request.user, status=JobApplication.Status.UNDER_REVIEW
+        ).order_by("-id")
+        if has_group(self.request.user, "Owner"):
+            review_job_applications = JobApplication.objects.filter(
+                job_offer__company=self.request.user.profile.company, status=JobApplication.Status.UNDER_REVIEW
+            ).order_by("-id")
+        context["number_of_applications"] = len(review_job_applications)
+
+        context["review_job_applications"] = review_job_applications
+
         return context
