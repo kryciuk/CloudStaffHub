@@ -39,15 +39,6 @@
             color: #08879B;
         }
 
-        .h4-special {
-            color: #08879B;
-        }
-
-        .img-special {
-            width: 100%;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
     </style>
     <body>
         <div id="content">
@@ -78,9 +69,19 @@
                     </div>
                 </div>
                 <div class="info-box">
-                    <h3>Evaluations:</h3>
-                    <h2>{{ request.user.profile.interested_in }}</h2>
-                    <p>Some information here...</p>
+                    <div class="mb-4">
+                        <h3 class="h3-special">Evaluations:</h3>
+                        {% if not assigned_evaluations %}
+                            <small>There are no waiting evaluations...</small>
+                        {% else %}
+                            {% for evaluation in assigned_evaluations %}
+                                <p>
+                                    <a class="btn btn-info"
+                                       href="{% url 'evaluation-detail' evaluation.id %}">{{ evaluation }}</a>
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="info-box">
                     <h3>Info Box 3</h3>

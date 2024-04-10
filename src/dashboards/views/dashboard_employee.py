@@ -31,10 +31,12 @@ class EmployeeDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
 
         # evaluations
 
-        assigned_evaluations = Evaluation.objects.filter(employee=self.request.user, status=False).order_by(
+        assigned_evaluations = Evaluation.objects.filter(employee=self.request.user, status_employee=False).order_by(
             "-date_end"
         )[:5]
-        completed_evaluations = Evaluation.objects.filter(employee=self.request.user, status=True)
+        completed_evaluations = Evaluation.objects.filter(
+            employee=self.request.user, status_employee=True, status_manager=True
+        )
         context["assigned_evaluations"] = assigned_evaluations
         context["completed_evaluations"] = completed_evaluations
 
