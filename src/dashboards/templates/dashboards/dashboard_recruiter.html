@@ -76,7 +76,11 @@
                 </div>
                 <div class="mb-2">
                     {% if number_of_applications > 0 %}
-                        <small>There are {{ number_of_applications }} applications that are left unanswered.</small>
+                        {% if number_of_applications == 1 %}
+                            <small>There is {{ number_of_applications }} application that is left unanswered.</small>
+                        {% else %}
+                            <small>There are {{ number_of_applications }} applications that are left unanswered.</small>
+                        {% endif %}
                         <div>
                             <small>Currently showing
                                 {% if number_of_applications > 5 %}

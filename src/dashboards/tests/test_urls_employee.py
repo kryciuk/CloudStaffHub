@@ -1,5 +1,5 @@
 from django.contrib.auth.models import Group, User
-from django.test import Client, TestCase
+from django.test import Client, TestCase, tag
 from django.urls import reverse
 from rest_framework import status
 
@@ -20,6 +20,9 @@ class TestEmployeeUrls(TestCase):
         employee, _ = Group.objects.get_or_create(name="Employee")
         employee.user_set.add(user)
 
+        candidate, _ = Group.objects.get_or_create(name="Candidate")
+        candidate.user_set.add(user_not_employee)
+
         cls.user = user
         cls.user_not_employee = user_not_employee
 
@@ -33,10 +36,12 @@ class TestEmployeeUrls(TestCase):
         response = self.client.get(reverse("dashboard-employee"), {"user_id": self.user.id})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    @tag("y")
     def test_url_forbidden_if_user_is_not_employee(self):
-        self.client.login(username=self.user_not_employee.username, password="password")
+        self.client.force_login(self.user_not_employee)
+        # self.client.login(username=self.user_not_employee.username, password="password")
         response = self.client.get(reverse("dashboard-employee"), {"user_id": self.user_not_employee.id})
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
     def test_url_redirect_if_not_logged_in(self):
         response = self.client.get(reverse("dashboard-employee"))

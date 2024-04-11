@@ -4,7 +4,6 @@ import requests
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
-from icecream import ic
 
 
 class UserHasOwnerOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
@@ -22,14 +21,14 @@ class OwnerDashboardView(UserHasOwnerOrHigherGroup, TemplateView):
         company = self.request.user.profile.company
         context["employees"] = User.objects.filter(profile__company=company).order_by("-id")[:10]
 
-        # news
+        # newshttps://newsapi.org/v2/top-headlines/sources?category=business&country=us&apiKey=063c8ff3b9ab476297774505a481006d
 
         articles = requests.get(
             "https://newsapi.org/v2/top-headlines/sources?category=business&country=us&apiKey=063c8ff3b9ab476297774505a481006d"
         ).json()
-        ic(len(articles["sources"]))
+        # ic(len(articles["sources"]))
         random_article = random.randrange(0, len(articles["sources"]))
-        ic(articles["sources"][random_article])
+        # ic(articles["sources"][random_article])
         article = articles["sources"][random_article]
 
         context["article"] = article
