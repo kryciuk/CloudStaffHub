@@ -1,7 +1,6 @@
 {% extends "landing/base.html" %}
 {% load static %}
-{% load auth_extras %}
-{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
 {% block title %}
     {{ title }}
 {% endblock title %}
@@ -12,61 +11,69 @@
             padding: 20px;
             text-align: center;
         }
+
         .info-container {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: center; /* Center the content horizontally */
-            align-items: flex-start; /* Align items to the top */
+            justify-content: center;
+            align-items: flex-start;
         }
+
         .info-box {
-            flex: 1; /* Distribute available space equally among info-boxes */
-            max-width: calc(25% - 20px); /* Set a maximum width for each box */
-            background-color: #f4f4f4;
+            flex: 1;
+            max-width: calc(25% - 20px);
+            background-color: #f4f4f6;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            box-sizing: border-box; /* Include padding in width calculation */
+            box-sizing: border-box;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
+        .btn-info {
+            width: 300px;
+        }
+
+        .h3-special {
+            color: #08879B;
+        }
+
     </style>
     <div id="content">
         <div class="info-container">
             <div class="info-box">
-                <div class="d-flex justify-content-center">
-                    <h3>Owner's tools:</h3>
+                <div class="d-flex justify-content-center mb-2">
+                    <h3 class="h3-special">Owner's tools:</h3>
                 </div>
-                <div>
-                    <br>
-                    <h5>Departments:</h5>
-                    {% url 'department-create' as url %}
-                    <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="
-                       page
-                       "
-                       href="{% url 'department-create' %}">Add department</a>
-                    {% url 'department-list' as url %}
-                    <a class="nav-link {% if request.path == url %}active"{% endif %} aria-current="
-                       page
-                       "
-                       href="{% url 'department-list' %}">List of departments</a>
-                </div>
-                <br>
-            </div>
-            <div class="info-box">
-                <h3>Read a new article about:</h3>
-                <h2>{{ request.user.profile.interested_in }}</h2>
-                <p>Some information here...</p>
-            </div>
-            <div class="info-box">
-                <h3 class="account-heading">Company {{ user.profile.company }} employees:</h3>
-                {% for employee in employees %}
-                    <p style="text-align: left; margin-left: 27px;">
-                        <a class="mb-5" href="{% url 'profile' employee.profile.id %}">{{ employee.username }}</a>
+                <div class="mb-4">
+                    <h5 class="h3-special">Departments:</h5>
+                    <p>
+                        <a class="btn btn-info" href="{% url 'department-create' %}">Create New Department</a>
                     </p>
-                {% endfor %}
+                    <p>
+                        <a class="btn btn-info" href="{% url 'department-list' %}">Manage Departments</a>
+                    </p>
+                    <h5 class="h3-special">Employees:</h5>
+                    <p>
+                        <a class="btn btn-info" href="{% url 'employee-list' %}">Manage Employees</a>
+                    </p>
+                </div>
             </div>
             <div class="info-box">
-                <h3>Info Box 4</h3>
-                <p>Some information here...</p>
+                <div class="d-flex justify-content-center mb-2">
+                    <h3 class="h3-special">Placeholder</h3>
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="d-flex justify-content-center mb-2">
+                    <h3 class="h3-special">Placeholder</h3>
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="d-flex justify-content-center mb-2">
+                    <h3 class="h3-special">Placeholder</h3>
+                </div>
             </div>
         </div>
     </div>
