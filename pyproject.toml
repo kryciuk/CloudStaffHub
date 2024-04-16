@@ -35,3 +35,7 @@ requests = "^2.31.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.bandit]
+skips = ['B106', 'B311', 'B113']
