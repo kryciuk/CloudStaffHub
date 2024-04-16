@@ -94,18 +94,4 @@
             </ul>
         </nav>
     </div>
-    {% if request.user|has_group:"Recruiter" or request.user|has_group:"Creator" or request.user.is_superuser %}
-        <div class="centered">
-            {% if request.path == '/recruitment/job-applications/received' %}
-                <a class="btn btn-info mb-0" href="{% url 'job-applications-closed' %}">View closed applications</a>
-                <a class="btn btn-info mb-0" href="{% url 'job-applications-review' %}">View applications under review</a>
-            {% elif request.path == '/recruitment/job-applications/closed' %}
-                <a class="btn btn-info mb-0" href="{% url 'job-applications' %}">View received applications</a>
-                <a class="btn btn-info mb-0" href="{% url 'job-applications-review' %}">View applications under review</a>
-            {% elif request.path == '/recruitment/job-applications/review' %}
-                <a class="btn btn-info mb-0" href="{% url 'job-applications' %}">View received applications</a>
-                <a class="btn btn-info mb-0" href="{% url 'job-applications-review' %}">View applications under review</a>
-            {% endif %}
-        </div>
-    {% endif %}
 {% endblock content %}

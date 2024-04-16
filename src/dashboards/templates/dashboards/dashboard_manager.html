@@ -69,18 +69,43 @@
                     </div>
                 </div>
                 <div class="info-box">
-                    <div class="mb-4">
+                    <div class="d-flex justify-content-center mb-2">
                         <h3 class="h3-special">Evaluations:</h3>
-                        {% if not assigned_evaluations %}
-                            <small>There are no waiting evaluations...</small>
-                        {% else %}
+                    </div>
+                    <div class="mb-4">
+                        <h5 class="h3-special">Waiting for review:</h5>
+                        {% if evaluations_count == 1 %}
+                            <small>There is {{ evaluations_count }} employee waiting for your review.</small>
                             {% for evaluation in assigned_evaluations %}
-                                <p>
+                                <p class="mt-2">
                                     <a class="btn btn-info"
                                        href="{% url 'evaluation-detail' evaluation.id %}">{{ evaluation }}</a>
                                 </p>
                             {% endfor %}
+                        {% elif number_of_applications > 1 %}
+                            <small>There are {{ evaluations_count }} employees waiting for your review.</small>
+                            {% for evaluation in assigned_evaluations %}
+                                <p class="mt-2">
+                                    <a class="btn btn-info"
+                                       href="{% url 'evaluation-detail' evaluation.id %}">{{ evaluation }}</a>
+                                </p>
+                            {% endfor %}
+                        {% else %}
+                            <small>No evaluations...</small>
                         {% endif %}
+                        <div class="mb-4">
+                            <h5 class="h3-special">Last completed:</h5>
+                            {% if completed_evaluations %}
+                                {% for evaluation in completed_evaluations %}
+                                    <p class="mt-2">
+                                        <a class="btn btn-info"
+                                           href="{% url "evaluation-complete" evaluation.id %}">{{ evaluation }}</a>
+                                    </p>
+                                {% endfor %}
+                            {% else %}
+                                <small>No evaluations...</small>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 <div class="info-box">
@@ -104,7 +129,23 @@
                     <div class="d-flex justify-content-center mb-2">
                         <h3 class="h3-special">How to use...</h3>
                     </div>
-                    <p>Some information here...</p>
+                    <h5 class="h3-special">Questionnaires:</h5>
+                    <p>
+                        <small>Questionnaires are templates of surveys, based on which you can later create evaluations and polls.</small>
+                    </p>
+                    <h5 class="h3-special">Evaluations:</h5>
+                    <p>
+                        <small>
+                        Employee evaluations are questionnaires that you fill out together with the employee. When both sides answer the questions, an employee performance rating will appear with a comparison of answers. It may serve as an ideal basis for discussing the employee's development within the organization.</small>
+                    </p>
+                    <h5 class="h3-special">Polls:</h5>
+                    <p>
+                        <small>Polls are surveys that are available to all employees of your organization. After the survey is closed, employees' responses will be summarized. The results will be publicly accessible for all employees to view.</small>
+                    </p>
+                    <h5 class="h3-special">Job Applications:</h5>
+                    <p>
+                        <small>In the manager's tab, you only see the job applications that have been preselected by the recruiter and sent for further review.</small>
+                    </p>
                 </div>
             </div>
         </div>

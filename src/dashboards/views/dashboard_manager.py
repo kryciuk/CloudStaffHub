@@ -26,7 +26,13 @@ class ManagerDashboardView(UserHasManagerOrHigherGroup, TemplateView):
         assigned_evaluations = Evaluation.objects.filter(manager=self.request.user, status_manager=False).order_by(
             "-date_end"
         )[:5]
+        completed_evaluations = Evaluation.objects.filter(
+            manager=self.request.user, status_manager=True, status_employee=True
+        ).order_by("-id")[:5]
+
         context["assigned_evaluations"] = assigned_evaluations
+        context["evaluations_count"] = len(Evaluation.objects.filter(manager=self.request.user, status_manager=False))
+        context["completed_evaluations"] = completed_evaluations
 
         # job applications
 

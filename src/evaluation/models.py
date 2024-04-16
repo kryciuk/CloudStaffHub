@@ -61,7 +61,7 @@ class Evaluation(models.Model):
     status_manager = models.BooleanField(default=False, help_text="true if evaluation filled by the manager")
 
     def __str__(self) -> str:
-        return f"{self.questionnaire}"
+        return f"{self.questionnaire} for {self.employee.first_name} {self.employee.last_name}"
 
     def get_absolute_url(self):
         reverse("dashboard-manager")
