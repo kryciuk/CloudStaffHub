@@ -104,7 +104,7 @@ class EmployeeProfileUpdateForm(forms.ModelForm):
 
 
 AdminEditFormSet = inlineformset_factory(
-    User, Profile, fields=("department",), extra=1, can_delete=False, can_delete_extra=False
+    User, Profile, fields=("department", "position"), extra=1, can_delete=False, can_delete_extra=False
 )
 
 

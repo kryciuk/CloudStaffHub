@@ -60,14 +60,34 @@
                         No information has been provided...
                     {% endif %}
                 </p>
-                <p>
-                    <strong>Interested In:</strong>
-                    {% if profile.interested_in %}
-                        {{ profile.interested_in }}
-                    {% else %}
-                        No information has been provided...
+                {% if request.user|has_group:"Candidate" %}
+                    <p>
+                        <strong>Interested In:</strong>
+                        {% if profile.interested_in %}
+                            {{ profile.interested_in }}
+                        {% else %}
+                            No information has been provided...
+                        {% endif %}
                     {% endif %}
                 </p>
+                {% if not request.user|has_group:"Candidate" %}
+                    <p>
+                        <strong>Position:</strong>
+                        {% if profile.position %}
+                            {{ profile.position }}
+                        {% else %}
+                            No information has been provided...
+                        {% endif %}
+                    </p>
+                    <p>
+                        <strong>Company:</strong>
+                        {% if profile.company %}
+                            <a href="{% url 'company-profile' profile.company.id %}">{{ profile.company }}</a>
+                        {% else %}
+                            No information has been provided...
+                        {% endif %}
+                    </p>
+                {% endif %}
             </div>
         </div>
     </div>

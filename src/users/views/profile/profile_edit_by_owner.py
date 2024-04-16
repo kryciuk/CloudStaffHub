@@ -5,7 +5,7 @@ from django.shortcuts import reverse
 from django.views.generic import UpdateView
 
 from core.base import redirect_to_dashboard_based_on_group
-from organizations.models import Department
+from organizations.models import Department, Position
 from users.forms import AdminEditFormSet, UserInfoEditByOwnerForm
 
 
@@ -31,6 +31,7 @@ class UserInfoEditByOwnerView(LoginRequiredMixin, PermissionRequiredMixin, Updat
         formset = AdminEditFormSet(instance=self.object)
         for form in formset:
             form.fields["department"].queryset = Department.objects.filter(company=self.object.profile.company)
+            form.fields["position"].queryset = Position.objects.filter(company=self.object.profile.company)
         data["admin_edit_formset"] = formset
         data["title"] = f"Edit Profile {self.object.first_name} {self.object.last_name} - CloudStaffHub"
         return data
