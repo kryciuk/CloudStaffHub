@@ -37,7 +37,10 @@ class PollResultsView(UserPassesTestMixin, DetailView):
         results = context["poll_results"]
         final_results = {}
         for question, answers in results.results.items():
-            final_results[question] = [Answer.objects.get(id=int(id_)) for id_ in answers]
+            if isinstance(answers, str):
+                final_results[question] = [Answer.objects.get(id=int(answers))]
+            else:
+                final_results[question] = [Answer.objects.get(id=int(id_)) for id_ in answers]
 
         questionnaire = results.poll.questionnaire
         questions = questionnaire.questions.all()

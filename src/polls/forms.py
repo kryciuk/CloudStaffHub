@@ -9,6 +9,7 @@ class PollCreateForm(ModelForm):
         model = Poll
         fields = "__all__"
         exclude = ["status", "date_created", "created_by"]
+        labels = {"date_end": "Date End"}
 
     def clean(self):
         cleaned_data = super().clean()

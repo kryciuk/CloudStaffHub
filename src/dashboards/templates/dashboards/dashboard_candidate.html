@@ -96,6 +96,15 @@
                             <br>
                         {% endif %}
                     {% endif %}
+                    {% if not newest_entries and not newest_entries_department and not newest_entries_field %}
+                        <br>
+                        <h4 class="h4-special">New on CloudStaffHub:</h4>
+                        {% for entry in newest_entries_not_personalized %}
+                            <p>
+                                <a class="btn btn-info" href="{% url 'job-offer-detail' entry.id %}">{{ entry }}</a>
+                            </p>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <div class="info-box">
                     <div class="mb-4">

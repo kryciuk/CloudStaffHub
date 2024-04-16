@@ -36,8 +36,9 @@ class PollCloseView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
         poll_id = kwargs["pk"]
         all_poll_answers = PollAnswer.objects.filter(poll=poll_id)
         pool_results = self.__clean_answers(all_poll_answers)
-        poll_final_results = PollResults(poll_id=poll_id, results=pool_results, close_date=datetime.datetime.now())
-        poll_final_results.save()
+        if pool_results:
+            poll_final_results = PollResults(poll_id=poll_id, results=pool_results, close_date=datetime.datetime.now())
+            poll_final_results.save()
         return super().post(request, *args, **kwargs)
 
     def __clean_answers(self, all_answers):
@@ -46,7 +47,8 @@ class PollCloseView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
             results = json.loads(answer.result)
             list_results.append(results)
         merged_dict = join_with(tuple, list_results)
-        merged_dict.pop("csrfmiddlewaretoken")
+        if merged_dict:
+            merged_dict.pop("csrfmiddlewaretoken")
         return merged_dict
 
     def form_valid(self, form):

@@ -1,5 +1,4 @@
 {% extends "landing/base.html" %}
-{% load static %}
 {% load auth_extras %}
 {% load crispy_forms_filters %}
 {% block title %}
@@ -7,7 +6,7 @@
 {% endblock title %}
 {% block content %}
     <style>
-      .container-polls {
+      .container-positions {
         width: 80%;
         margin: 20px auto;
         background: #f8f9fa;
@@ -19,48 +18,75 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
         border-radius: 5px;
       }
+
       .h2-special {
-            color: #f06161;
+            color: #E84D7A;
         }
+
+      .table-submit {
+        width: 100%;
+        table-layout: fixed;
+        }
+
+      .table-submit th,
+      .table-submit td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        }
+      .btn-danger {
+        width: 175px;
+      }
     </style>
-    <div class="container-polls">
+    <div class="container-positions">
         <div class="card card-body">
-            <h2 class="h2-special text-center">POLLS</h2>
-            {% csrf_token %}
-            <div>
-                <table class="table table-submit">
-                    <thead>
-                        <tr>
-                            <th>Poll</th>
-                            <th>Created by</th>
-                            <th>Date of creation</th>
-                            <th>Deadline</th>
-                            <th>Close</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for poll in polls %}
+            <h2 class="h2-special centered">POLLS</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <fieldset class="form-group">
+                        <form method="get" action="{% url 'poll-list' %}">
+                            {{ form | crispy }}
+                            <div class="centered">
+                                <button class="btn btn-danger" type="submit">Search</button>
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+                <div class="col-md-9">
+                    <table class="table table-submit">
+                        <thead>
                             <tr>
-                                <td>
-                                    <a href="{% url 'questionnaire-detail' poll.questionnaire.id %}">{{ poll.questionnaire }}</a>
-                                </td>
-                                <td>{{ poll.created_by }}</td>
-                                <td>{{ poll.date_created }}</td>
-                                <td>{{ poll.date_end }}</td>
-                                <td>
-                                    <form method="post" action="{% url 'poll-close' poll.id %}">
-                                        {% csrf_token %}
-                                        {% if poll.status == True %}
-                                            <button type="submit" class="btn btn-danger">CLOSE</button>
-                                        {% else %}
-                                            <p>CLOSED</p>
-                                        {% endif %}
-                                    </form>
-                                </td>
+                                <th>Poll</th>
+                                <th>Created by</th>
+                                <th>Date of creation</th>
+                                <th>Deadline</th>
+                                <th>Close</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for poll in polls %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'questionnaire-detail' poll.questionnaire.id %}">{{ poll.questionnaire }}</a>
+                                    </td>
+                                    <td>{{ poll.created_by }}</td>
+                                    <td>{{ poll.date_created }}</td>
+                                    <td>{{ poll.date_end }}</td>
+                                    <td>
+                                        <form method="post" action="{% url 'poll-close' poll.id %}">
+                                            {% csrf_token %}
+                                            {% if poll.status == True %}
+                                                <button type="submit" class="btn btn-danger">CLOSE</button>
+                                            {% else %}
+                                                <p>CLOSED</p>
+                                            {% endif %}
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -37,9 +37,9 @@
                                     {% endfor %}
                                 </fieldset>
                                 <div class="form-group">
+                                    {% csrf_token %}
                                     <form method="post"
                                           action="{% url "questionnaire-close" questionnaire.id %}">
-                                        {% csrf_token %}
                                         <button type="button" class="btn btn-outline-danger">Close Questionnaire</button>
                                         <div class="float-right">
                                             <a class="btn btn-outline-secondary"

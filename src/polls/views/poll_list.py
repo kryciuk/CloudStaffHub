@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views.generic import ListView
 
 from core.base import redirect_to_dashboard_based_on_group
+from polls.filters import PollFilter
 from polls.models import Poll
 
 
@@ -16,6 +17,7 @@ class PollListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Poll List - CloudStaffHub"
+        context["form"] = self.filterset.form
         return context
 
     def handle_no_permission(self):
@@ -29,4 +31,5 @@ class PollListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(questionnaire__company=self.request.user.profile.company)
         queryset = queryset.order_by("-status", "-date_created")
-        return queryset
+        self.filterset = PollFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs

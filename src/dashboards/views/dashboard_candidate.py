@@ -55,9 +55,12 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
                 .exclude(id__in=proposed_job_offers)
                 .order_by("-id")[:5]
             )
+        newest_entries_not_personalized = JobOffer.objects.filter(status=True).order_by("-id")[:5]
+
         context["newest_entries"] = proposed_job_offers
         context["newest_entries_department"] = proposed_job_offers_by_department
         context["newest_entries_field"] = proposed_job_offers_by_field
+        context["newest_entries_not_personalized"] = newest_entries_not_personalized
 
         # articles tips job hunting
 

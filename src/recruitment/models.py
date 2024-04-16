@@ -42,3 +42,6 @@ class JobApplication(models.Model):
 
     def get_absolute_url(self):
         return reverse("job-offers")
+
+    def __repr__(self):
+        return f"ID:{self.id} {self.job_offer}"
