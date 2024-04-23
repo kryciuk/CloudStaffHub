@@ -14,7 +14,7 @@ class EvaluationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
     form_class = EvaluationCreateForm
     template_name = "evaluation/evaluation_create.html"
     context_object_name = "evaluation"
-    permission_required = "evaluation.create_evaluation"
+    permission_required = "evaluation.add_evaluation"
 
     def get_context_data(self, **kwargs):
         context = super(EvaluationCreateView, self).get_context_data(**kwargs)

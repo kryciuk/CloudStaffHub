@@ -19,6 +19,7 @@ class LandingConfig(AppConfig):
         from django.contrib.auth.models import Group, Permission
         from django.contrib.contenttypes.models import ContentType
 
+        from evaluation.models import Evaluation
         from organizations.models import (
             City,
             Company,
@@ -32,8 +33,8 @@ class LandingConfig(AppConfig):
 
         # all model permissions
 
-        models_to_fetch_owner = [JobOffer, City, Company, Position, Poll, Department]
-        models_to_fetch_manager = [JobOffer, City, Company, Position, Poll]
+        models_to_fetch_owner = [JobOffer, City, Company, Position, Poll, Department, Evaluation]
+        models_to_fetch_manager = [JobOffer, City, Company, Position, Poll, Evaluation]
         models_to_fetch_recruiter = [JobOffer, City, Position]
 
         # single permissions

@@ -31,6 +31,7 @@ safety = "^3.0.1"
 bandit = "^1.7.7"
 ruff = "^0.1.14"
 requests = "^2.31.0"
+django-silk = "^5.1.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -5,7 +5,7 @@
     {{ title }}
 {% endblock title %}
 {% block content %}
-    <style>
+    <style xmlns="http://www.w3.org/1999/html">
         #content {
             margin: 20px;
             padding: 20px;
@@ -72,8 +72,76 @@
             </div>
             <div class="info-box">
                 <div class="d-flex justify-content-center mb-2">
-                    <h3 class="h3-special">Placeholder</h3>
+                    <h3 class="h3-special">{{ request.user.profile.company }} Statistics</h3>
                 </div>
+                <h5 class="h3-special">Company:</h5>
+                <p>
+                    <small>Number of departments: <strong>{{ number_of_departments }}</strong></small>
+                    <br>
+                    {% if number_of_employees == 1 %}
+                        <small>There is <strong>{{ number_of_employees }}</strong> registered employee on CloudStaffHub.</small>
+                    {% else %}
+                        <small>There are <strong>{{ number_of_employees }}</strong> registered employees on CloudStaffHub.</small>
+                    {% endif %}
+                </p>
+                <h5 class="h3-special">Evaluations:</h5>
+                <p>
+                    {% if number_of_open_evaluations == 1 %}
+                        <small>There is <strong>{{ number_of_open_evaluations }}</strong> open evaluation on CloudStaffHub.</small>
+                    {% else %}
+                        <small>There are <strong>{{ number_of_open_evaluations }}</strong> open evaluations on CloudStaffHub.</small>
+                    {% endif %}
+                    <br>
+                    {% if number_of_closed_evaluations_evaluations == 1 %}
+                        <small>There is <strong>{{ number_of_closed_evaluations }}</strong> closed evaluation on CloudStaffHub.</small>
+                    {% else %}
+                        <small>There are <strong>{{ number_of_closed_evaluations }}</strong> closed evaluations on CloudStaffHub.</small>
+                    {% endif %}
+                    <br>
+                    <small>Evaluations in total: <strong>{{ total_evaluations }}</strong>.</small>
+                </p>
+                <h5 class="h3-special">Polls:</h5>
+                <p>
+                    {% if number_of_open_polls == 1 %}
+                        <small>There is <strong>{{ number_of_open_polls }}</strong> open poll on CloudStaffHub.</small>
+                    {% else %}
+                        <small>There are <strong>{{ number_of_open_polls }}</strong> open polls on CloudStaffHub.</small>
+                    {% endif %}
+                    <br>
+                    {% if number_of_closed_polls == 1 %}
+                        <small>There is <strong>{{ number_of_closed_polls }}</strong> closed poll on CloudStaffHub.</small>
+                    {% else %}
+                        <small>There are <strong>{{ number_of_closed_polls }}</strong> closed polls on CloudStaffHub.</small>
+                    {% endif %}
+                    <br>
+                    <small>Polls in total: <strong>{{ total_polls }}</strong>.</small>
+                </p>
+                <h5 class="h3-special">Job Offers:</h5>
+                <p>
+                    {% if number_of_open_job_offers == 1 %}
+                        <small>There is <strong>{{ number_of_open_job_offers }}</strong> open job offer on CloudStaffHub.</small>
+                    {% else %}
+                        <small>There are <strong>{{ number_of_open_job_offers }}</strong> open job offers on CloudStaffHub.</small>
+                    {% endif %}
+                    <br>
+                    {% if number_of_closed_evaluations_evaluations == 1 %}
+                        <small>There is <strong>{{ number_of_closed_job_offers }}</strong> closed job offer on CloudStaffHub.</small>
+                    {% else %}
+                        <small>There are <strong>{{ number_of_closed_job_offers }}</strong> closed job offers on CloudStaffHub.</small>
+                    {% endif %}
+                    <br>
+                    <small>Job Offers in total: <strong>{{ total_jon_offers }}</strong>.</small>
+                </p>
+                <h5 class="h3-special">Job Applications:</h5>
+                <p>
+                    {% if number_of_waiting_job_applications == 1 %}
+                        <small>There is <strong>{{ number_of_pending_job_applications }}</strong> pending job application on CloudStaffHub.</small>
+                    {% else %}
+                        <small>There are <strong>{{ number_of_pending_job_applications }}</strong> pending job applications on CloudStaffHub.</small>
+                    {% endif %}
+                    <br>
+                    <small>Job Applications in total: <strong>{{ total_jon_applications }}</strong>.</small>
+                </p>
             </div>
         </div>
     </div>

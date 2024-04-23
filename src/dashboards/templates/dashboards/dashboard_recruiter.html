@@ -103,7 +103,9 @@
                         {% endfor %}
                     {% endfor %}
                 {% else %}
-                    <p>No applications...</p>
+                    <p>
+                        <small>No applications...</small>
+                    </p>
                 </div>
             {% endif %}
         </div>
@@ -112,8 +114,26 @@
             <p>Some information here...</p>
         </div>
         <div class="info-box">
-            <h3>Info Box 4</h3>
-            <p>Some information here...</p>
+            <div class="d-flex justify-content-center mb-2">
+                <h3 class="h3-special">How to use...</h3>
+            </div>
+            <h5 class="h3-special">Positions:</h5>
+            <p>
+                <small>Prior to creating a job offer, create an employee position if needed. Positions are also utilized to assign roles to employee profiles. Within the positions module, you can view, create, and remove positions that are no longer required.</small>
+            </p>
+            <h5 class="h3-special">Cities:</h5>
+            <p>
+                <small>
+                Before creating a job offer, you can add a city to our database if it has not been added by other users before.</small>
+            </p>
+            <h5 class="h3-special">Job Offers:</h5>
+            <p>
+                <small>Within the "Job Offers" module, you can browse job offers published by authorized members of your organization. Each offer can be edited, and the recruitment process can be closed if necessary.</small>
+            </p>
+            <h5 class="h3-special">Job Applications:</h5>
+            <p>
+                <small>Within the "Job Applications" module, you can review applications submitted by candidates. If a candidate is promising, you can forward the application to the department manager. Upon the manager's approval, the application will reappear in the "Approved Applications" tab. After contacting the potential employee, you have the option to close the application.</small>
+            </p>
         </div>
     </div>
 {% endblock content %}

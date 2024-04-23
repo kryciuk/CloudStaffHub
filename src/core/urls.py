@@ -15,4 +15,7 @@ urlpatterns = [
     path("polls/", include("polls.urls")),
     path("calendar/", include("events.urls")),
     path("company-owner/", include("owner.urls")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL) + [path("silk/", include("silk.urls", namespace="silk"))]

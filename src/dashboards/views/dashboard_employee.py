@@ -42,7 +42,9 @@ class EmployeeDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
 
         # polls
 
-        open_polls = Poll.objects.filter(status=True, questionnaire__company=self.request.user.profile.company)
+        open_polls = Poll.objects.prefetch_related("answers").filter(
+            status=True, questionnaire__company=self.request.user.profile.company
+        )
         for poll in open_polls:
             answers = poll.answers.all()
             for answer in answers:
@@ -51,7 +53,7 @@ class EmployeeDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
         context["open_polls"] = open_polls
 
         today = date.today()
-        poll_results = PollResults.objects.filter(
+        poll_results = PollResults.objects.select_related("poll").filter(
             poll__questionnaire__company=self.request.user.profile.company, close_date__lte=today + timedelta(7)
         )
         context["poll_results"] = poll_results

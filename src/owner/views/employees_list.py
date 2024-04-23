@@ -12,7 +12,7 @@ class EmployeesListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "owner/employees_list.html"
     context_object_name = "employees"
     queryset = User.objects.all()
-    permission_required = "departments.add_department"
+    permission_required = "organizations.add_department"
 
     def get_queryset(self):
         queryset = User.objects.filter(profile__company=self.request.user.profile.company).all()
@@ -28,7 +28,7 @@ class EmployeesListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            messages.warning(self.request, "You don't have the required permissions to update company profile.")
+            messages.warning(self.request, "You don't have the required permissions to view list of employees.")
             group = self.request.user.groups.first()
             return redirect_to_dashboard_based_on_group(group.name)
         messages.warning(self.request, "You are not logged in.")

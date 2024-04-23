@@ -50,6 +50,10 @@
         .table-submit td:nth-child(4) {
             width: 15%;
         }
+        .btn-info {
+        width: 175px;
+        }
+
     </style>
     <div class="container-departments">
         <div class="card card-body">
@@ -58,7 +62,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="centered">
-                        <a class="btn btn-info mb-0" href="{% url 'department-create' %}">Add New Department</a>
+                        <a class="btn btn-info mb-0" href="{% url 'department-create' %}">Add Department</a>
                     </div>
                     <fieldset class="form-group">
                         <form method="get" action="{% url 'department-list' %}">
@@ -91,7 +95,7 @@
                                         <tr>
                                             <td>{{ department }}</td>
                                             <td>
-                                                <a href="{% url 'profile' department.manager.profile.id %}">{{ department.manager }}</a>
+                                                <a href="{% url 'profile' department.manager.profile.id %}">{{ department.manager.first_name }} {{ department.manager.last_name }}</a>
                                             </td>
                                             <td>
                                                 {% for k, v in employees.items %}
@@ -100,7 +104,9 @@
                                                             <a class="text-muted">No employees assigned.</a>
                                                         {% else %}
                                                             {% for employee in v %}
-                                                                <a href="{% url 'profile' employee.profile.id %}">{{ employee }}</a>
+                                                                <a href="{% url 'profile' employee.profile.id %}">{{ employee.first_name }} {{ employee.last_name }}
+                                                                    <br>
+                                                                </a>
                                                             {% endfor %}
                                                         {% endif %}
                                                     {% endif %}
