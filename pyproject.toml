@@ -32,6 +32,8 @@ bandit = "^1.7.7"
 ruff = "^0.1.14"
 requests = "^2.31.0"
 django-silk = "^5.1.0"
+plotly = "^5.21.0"
+pandas = "^2.2.2"
 
 [build-system]
 requires = ["poetry-core"]

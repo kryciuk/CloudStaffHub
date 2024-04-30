@@ -11,7 +11,9 @@ class Profile(models.Model):
     phone_number = PhoneNumberField(null=True, blank=True)
     interested_in = models.ForeignKey(Industry, on_delete=models.SET_NULL, null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
+    department = models.ForeignKey(
+        Department, on_delete=models.SET_NULL, null=True, blank=True, related_name="employee"
+    )
     profile_pic = models.ImageField(upload_to="users/media/profile_pic", default="users/media/profile_pic/default.jpg")
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
 

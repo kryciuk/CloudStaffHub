@@ -1,12 +1,14 @@
+import plotly.graph_objects as go
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.views.generic import TemplateView
 
 from evaluation.models import Evaluation
 from organizations.models import Department
 from polls.models import Poll
 from recruitment.models import JobApplication, JobOffer
+from users.models import Profile
 
 
 class UserHasOwnerOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
@@ -54,5 +56,26 @@ class OwnerDashboardView(UserHasOwnerOrHigherGroup, TemplateView):
             JobApplication.objects.filter(job_offer__company=company, status=JobApplication.Status.RECEIVED)
         )
         context["total_jon_applications"] = len(JobApplication.objects.filter(job_offer__company=company))
+
+        # chart
+
+        departments = (
+            Department.objects.filter(company=company)
+            .annotate(number_of_employees=Count("employee"))
+            .prefetch_related("employee")
+        )
+
+        labels = [department.name for department in departments]
+        values = [department.number_of_employees for department in departments]
+
+        not_assigned = len(Profile.objects.filter(company=company, department=None))
+        labels.append("Not Assigned")
+        values.append(not_assigned)
+
+        fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+        fig.update_traces(hoverinfo="label+percent", textinfo="value")
+
+        chart = fig.to_html()
+        context["fig"] = chart
 
         return context

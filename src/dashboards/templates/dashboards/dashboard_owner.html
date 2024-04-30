@@ -31,6 +31,17 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
+        .info-box-combo {
+            flex: 1;
+            max-width: calc(50% - 20px);
+            background-color: #f4f4f6;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
         .btn-info {
             width: 300px;
         }
@@ -60,15 +71,11 @@
                     </p>
                 </div>
             </div>
-            <div class="info-box">
+            <div class="info-box-combo">
                 <div class="d-flex justify-content-center mb-2">
-                    <h3 class="h3-special">Placeholder</h3>
+                    <h3 class="h3-special">Employees per Department</h3>
                 </div>
-            </div>
-            <div class="info-box">
-                <div class="d-flex justify-content-center mb-2">
-                    <h3 class="h3-special">Placeholder</h3>
-                </div>
+                <div>{{ fig | safe }}</div>
             </div>
             <div class="info-box">
                 <div class="d-flex justify-content-center mb-2">
