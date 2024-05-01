@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.db.models import Count, Q
 from django.views.generic import TemplateView
 
@@ -57,7 +57,7 @@ class OwnerDashboardView(UserHasOwnerOrHigherGroup, TemplateView):
         )
         context["total_jon_applications"] = len(JobApplication.objects.filter(job_offer__company=company))
 
-        # chart
+        # chart - Employees per Department
 
         departments = (
             Department.objects.filter(company=company)
@@ -77,5 +77,22 @@ class OwnerDashboardView(UserHasOwnerOrHigherGroup, TemplateView):
 
         chart = fig.to_html()
         context["fig"] = chart
+
+        # chart2 - Employees by Assigned Group
+
+        groups = Group.objects.all().exclude(name="Candidate")
+        num_of_emp_in_each_group = [
+            len(User.objects.filter(profile__company=company, groups__name=group.name)) for group in groups
+        ]
+
+        groups_employees = {group.name: user for group, user in zip(groups, num_of_emp_in_each_group)}
+        groups = list(groups_employees.keys())
+        employees = list(groups_employees.values())
+
+        fig1 = go.Figure(data=[go.Pie(labels=groups, values=employees)])
+        fig1.update_traces(hoverinfo="label+percent", textinfo="value")
+
+        chart1 = fig1.to_html()
+        context["fig1"] = chart1
 
         return context
