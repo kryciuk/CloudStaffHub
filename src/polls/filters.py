@@ -1,5 +1,4 @@
 import django_filters
-from django import forms
 
 from polls.models import Poll
 
@@ -13,7 +12,7 @@ class PollFilter(django_filters.FilterSet):
     created_by = django_filters.CharFilter(
         field_name="created_by__username", lookup_expr="icontains", label="Created by"
     )
-    status = django_filters.BooleanFilter(field_name="status", label="View Closed Polls", widget=forms.CheckboxInput())
+    status = django_filters.BooleanFilter(field_name="status", label="Poll Status")
 
     class Meta:
         model = Poll
