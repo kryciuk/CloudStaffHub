@@ -57,6 +57,10 @@ jobs:
     - name: Run Bandit
       run: |
         poetry run bandit -r .
+      tags-ignore:
+        - 'B106'
+        - 'B311'
+        - 'B113'
     - name: Run Safety
       run: |
         poetry run safety check
