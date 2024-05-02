@@ -14,10 +14,6 @@ class JobOffersListView(LoginRequiredMixin, ListView):
     paginate_by = 5
 
     def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            messages.warning(self.request, "You don't have the required permissions to access this page.")
-            group = self.request.user.groups.first()
-            return redirect_to_dashboard_based_on_group(group.name)
         messages.warning(self.request, "You are not logged in.")
         return redirect_to_dashboard_based_on_group("")
 

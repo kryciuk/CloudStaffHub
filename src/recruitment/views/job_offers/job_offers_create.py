@@ -11,7 +11,7 @@ from recruitment.forms import JobOfferForm
 from recruitment.models import Position
 
 
-class JobOffersCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+class JobOffersCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = "recruitment.add_joboffer"
     form_class = JobOfferForm
     template_name = "recruitment/job_offers/job_offer_update.html"
