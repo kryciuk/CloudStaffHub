@@ -34,6 +34,7 @@ requests = "^2.31.0"
 django-silk = "^5.1.0"
 plotly = "^5.21.0"
 pandas = "^2.2.2"
+coverage = "^7.5.0"
 
 [build-system]
 requires = ["poetry-core"]
