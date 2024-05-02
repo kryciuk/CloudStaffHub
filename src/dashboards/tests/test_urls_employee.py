@@ -26,11 +26,6 @@ class TestEmployeeUrls(TestCase):
         cls.user = user
         cls.user_not_employee = user_not_employee
 
-    # def test_url_exists_at_correct_location_if_user_has_group_employee(self):
-    #     self.client.login(username=self.user.username, password="password")
-    #     response = self.client.get("dashboard/employee/", {"user_id": self.user.id})
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-
     def test_url_available_by_name_if_user_has_group_employee(self):
         self.client.login(username=self.user.username, password="password")
         response = self.client.get(reverse("dashboard-employee"), {"user_id": self.user.id})
