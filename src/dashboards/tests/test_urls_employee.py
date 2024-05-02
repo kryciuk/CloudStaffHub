@@ -33,7 +33,6 @@ class TestEmployeeUrls(TestCase):
 
     def test_url_forbidden_if_user_is_not_employee(self):
         self.client.force_login(self.user_not_employee)
-        # self.client.login(username=self.user_not_employee.username, password="password")
         response = self.client.get(reverse("dashboard-employee"), {"user_id": self.user_not_employee.id})
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
