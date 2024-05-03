@@ -1,7 +1,7 @@
 import datetime
 import os
 
-from django.test import TransactionTestCase
+from django.test import TransactionTestCase, tag
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
@@ -23,11 +23,12 @@ class TestJobOfferApplyView(TransactionTestCase):
         self.user_owner = OwnerFactory.create()
         self.user_candidate.profile.phone_number = "+48500500500"
         self.user_candidate.profile.save()
-        JobOfferFactory.create()
+        self.job_offer = JobOfferFactory.create(status=True)
 
+    @tag("y")
     def test_correct_user_data_is_loaded_initially(self):
         self.client.force_login(self.user_candidate)
-        response = self.client.get(reverse("job-offer-apply", kwargs={"pk": 1}))
+        response = self.client.get(reverse("job-offer-apply", kwargs={"pk": self.job_offer.id}))
         self.assertEqual(response.context["form"].initial["first_name"], self.user_candidate.first_name)
         self.assertEqual(response.context["form"].initial["last_name"], self.user_candidate.last_name)
         self.assertEqual(response.context["form"].initial["email"], self.user_candidate.email)

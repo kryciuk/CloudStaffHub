@@ -15,12 +15,11 @@ class JobOffersApplyView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     template_name = "recruitment/job_offers/job_offer_apply.html"
     context_object_name = "job_application"
 
-    # def get(self, request, *args, **kwargs):
-    #     job_offer = JobOffer.objects.filter(pk=kwargs.get("pk")).first()
-    #     if job_offer:
-    #         if job_offer.status is False:
-    #             raise Http404("A job offer with this ID does not exist.")
-    #     return self.get(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        job_offer = JobOffer.objects.filter(pk=kwargs.get("pk")).first()
+        if job_offer and not job_offer.status:
+            raise Http404("A job offer with this ID does not exist.")
+        return super().get(request, *args, **kwargs)
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
