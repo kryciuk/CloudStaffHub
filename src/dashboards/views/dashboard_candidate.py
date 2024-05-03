@@ -65,7 +65,7 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
         # articles tips job hunting
 
         results_tips = requests.get(
-            "https://newsapi.org/v2/everything?q=job+hunting+tips&apiKey=063c8ff3b9ab476297774505a481006d"
+            "https://newsapi.org/v2/everything?q=job+hunting+tips&apiKey=063c8ff3b9ab476297774505a481006d", timeout=5
         ).json()
         articles_tips = results_tips["articles"]
         random_article_tips = random.randrange(0, len(articles_tips))
@@ -86,7 +86,8 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
 
         context["industry"] = industry
         results_industry = requests.get(
-            f"https://newsapi.org/v2/everything?q={industry}&sortby=relevancy&language=en&from={oldest_article_date}&apiKey=063c8ff3b9ab476297774505a481006d"
+            f"https://newsapi.org/v2/everything?q={industry}&sortby=relevancy&language=en&from={oldest_article_date}&apiKey=063c8ff3b9ab476297774505a481006d",
+            timeout=5,
         ).json()
         articles_industry = results_industry["articles"]
         most_relevant = round(len(articles_industry) * 0.3)

@@ -2,8 +2,9 @@
 name = "cloudstaffhub"
 version = "0.1.0"
 description = "HR application"
-authors = ["Your Name <you@example.com>"]
+authors = [""]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "3.10.9"
@@ -43,4 +44,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.bandit]
 exclude_dirs = ['tests']
-skips = ['B106', 'B311', 'B113']
+skips = ['B106', 'B311']

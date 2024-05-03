@@ -215,7 +215,7 @@ class TestPollListView(TransactionTestCase):
 
     def test_if_owner_can_access_list_of_polls(self):
         self.client.force_login(self.user_owner1)
-        response = self.client.get(reverse("poll-list"))
+        response = self.client.get(f'{reverse("poll-list")}?status=on')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.context["polls"]), 2)
 
