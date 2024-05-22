@@ -10,7 +10,7 @@ class QuestionnaireDetailView(LoginRequiredMixin, PermissionRequiredMixin, Detai
     model = Questionnaire
     context_object_name = "questionnaire"
     template_name = "evaluation/questionnaire_detail.html"
-    permission_required = "questionnaire.view_questionnaire"
+    permission_required = "evaluation.view_questionnaire"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
