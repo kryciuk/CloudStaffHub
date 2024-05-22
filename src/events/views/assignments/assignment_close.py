@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 
@@ -13,4 +14,5 @@ class AssignmentCloseView(UpdateView):
 
     def form_valid(self, form):
         form.instance.status = True
+        messages.success(self.request, "Assignment is now closed.")
         return super().form_valid(form)

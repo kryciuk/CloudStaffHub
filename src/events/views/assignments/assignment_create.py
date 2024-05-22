@@ -26,6 +26,7 @@ class AssignmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
     def form_valid(self, form):
         if has_group(self.request.user, "Manager") or has_group(self.request.user, "Owner"):
             form.instance.manager = self.request.user
+        messages.success(self.request, "New assignment has been added.")
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
