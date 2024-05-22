@@ -1,48 +1,44 @@
-{% extends 'landing/base.html' %}
-{% load static %}
+{% extends "landing/base.html" %}
+{% load crispy_forms_tags %}
+{% load auth_extras %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% load bootstrap4 %}
 {% block content %}
-    {% load crispy_forms_tags %}
-    <title>{{ title }}</title>
-    <head>
-        <style>
-		    .container {
-                    width: 600px;
-                    margin-top: 20px;
-                    margin-bottom: auto;
-                    background: #f8f9fa;
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                    flex-direction: column;
-                    padding: 10px;
-                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
-                    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-                    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-                    border-radius: 5px;
-                }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="card card-body">
-                <article class="media content-section">
-                    <div class="media-body">
-                        <div class="article-metadata">
-                            <form method="POST">
-                                {% csrf_token %}
-                                <fieldset class="form-group">
-                                    <legend class="border-bottom mb-4">Add answer</legend>
-                                    {{ form | crispy }}
-                                </fieldset>
-                                <div class="form-group">
-                                    <button class="btn btn-outline-info" type="submit">Add answer</button>
-                                    <a class="btn-info" href="{% url 'question-create' id_questionnaire %}">Add more questions</a>
+    {{ form.media }}
+    <style>
+    .btn-outline-secondary {
+        width: 175px;
+    }
+    .btn-outline-info {
+        width: 175px;
+    }
+    .legend-heading {
+    color: #f06161;
+    }
+    </style>
+    <div class="container">
+        <div class="card card-body">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <form method="post">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="legend-heading border-bottom mb-4">Add Answer</legend>
+                                {{ form | crispy }}
+                            </fieldset>
+                            <div class="form-group">
+                                <button class="btn btn-outline-info" type="submit">Add</button>
+                                <div class="float-right">
+                                    <a class="btn-info" href="{% url 'question-create' id_questionnaire %}"><strong>Add More Questions</strong> / <strong>Finish Creating Questionnaire</strong></a>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
-                </article>
-            </div>
+                </div>
+            </article>
         </div>
-    </body>
-{% endblock %}
+    </div>
+{% endblock content %}
