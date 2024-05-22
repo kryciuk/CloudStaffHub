@@ -25,6 +25,8 @@
                                 <div class="event-box mb-3">
                                     <strong>{{ assignment }}</strong>
                                     <br>
+                                    <small>Details: {{ assignment.description }}</small>
+                                    <br>
                                     <small>Deadline: {{ assignment.event_date }}</small>
                                     <small>
                                         {% if assignment.is_past %}
