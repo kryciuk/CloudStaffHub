@@ -1,5 +1,6 @@
 {% extends "landing/base.html" %}
 {% load static %}
+{% load auth_extras %}
 {% load crispy_forms_tags %}
 {% block title %}
     {{ title }}
@@ -31,8 +32,10 @@
                                 <div class="form-group">
                                     <button class="btn btn-outline-info add-button" type="submit">Add</button>
                                     <div class="float-right">
-                                        <a class="btn btn-outline-secondary"
-                                           href="{% url 'department-create' %}">Add Department</a>
+                                        {% if request.user|has_group:"Owner" or request.user.is_superuser %}
+                                            <a class="btn btn-outline-secondary"
+                                               href="{% url 'department-create' %}">Add Department</a>
+                                        {% endif %}
                                         <a class="btn btn-outline-secondary" href="{% url 'positions-list' %}">View Positions</a>
                                     </div>
                                 </div>
