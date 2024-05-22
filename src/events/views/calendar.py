@@ -1,14 +1,17 @@
 import calendar
 from calendar import HTMLCalendar
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView
 
+from core.base import redirect_to_dashboard_based_on_group
 from events.models import Assignment
 
 
-class CalendarDetailView(LoginRequiredMixin, TemplateView):
+class CalendarDetailView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "events/calendar.html"
+    permission_required = "events.add_assignment"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -35,3 +38,11 @@ class CalendarDetailView(LoginRequiredMixin, TemplateView):
         context["assignments"] = assignments
 
         return context
+
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            messages.warning(self.request, "You don't have the required permissions to access this page.")
+            group = self.request.user.groups.first()
+            return redirect_to_dashboard_based_on_group(group.name)
+        messages.warning(self.request, "You are not logged in.")
+        return redirect_to_dashboard_based_on_group("")

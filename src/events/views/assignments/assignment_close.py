@@ -1,14 +1,13 @@
-from django.shortcuts import reverse
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 
-from events.forms import AssigmentStatusForm
+from events.forms import AssignmentStatusForm
 from events.models import Assignment
 
 
 class AssignmentCloseView(UpdateView):
     model = Assignment
-    form_class = AssigmentStatusForm
+    form_class = AssignmentStatusForm
     context_object_name = "assignment"
     success_url = reverse_lazy("assignments")
 

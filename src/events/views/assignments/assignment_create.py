@@ -1,27 +1,30 @@
 import datetime
 
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.utils import timezone
 from django.views.generic import CreateView
 
-from core.base import has_group
-from events.forms import AssigmentForm
+from core.base import has_group, redirect_to_dashboard_based_on_group
+from events.forms import AssignmentForm
 
 
-class AssignmentCreateView(CreateView):
-    form_class = AssigmentForm
+class AssignmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    form_class = AssignmentForm
     template_name = "events/assignments/assignment_create.html"
     context_object_name = "assignment"
+    permission_required = "events.add_assignment"
 
-    def get_form(self, form_class=AssigmentForm):
+    def get_form(self, form_class=AssignmentForm):
         form = super().get_form()
         form.fields["event_date"].widget = DateTimePickerInput()
         return form
 
     def form_valid(self, form):
-        if has_group(self.request.user, "Manager") or has_group(self.request.user, "Creator"):
+        if has_group(self.request.user, "Manager") or has_group(self.request.user, "Owner"):
             form.instance.manager = self.request.user
         return super().form_valid(form)
 
@@ -39,3 +42,11 @@ class AssignmentCreateView(CreateView):
     def get_success_url(self):
         year, month_number = datetime.datetime.now().year, datetime.datetime.now().month
         return reverse("calendar", args=(year, month_number))
+
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            messages.warning(self.request, "You don't have the required permissions to access this page.")
+            group = self.request.user.groups.first()
+            return redirect_to_dashboard_based_on_group(group.name)
+        messages.warning(self.request, "You are not logged in.")
+        return redirect_to_dashboard_based_on_group("")
