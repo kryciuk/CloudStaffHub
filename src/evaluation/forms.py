@@ -15,6 +15,7 @@ class QuestionForm(ModelForm):
         model = Question
         fields = "__all__"
         exclude = ["questionnaire", "selected_answer"]
+        labels = {"text": "Question Text"}
 
 
 class AnswerForm(ModelForm):
@@ -22,6 +23,7 @@ class AnswerForm(ModelForm):
         model = Answer
         fields = "__all__"
         exclude = ["question"]
+        labels = {"answer": "Answer Text"}
 
 
 class EvaluationCreateForm(ModelForm):
