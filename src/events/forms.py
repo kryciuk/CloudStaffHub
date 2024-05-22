@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from events.models import Assignment
 
 
-class AssigmentForm(ModelForm):
+class AssignmentForm(ModelForm):
     class Meta:
         model = Assignment
         fields = "__all__"
@@ -11,7 +11,7 @@ class AssigmentForm(ModelForm):
         labels = {"name": "Name", "event_date": "Deadline", "employee": "Assigned Employees"}
 
 
-class AssigmentStatusForm(ModelForm):
+class AssignmentStatusForm(ModelForm):
     class Meta:
         model = Assignment
         fields = ["status"]
