@@ -1,3 +1,5 @@
+from itertools import chain
+
 import django_filters
 from django import forms
 from django.contrib.auth.models import User
@@ -5,6 +7,17 @@ from django.db.models import Q
 from django_filters import OrderingFilter
 
 from organizations.models import Department
+
+
+def get_all_departments(self):
+    department_choices = list(
+        User.objects.exclude(profile__department__name=None)
+        .order_by("profile__department__name")
+        .values_list("profile__department__name", "profile__department__name")
+        .distinct()
+    )
+    department_choices.append(("No Department", "No Department"))
+    return department_choices
 
 
 class DepartmentFilter(django_filters.FilterSet):
@@ -29,17 +42,18 @@ class EmployeeFilter(django_filters.FilterSet):
     first_name = django_filters.CharFilter(field_name="first_name", lookup_expr="icontains", label="First Name")
     last_name = django_filters.CharFilter(field_name="last_name", lookup_expr="icontains", label="Last Name")
     email = django_filters.CharFilter(field_name="email", lookup_expr="icontains", label="Email")
-    department_choices = list(
-        User.objects.exclude(profile__department__name=None)
-        .order_by("profile__department__name")
-        .values_list("profile__department__name", "profile__department__name")
-        .distinct()
-    )
-    department_choices.append(("No Department", "No Department"))
 
     department = django_filters.MultipleChoiceFilter(
         field_name="profile__department__name",
-        choices=department_choices,
+        choices=chain(
+            list(
+                User.objects.exclude(profile__department__name=None)
+                .order_by("profile__department__name")
+                .values_list("profile__department__name", "profile__department__name")
+                .distinct()
+            ),
+            ("No Department", "No Department"),
+        ),
         widget=forms.CheckboxSelectMultiple,
         label="Department",
         method="filter_by_department",
