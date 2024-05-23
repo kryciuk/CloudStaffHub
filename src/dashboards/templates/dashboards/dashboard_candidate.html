@@ -99,11 +99,15 @@
                     {% if not newest_entries and not newest_entries_department and not newest_entries_field %}
                         <br>
                         <h4 class="h4-special">New on CloudStaffHub:</h4>
-                        {% for entry in newest_entries_not_personalized %}
-                            <p>
-                                <a class="btn btn-info" href="{% url 'job-offer-detail' entry.id %}">{{ entry }}</a>
-                            </p>
-                        {% endfor %}
+                        {% if newest_entries_not_personalized %}
+                            {% for entry in newest_entries_not_personalized %}
+                                <p>
+                                    <a class="btn btn-info" href="{% url 'job-offer-detail' entry.id %}">{{ entry }}</a>
+                                </p>
+                            {% endfor %}
+                        {% else %}
+                            <small>Currently, there are no new job offers...</small>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="info-box">

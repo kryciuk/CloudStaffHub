@@ -72,7 +72,8 @@ class EmployeeDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
 
         results = requests.get(
             "https://api.openweathermap.org/data/2.5/weather?lat=52.2319581&lon=21.0067249&units=metric&appid"
-            "=f539c944fc495f7a160041b0d2bd8f21"
+            "=f539c944fc495f7a160041b0d2bd8f21",
+            timeout=5,
         ).json()
         context["weather"] = results
 

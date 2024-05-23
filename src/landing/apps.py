@@ -19,7 +19,8 @@ class LandingConfig(AppConfig):
         from django.contrib.auth.models import Group, Permission
         from django.contrib.contenttypes.models import ContentType
 
-        from evaluation.models import Evaluation
+        from evaluation.models import Evaluation, Questionnaire
+        from events.models import Assignment
         from organizations.models import (
             City,
             Company,
@@ -33,8 +34,8 @@ class LandingConfig(AppConfig):
 
         # all model permissions
 
-        models_to_fetch_owner = [JobOffer, City, Company, Position, Poll, Department, Evaluation]
-        models_to_fetch_manager = [JobOffer, City, Company, Position, Poll, Evaluation]
+        models_to_fetch_owner = [JobOffer, City, Company, Position, Poll, Department, Evaluation, Questionnaire]
+        models_to_fetch_manager = [JobOffer, City, Company, Position, Poll, Evaluation, Questionnaire]
         models_to_fetch_recruiter = [JobOffer, City, Position]
 
         # single permissions
@@ -42,6 +43,7 @@ class LandingConfig(AppConfig):
         content_type_profile = ContentType.objects.get_for_model(Profile)
         content_type_company = ContentType.objects.get_for_model(CompanyProfile)
         content_type_job_application = ContentType.objects.get_for_model(JobApplication)
+        content_type_assignment = ContentType.objects.get_for_model(Assignment)
 
         permission_update_profile = Permission.objects.get(
             codename="change_profile", content_type=content_type_profile
@@ -58,6 +60,9 @@ class LandingConfig(AppConfig):
         permission_view_job_application = Permission.objects.get(
             codename="view_jobapplication", content_type=content_type_job_application
         )
+        permission_add_assignment = Permission.objects.get(
+            codename="add_assignment", content_type=content_type_assignment
+        )
 
         # owner
 
@@ -67,6 +72,7 @@ class LandingConfig(AppConfig):
         owner.permissions.add(permission_update_company_profile)
         owner.permissions.add(permission_update_job_application)
         owner.permissions.add(permission_view_job_application)
+        owner.permissions.add(permission_add_assignment)
 
         # manager
 
@@ -74,6 +80,7 @@ class LandingConfig(AppConfig):
         manager.permissions.set(_get_perms_for_models(models_to_fetch_manager))
         manager.permissions.add(permission_update_job_application)
         manager.permissions.add(permission_view_job_application)
+        manager.permissions.add(permission_add_assignment)
 
         # recruiter
 
@@ -81,10 +88,12 @@ class LandingConfig(AppConfig):
         recruiter.permissions.set(_get_perms_for_models(models_to_fetch_recruiter))
         recruiter.permissions.add(permission_update_job_application)
         recruiter.permissions.add(permission_view_job_application)
+        recruiter.permissions.add(permission_add_assignment)
 
         # employee
 
         employee, _ = Group.objects.get_or_create(name="Employee")
+        employee.permissions.add(permission_add_assignment)
 
         # candidate
 

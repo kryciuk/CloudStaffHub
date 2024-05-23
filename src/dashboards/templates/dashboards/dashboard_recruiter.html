@@ -110,8 +110,26 @@
             {% endif %}
         </div>
         <div class="info-box">
-            <h3>Info Box 3</h3>
-            <p>Some information here...</p>
+            <div class="d-flex justify-content-center mb-2">
+                <h3 class="h3-special">{{ request.user.profile.company }} Recruitment Statistics</h3>
+            </div>
+            <h5 class="h3-special">Job offers:</h5>
+            <small>Total offers posted: <strong>{{ company_job_offers_all }}</strong></small>
+            <br>
+            <small>Percentage share on CloudStaffHub: <strong>{{ company_job_offers_percentage | stringformat:"d%%" }}</strong></small>
+            <h5 class="h3-special">Job applications:</h5>
+            <p>
+                <small>Total job applications: <strong>{{ company_job_offers_all }}</strong></small>
+                <br>
+                <small>Received: <strong>{{ number_of_departments }}</strong></small>
+                <br>
+                <small>Under review: <strong>{{ number_of_departments }}</strong></small>
+                <br>
+                <small>Closed: <strong>{{ number_of_departments }}</strong></small>
+                <br>
+                <small>Approved: <strong>{{ number_of_departments }}</strong></small>
+                <br>
+            </p>
         </div>
         <div class="info-box">
             <div class="d-flex justify-content-center mb-2">

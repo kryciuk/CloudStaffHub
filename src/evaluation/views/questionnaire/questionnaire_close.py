@@ -11,7 +11,7 @@ class QuestionnaireCloseView(LoginRequiredMixin, PermissionRequiredMixin, Update
     model = Questionnaire
     fields = ["status"]
     success_url = reverse_lazy("questionnaire-list")
-    permission_required = "questionnaire.update_questionnaire"
+    permission_required = "evaluation.update_questionnaire"
     template_name = "evaluation/questionnaire_detail.html"
 
     def handle_no_permission(self):

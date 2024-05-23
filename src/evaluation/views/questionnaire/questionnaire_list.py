@@ -10,7 +10,7 @@ class QuestionnaireListByUserView(LoginRequiredMixin, PermissionRequiredMixin, L
     context_object_name = "questionnaires"
     template_name = "evaluation/questionnaire_list.html"
     queryset = Questionnaire.objects.all()
-    permission_required = "questionnaire.add_questionnaire"
+    permission_required = "evaluation.add_questionnaire"
 
     def get_queryset(self):
         queryset = Questionnaire.objects.filter(company=self.request.user.profile.company, status=True)
