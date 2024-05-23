@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView
 
 from core.base import redirect_to_dashboard_based_on_group
-from recruitment.models import JobApplication
+from recruitment.models import JobApplication, JobOffer
 
 
 class RecruiterDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
@@ -41,5 +41,20 @@ class RecruiterDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVi
             recruitment_info.setdefault(job_application.job_offer, []).append(job_application)
 
         context["recruitment_info"] = recruitment_info
+
+        # statistics job offers
+
+        company_job_offers_all = len(JobOffer.objects.filter(company=self.request.user.profile.company))
+        if len(JobOffer.objects.all()) == 0:
+            company_job_offers_percentage = 0
+        else:
+            company_job_offers_percentage = (
+                len(JobOffer.objects.filter(company=self.request.user.profile.company)) / len(JobOffer.objects.all())
+            ) * 100
+
+        context["company_job_offers_all"] = company_job_offers_all
+        context["company_job_offers_percentage"] = company_job_offers_percentage
+
+        # statistics job applications
 
         return context

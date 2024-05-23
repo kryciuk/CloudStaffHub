@@ -1,8 +1,8 @@
-version: '3'
+version: '3.9'
 
 services:
   web:
-    container_name: cloud-stuff-hub-web-app
+    container_name: cloud-stuff-hub-web
     build: .
     command: ["python", "src/manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
@@ -15,6 +15,9 @@ services:
     environment:
       - DB_PORT=5432
       - DB_HOST=db
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=mypassword
     env_file:
       - .env
 
@@ -27,7 +30,10 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", '-U', "postgres"]
+      test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 5s
       timeout: 30s
       retries: 6
+
+volumes:
+  db-data:
