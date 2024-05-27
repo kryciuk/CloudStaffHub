@@ -2,11 +2,13 @@ import random
 from random import choice
 
 import factory
+from django.utils import timezone
+from factory import SubFactory
 
 from evaluation.choices import ANSWERS_CHOICES
-from evaluation.models import Answer, Question, Questionnaire
+from evaluation.models import Answer, Evaluation, Question, Questionnaire
 from organizations.factories import CompanyFactory
-from users.factories import OwnerFactory
+from users.factories import EmployeeFactory, OwnerFactory
 
 
 class QuestionnaireFactory(factory.django.DjangoModelFactory):
@@ -39,11 +41,20 @@ class AnswerFactory(factory.django.DjangoModelFactory):
     question = factory.SubFactory(QuestionFactory)
 
 
+class EvaluationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Evaluation
+
+    manager = SubFactory(OwnerFactory)
+    employee = SubFactory(EmployeeFactory)
+    date_created = factory.LazyFunction(lambda: timezone.now())
+    date_end = factory.LazyFunction(lambda: timezone.now() + timezone.timedelta(days=choice(range(1, 30))))
+    questionnaire = SubFactory(QuestionnaireFactory)
+    result_employee = factory.Faker("boolean", chance_of_getting_true=0)
+    result_manager = factory.Faker("boolean", chance_of_getting_true=0)
+    status_employee = factory.Faker("boolean", chance_of_getting_true=0)
+    status_manager = factory.Faker("boolean", chance_of_getting_true=0)
+
+
 def _generate_random_number():
     return random.randint(0, 4)
-
-
-# python manage.py shell
-# from evaluation.factories import QuestionnaireFactory, AnswerFactory
-# x = QuestionnaireFactory.create()
-# y = AnswerFactory.create()
