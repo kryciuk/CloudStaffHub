@@ -1,4 +1,7 @@
+import pytz
+from django import forms
 from django.forms import ModelForm
+from django.utils import timezone
 
 from .models import Answer, Evaluation, Question, Questionnaire
 
@@ -32,6 +35,16 @@ class EvaluationCreateForm(ModelForm):
         fields = "__all__"
         exclude = ["manager", "date_created", "result_employee", "result_manager", "status_employee", "status_manager"]
         labels = {"date_end": "Deadline"}
+        error_messages = {"date_end_future": "The end date must be in the future."}
+
+    def clean_date_end(self):
+        date_end = self.cleaned_data["date_end"]
+        tz = pytz.timezone("UTC")
+        today = timezone.datetime.today()
+        today = today.astimezone(tz)
+        if date_end < today:
+            raise forms.ValidationError(self.Meta.error_messages["date_end_future"], code="date_end_future")
+        return date_end
 
 
 class EvaluationUpdateEmployeeForm(ModelForm):
