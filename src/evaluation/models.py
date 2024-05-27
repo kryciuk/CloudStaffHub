@@ -52,8 +52,8 @@ class Question(models.Model):
 class Evaluation(models.Model):
     employee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="employee")
     manager = models.ForeignKey(User, on_delete=models.CASCADE, related_name="manager")
-    date_created = models.DateField(null=True, blank=True)
-    date_end = models.DateField(null=True, blank=True)
+    date_created = models.DateField()
+    date_end = models.DateTimeField()
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     result_employee = models.JSONField("", null=True, blank=True)
     result_manager = models.JSONField("", null=True, blank=True)
