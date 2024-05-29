@@ -1,8 +1,8 @@
 import factory
-from factory.fuzzy import FuzzyChoice
 
-from .models import Company, Department, Position, City
 from users.factories import OwnerFactory
+
+from .models import City, Company, Department, Position
 
 
 class CompanyFactory(factory.django.DjangoModelFactory):
@@ -11,7 +11,8 @@ class CompanyFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("company")
     email_domain = factory.LazyAttribute(
-        lambda z: ("".join(letter for letter in z.name if letter.isalpha()) + ".com").lower())
+        lambda z: ("".join(letter for letter in z.name if letter.isalpha()) + ".com").lower()
+    )
 
 
 class DepartmentFactory(factory.django.DjangoModelFactory):
