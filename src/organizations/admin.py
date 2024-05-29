@@ -15,3 +15,5 @@ admin.site.register(City)
 admin.site.register(CompanyProfile)
 admin.site.register(Industry)
 admin.site.register(Department)
+
+__all__ = ["admin"]
