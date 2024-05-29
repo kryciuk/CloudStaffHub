@@ -1,4 +1,5 @@
 import factory
+from factory.fuzzy import FuzzyChoice
 
 from users.factories import OwnerFactory
 
@@ -19,7 +20,7 @@ class DepartmentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Department
 
-    name = factory.fuzzy.FuzzyChoice(choices=Department.DepartmentChoices.choices, getter=lambda x: x[0])
+    name = FuzzyChoice(choices=Department.DepartmentChoices.choices, getter=lambda x: x[0])
     company = factory.SubFactory(CompanyFactory)
     manager = factory.SubFactory(OwnerFactory)
 
@@ -39,7 +40,7 @@ class CityFactory(factory.django.DjangoModelFactory):
         model = City
 
     name = factory.Faker("city")
-    country = factory.fuzzy.FuzzyChoice(choices=City.Country.choices, getter=lambda x: x[0])
+    country = FuzzyChoice(choices=City.Country.choices, getter=lambda x: x[0])
 
 
 # python manage.py shell
