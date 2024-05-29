@@ -95,4 +95,6 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
         article_industry = articles_industry[random_article_industry]
         context["article_industry"] = article_industry
 
+        context["title"] = "Candidate's Dashboard - CloudStaffHub"
+
         return context

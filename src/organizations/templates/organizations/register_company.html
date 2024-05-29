@@ -1,4 +1,7 @@
 {% extends 'landing/base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
     <head>
         <title>Register</title>
@@ -69,6 +72,6 @@
 		for (var field in form_fields){
 			form_fields[field].className += ' form-control'
 		}
-	
+
     </script>
 {% endblock %}

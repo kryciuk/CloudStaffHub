@@ -22,8 +22,9 @@ class EmployeesListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = self.filterset.form
-        context["title"] = "Employees List - CloudStaffHub"
+        context["title"] = "Employees - CloudStaffHub"
         context["company"] = self.request.user.profile.company.name
+
         return context
 
     def handle_no_permission(self):

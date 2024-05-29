@@ -1,8 +1,10 @@
 {% extends "landing/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 {% block content %}
-    {% load crispy_forms_tags %}
-    <title>{{ title }}</title>
     <style>
         .legend-heading {
         color: #f06161;

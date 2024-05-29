@@ -77,4 +77,6 @@ class EmployeeDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
         ).json()
         context["weather"] = results
 
+        context["title"] = "Employee's Dashboard - CloudStaffHub"
+
         return context

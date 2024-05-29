@@ -57,4 +57,6 @@ class RecruiterDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVi
 
         # statistics job applications
 
+        context["title"] = "Recruiter's Dashboard - CloudStaffHub"
+
         return context

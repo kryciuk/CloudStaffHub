@@ -47,4 +47,6 @@ class ManagerDashboardView(UserHasManagerOrHigherGroup, TemplateView):
 
         context["review_job_applications"] = review_job_applications
 
+        context["title"] = "Manager's Dashboard - CloudStaffHub"
+
         return context

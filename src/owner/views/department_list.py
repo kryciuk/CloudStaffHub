@@ -34,7 +34,7 @@ class DepartmentListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             ]
         context["employees"] = employees
         context["form"] = self.filterset.form
-        context["title"] = "Manage Departments - CloudStaffHub"
+        context["title"] = "Departments - CloudStaffHub"
         return context
 
     def get_queryset(self):

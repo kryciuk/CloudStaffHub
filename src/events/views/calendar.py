@@ -37,6 +37,8 @@ class CalendarDetailView(LoginRequiredMixin, PermissionRequiredMixin, TemplateVi
         ).order_by("event_date")
         context["assignments"] = assignments
 
+        context["title"] = "Calendar - CloudStaffHub"
+
         return context
 
     def handle_no_permission(self):
