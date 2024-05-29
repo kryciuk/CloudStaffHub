@@ -22,7 +22,7 @@
                 <article class="media content-section">
                     <div class="media-body">
                         <div class="article-metadata">
-                            <legend class="legend-heading border-bottom">Questionnaire: {{ questionnaire }}</legend>
+                            <legend class="legend-heading border-bottom mb-4">Questionnaire: {{ questionnaire }}</legend>
                             <div>
                                 {% if is_manager == "yes" %}
                                     <form action="{% url 'evaluation-update-manager' id_evaluation %}"
@@ -39,6 +39,7 @@
                                             {% for answer in possible_answers %}
                                                 <ul>
                                                     <input type="radio"
+                                                           class="mt-0"
                                                            id="{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
                                                            name="answer_{{ forloop.parentloop.counter }}"
                                                            value="{{ answer.id }}">
