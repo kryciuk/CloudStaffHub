@@ -10,7 +10,7 @@ from evaluation.forms import QuestionnaireForm
 class QuestionnaireCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = QuestionnaireForm
     context_object_name = "questionnaire"
-    template_name = "evaluation/questionnaire_create.html"
+    template_name = "evaluation/questionnaire/questionnaire_create.html"
     permission_required = "evaluation.add_questionnaire"
 
     def form_valid(self, form):
@@ -24,8 +24,13 @@ class QuestionnaireCreateView(LoginRequiredMixin, PermissionRequiredMixin, Creat
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            messages.warning(self.request, "You don't have the required permissions to perform this action.")
+            messages.warning(self.request, "You don't have the required permissions to access this page.")
             group = self.request.user.groups.first()
             return redirect_to_dashboard_based_on_group(group.name)
         messages.warning(self.request, "You are not logged in.")
         return redirect_to_dashboard_based_on_group("")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Create Questionnaire - CloudStaffHub"
+        return context

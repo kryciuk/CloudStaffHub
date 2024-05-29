@@ -8,7 +8,7 @@ from evaluation.models import Evaluation, Questionnaire
 class QuestionnaireFillView(DetailView):
     model = Questionnaire
     context_object_name = "questionnaire"
-    template_name = "evaluation/questionnaire_fill.html"
+    template_name = "evaluation/questionnaire/questionnaire_fill.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

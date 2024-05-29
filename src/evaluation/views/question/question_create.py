@@ -9,7 +9,7 @@ from evaluation.models import Questionnaire
 class QuestionCreateView(CreateView):
     form_class = QuestionForm
     context_object_name = "question"
-    template_name = "evaluation/question_create.html"
+    template_name = "evaluation/question/question_create.html"
 
     def form_valid(self, form):
         try:

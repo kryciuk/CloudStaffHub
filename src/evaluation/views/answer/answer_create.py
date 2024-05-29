@@ -3,14 +3,14 @@ from django.shortcuts import get_object_or_404, reverse
 from django.views.generic import CreateView
 
 from evaluation.forms import AnswerForm
-from evaluation.models import Answer, Question, Questionnaire
+from evaluation.models import Answer, Question
 
 
 class AnswerCreateView(CreateView):
     model = Answer
     form_class = AnswerForm
     context_object_name = "answer"
-    template_name = "evaluation/answer_create.html"
+    template_name = "evaluation/answer/answer_create.html"
 
     def form_valid(self, form):
         try:

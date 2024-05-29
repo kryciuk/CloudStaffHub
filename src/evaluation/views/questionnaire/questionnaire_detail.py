@@ -9,7 +9,7 @@ from evaluation.models import Questionnaire
 class QuestionnaireDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Questionnaire
     context_object_name = "questionnaire"
-    template_name = "evaluation/questionnaire_detail.html"
+    template_name = "evaluation/questionnaire/questionnaire_detail.html"
     permission_required = "evaluation.view_questionnaire"
 
     def get_context_data(self, **kwargs):

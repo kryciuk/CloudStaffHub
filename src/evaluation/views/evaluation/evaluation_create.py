@@ -15,7 +15,7 @@ from evaluation.models import Evaluation, Questionnaire
 class EvaluationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Evaluation
     form_class = EvaluationCreateForm
-    template_name = "evaluation/evaluation_create.html"
+    template_name = "evaluation/evaluation/evaluation_create.html"
     context_object_name = "evaluation"
     permission_required = "evaluation.add_evaluation"
 

@@ -9,7 +9,7 @@ from evaluation.models import Evaluation
 class EvaluationCompleteView(DetailView):
     model = Evaluation
     context_object_name = "evaluation"
-    template_name = "evaluation/evaluation_complete.html"
+    template_name = "evaluation/evaluation/evaluation_complete.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
