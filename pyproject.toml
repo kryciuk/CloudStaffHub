@@ -47,6 +47,3 @@ build-backend = "poetry.core.masonry.api"
 [tool.bandit]
 exclude_dirs = ['tests']
 skips = ['B106', 'B311']
-
-[tool.safety]
-ignore-vulnerabilities = ['67136', '64437', '64436']
