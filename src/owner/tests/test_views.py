@@ -51,7 +51,7 @@ class TestDepartmentCreateView(TransactionTestCase):
         self.client.force_login(self.user_owner)
         response = self.client.get(reverse("department-create"))
         title = response.context["title"]
-        self.assertEqual(title, "Department Create - CloudStaffHub")
+        self.assertEqual(title, "Create Department - CloudStaffHub")
 
     def test_if_correct_template_used(self):
         self.client.force_login(self.user_owner)
@@ -107,7 +107,7 @@ class TestDepartmentListView(TransactionTestCase):
         self.client.force_login(self.user_owner)
         response = self.client.get(reverse("department-list"))
         title = response.context["title"]
-        self.assertEqual(title, "Manage Departments - CloudStaffHub")
+        self.assertEqual(title, "Departments - CloudStaffHub")
 
     def test_if_correct_template_used(self):
         self.client.force_login(self.user_owner)
