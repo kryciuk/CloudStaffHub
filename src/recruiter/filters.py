@@ -1,7 +1,7 @@
 import django_filters
 from django import forms
 
-from organizations.models import Department, Position
+from organizations.models import Position
 
 
 class PositionFilter(django_filters.FilterSet):

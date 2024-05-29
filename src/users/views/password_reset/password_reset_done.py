@@ -1,6 +1,5 @@
 from django.contrib.auth.views import PasswordResetDoneView
 from django.http import HttpResponseForbidden
-from django.urls import reverse
 
 
 class UserPasswordResetDoneView(PasswordResetDoneView):
