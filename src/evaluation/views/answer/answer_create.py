@@ -1,9 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import Http404
 from django.shortcuts import get_object_or_404, reverse
 from django.views.generic import CreateView
-from guardian.mixins import PermissionRequiredMixin
 
 from core.base import redirect_to_dashboard_based_on_group
 from evaluation.forms import AnswerForm
