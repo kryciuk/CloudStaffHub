@@ -42,7 +42,6 @@
         .h4-special {
             color: #08879B;
         }
-
         .img-special {
             width: 100%;
             margin-top: 10px;
@@ -114,11 +113,11 @@
                     <div class="mb-4">
                         <h3 class="h3-special">Read new article about:</h3>
                         <h2 class="h3-special">{{ industry }}</h2>
-                    {% if not article_industry == "Currently there are no articles..." %}
-                        <p>{{ article_industry.title }}</p>
-                    {% else %}
-                        <small>{{ article_industry }}</small>
-{% endif %}
+                        {% if not article_industry == "Currently there are no articles..." %}
+                            <p>{{ article_industry.title }}</p>
+                        {% else %}
+                            <small>{{ article_industry }}</small>
+                        {% endif %}
                         {% if article_industry.description %}<small>{{ article_industry.description }}</small>{% endif %}
                     </div>
                     {% if not article_industry == "Currently there are no articles..." %}
@@ -130,12 +129,11 @@
                 <div class="info-box">
                     <div class="mb-4">
                         <h3 class="h3-special">You may find this interesting:</h3>
-                                        {% if not article_tips == "Currently there are no articles..." %}
-                        <p>{{ article_tips.title }}</p>
-                    {% else %}
-                                            <small>{{ article_tips }}</small>
-{% endif %}
-
+                        {% if not article_tips == "Currently there are no articles..." %}
+                            <p>{{ article_tips.title }}</p>
+                        {% else %}
+                            <small>{{ article_tips }}</small>
+                        {% endif %}
                         {% if article_tips.description %}<small>{{ article_tips.description }}</small>{% endif %}
                     </div>
                     {% if not article_tips == "Currently there are no articles..." %}
