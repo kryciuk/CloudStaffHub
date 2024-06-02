@@ -18,9 +18,9 @@ jobs:
       db:
         image: postgres
         env:
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          POSTGRES_DB: ${{ vars.DB_NAME }}
-          POSTGRES_USER: ${{ vars.DB_USER }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -45,18 +45,18 @@ jobs:
     - name: Apply migrations
       run: |
         poetry run python src/manage.py migrate
+      env:
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        SMTP_HOST: ${{ secrets.SMTP_HOST }}
+        SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
     - name: Run Tests
       run: |
         cd src
         poetry run python manage.py test
-      env:
-        DB_NAME: ${{ vars.DB_NAME }}
-        DB_USER: ${{ vars.DB_USER }}
-        DB_PORT: ${{ vars.DB_PORT }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_HOST: ${{ secrets.DB_HOST }}
-        SMTP_HOST: ${{ vars.SMTP_HOST }}
-        SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
     - name: Run Bandit
       run: |
         poetry run bandit -c pyproject.toml -r .
