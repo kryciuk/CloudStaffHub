@@ -58,7 +58,7 @@ class EmployeeFilter(django_filters.FilterSet):
             ("first_name", "first_name"),
             ("last_name", "last_name"),
             ("email", "email"),
-            ("profile__department__name", "department"),
+            # ("profile__department__name", "department"),
         )
     )
 
