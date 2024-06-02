@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.db.models.signals import post_migrate
 
 
 class OrganizationsConfig(AppConfig):
@@ -6,4 +7,4 @@ class OrganizationsConfig(AppConfig):
     name = "organizations"
 
     def ready(self):
-        from organizations.signals import create_company_profile  # noqa: F401
+        from organizations.signals import create_company_profile
