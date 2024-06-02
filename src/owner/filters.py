@@ -29,27 +29,27 @@ class EmployeeFilter(django_filters.FilterSet):
     first_name = django_filters.CharFilter(field_name="first_name", lookup_expr="icontains", label="First Name")
     last_name = django_filters.CharFilter(field_name="last_name", lookup_expr="icontains", label="Last Name")
     email = django_filters.CharFilter(field_name="email", lookup_expr="icontains", label="Email")
-    _department_choices = list(
-        User.objects.exclude(profile__department__name=None)
-        .order_by("profile__department__name")
-        .values_list("profile__department__name", "profile__department__name")
-        .distinct()
-    )
+    # _department_choices = list(
+    #     User.objects.exclude(profile__department__name=None)
+    #     .order_by("profile__department__name")
+    #     .values_list("profile__department__name", "profile__department__name")
+    #     .distinct()
+    # )
     # _department_choices.append(("No Department", "No Department"))
 
-    department = django_filters.MultipleChoiceFilter(
-        field_name="profile__department__name",
-        choices=_department_choices,
-        widget=forms.CheckboxSelectMultiple,
-        label="Department",
-        method="filter_by_department",
-    )
+    # department = django_filters.MultipleChoiceFilter(
+    #     field_name="profile__department__name",
+    #     choices=_department_choices,
+    #     widget=forms.CheckboxSelectMultiple,
+    #     label="Department",
+    #     method="filter_by_department",
+    # )
 
-    def filter_by_department(self, queryset, name, value):
-        if "No Department" in value:
-            return queryset.filter(Q(profile__department__name__in=value) | Q(profile__department__name__isnull=True))
-        else:
-            return queryset.filter(profile__department__name__in=value)
+    # def filter_by_department(self, queryset, name, value):
+    #     if "No Department" in value:
+    #         return queryset.filter(Q(profile__department__name__in=value) | Q(profile__department__name__isnull=True))
+    #     else:
+    #         return queryset.filter(profile__department__name__in=value)
 
     order_by_field = "ordering"
     ordering = OrderingFilter(
