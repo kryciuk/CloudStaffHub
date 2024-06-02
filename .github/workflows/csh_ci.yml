@@ -44,8 +44,8 @@ jobs:
         poetry install
     - name: Apply migrations
       run: |
-        poetry run python manage.py makemigrations
-        poetry run python manage.py migrate
+        poetry run python src/manage.py makemigrations
+        poetry run python src/manage.py migrate
     - name: Run Tests
       run: |
         cd src
