@@ -44,12 +44,12 @@ class EmployeeFilter(django_filters.FilterSet):
         label="Department",
         method="filter_by_department",
     )
-    #
-    # def filter_by_department(self, queryset, name, value):
-    #     if "No Department" in value:
-    #         return queryset.filter(Q(profile__department__name__in=value) | Q(profile__department__name__isnull=True))
-    #     else:
-    #         return queryset.filter(profile__department__name__in=value)
+
+    def filter_by_department(self, queryset, name, value):
+        if "No Department" in value:
+            return queryset.filter(Q(profile__department__name__in=value) | Q(profile__department__name__isnull=True))
+        else:
+            return queryset.filter(profile__department__name__in=value)
 
     order_by_field = "ordering"
     ordering = OrderingFilter(
