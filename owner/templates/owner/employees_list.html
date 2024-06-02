@@ -1,0 +1,92 @@
+{% extends "landing/base.html" %}
+{% load auth_extras %}
+{% load crispy_forms_filters %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block content %}
+    <style>
+      .container-positions {
+        width: 80%;
+        margin: 20px auto;
+        background: #f8f9fa;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+      }
+
+      .h2-special {
+            color: #E84D7A;
+        }
+
+      .table-submit {
+        width: 100%;
+        table-layout: fixed;
+        }
+
+      .table-submit th,
+      .table-submit td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        }
+      .btn-danger {
+        width: 175px;
+      }
+    </style>
+    <div class="container-positions">
+        <div class="card card-body">
+            <h2 class="h2-special centered">{{ company }} EMPLOYEES</h2>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="centered"></div>
+                    <fieldset class="form-group">
+                        <form method="get" action="{% url 'employee-list' %}">
+                            {{ form | crispy }}
+                            <div class="centered">
+                                <button class="btn btn-danger" type="submit">Search</button>
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+                <div class="col-md-9">
+                    <table class="table table-submit">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Department</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for employee in employees %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url "profile" employee.id %}">{{ employee.username }}</a>
+                                    </td>
+                                    <td>{{ employee.first_name }}</td>
+                                    <td>{{ employee.last_name }}</td>
+                                    <td>
+                                        {% if employee.profile.department %}
+                                            {{ employee.profile.department }}
+                                        {% else %}
+                                            Not assigned
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ employee.email }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

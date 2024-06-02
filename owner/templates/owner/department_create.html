@@ -1,0 +1,42 @@
+{% extends "landing/base.html" %}
+{% load static %}
+{% block content %}
+    {% load crispy_forms_tags %}
+    <title>{{ title }}</title>
+    <style>
+        .legend-heading {
+        color: #f06161;
+        }
+        .btn-outline-info {
+            width: 175px;
+        }
+        .btn-outline-secondary {
+            width: 175px;
+        }
+    </style>
+    <body>
+        <div class="container">
+            <div class="card card-body">
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <form method="post">
+                                {% csrf_token %}
+                                <fieldset class="form-group">
+                                    <legend class="legend-heading d-flex justify-content-center">Add Department</legend>
+                                    {{ form | crispy }}
+                                    <div>
+                                        <button class="btn btn-outline-info add-button" type="submit">Add</button>
+                                        <div class="float-right">
+                                            <a class="btn btn-outline-secondary" href="{% url 'department-list' %}">Department List</a>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </body>
+{% endblock content %}
