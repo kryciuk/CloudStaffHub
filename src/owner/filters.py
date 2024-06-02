@@ -1,7 +1,8 @@
 import django_filters
 from django import forms
 from django.contrib.auth.models import User
-from django.db.models import Q
+
+# from django.db.models import Q
 from django_filters import OrderingFilter
 
 from organizations.models import Department
@@ -35,7 +36,7 @@ class EmployeeFilter(django_filters.FilterSet):
         .values_list("profile__department__name", "profile__department__name")
         .distinct()
     )
-    _department_choices.append(("No Department", "No Department"))
+    # _department_choices.append(("No Department", "No Department"))
 
     department = django_filters.MultipleChoiceFilter(
         field_name="profile__department__name",
@@ -44,12 +45,12 @@ class EmployeeFilter(django_filters.FilterSet):
         label="Department",
         method="filter_by_department",
     )
-
-    def filter_by_department(self, queryset, name, value):
-        if "No Department" in value:
-            return queryset.filter(Q(profile__department__name__in=value) | Q(profile__department__name__isnull=True))
-        else:
-            return queryset.filter(profile__department__name__in=value)
+    #
+    # def filter_by_department(self, queryset, name, value):
+    #     if "No Department" in value:
+    #         return queryset.filter(Q(profile__department__name__in=value) | Q(profile__department__name__isnull=True))
+    #     else:
+    #         return queryset.filter(profile__department__name__in=value)
 
     order_by_field = "ordering"
     ordering = OrderingFilter(
@@ -73,6 +74,6 @@ class EmployeeFilter(django_filters.FilterSet):
             "is_superuser",
             "date_joined",
             "groups",
-            "_department_choices",
+            # "_department_choices",
         ]
         labels = {"first_name": "First Name"}
