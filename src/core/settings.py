@@ -57,7 +57,7 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_EXTENSIONS = [
-    "users.apps.UsersConfig",
+    "users",
     "recruitment",
     "evaluation",
     "recruiter",
