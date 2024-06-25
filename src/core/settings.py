@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "bootstrap_datepicker_plus",
     "bootstrap4",
-    "silk"
+    "silk",
+    "storages"
 ]
 
 INSTALLED_EXTENSIONS = [
