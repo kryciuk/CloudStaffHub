@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "bootstrap_datepicker_plus",
     "bootstrap4",
-    "silk",
+    "silk"
 ]
 
 INSTALLED_EXTENSIONS = [
@@ -162,7 +162,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+if DEBUG is False:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
+    STATICFILES_STORAGE = "storages.backends.s3.S3Storage"
+
+
 STATIC_URL = "static/"
+
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'static')
