@@ -165,8 +165,8 @@ USE_TZ = True
 
 if DEBUG is False:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
-    STATICFILES_STORAGE = "storages.backends.s3.S3Storage"
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Storage"
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Storage"
 
 
 STATIC_URL = "static/"
