@@ -18,7 +18,6 @@ from .env import env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 env.read_env(os.path.join(BASE_DIR.parent, ".env"))
 
 # Quick-start development settings - unsuitable for production
@@ -26,7 +25,6 @@ env.read_env(os.path.join(BASE_DIR.parent, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
@@ -128,7 +126,6 @@ else:
         }
     }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -147,7 +144,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -159,18 +155,21 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 if DEBUG is False:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        },
+        "staticfiles": {
+            "STORAGES": "storages.backends.s3.S3Storage",
+        },
+    }
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Storage"
-    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Storage"
-
 
 STATIC_URL = "static/"
-
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'static')
@@ -214,7 +213,6 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 PHONENUMBER_DEFAULT_REGION = "PL"
 
-
 # datepicker
 
 BOOTSTRAP_DATEPICKER_PLUS = {
@@ -227,7 +225,6 @@ BOOTSTRAP_DATEPICKER_PLUS = {
         },
     },
 }
-
 
 # LOGGING = {
 #     "version": 1,
