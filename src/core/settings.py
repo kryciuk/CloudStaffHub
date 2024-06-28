@@ -166,7 +166,6 @@ if DEBUG is False:
                 "secret_key": env("AWS_SECRET_ACCESS_KEY"),
                 "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
                 "region_name": env("AWS_S3_REGION_NAME"),
-                "file_overwrite": False,
             },
         },
         "PublicMediaStorage": {
@@ -176,10 +175,6 @@ if DEBUG is False:
                 "secret_key": env("AWS_SECRET_ACCESS_KEY"),
                 "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
                 "region_name": env("AWS_S3_REGION_NAME"),
-                "default_acl": "public-read",
-                "location": "media/public",
-                "querystring_auth": False,
-                "file_overwrite": False,
             },
         },
         "staticfiles": {
@@ -189,9 +184,6 @@ if DEBUG is False:
                 "secret_key": env("AWS_SECRET_ACCESS_KEY"),
                 "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
                 "region_name": env("AWS_S3_REGION_NAME"),
-                "default_acl": "public-read",
-                "location": "staticfiles",
-                "querystring_auth": False,
             },
         },
     }
