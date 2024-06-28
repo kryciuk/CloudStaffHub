@@ -190,7 +190,7 @@ if DEBUG is False:
             "OPTIONS": {
                 "access_key": env("AWS_ACCESS_KEY_ID"),
                 "secret_key": env("AWS_SECRET_ACCESS_KEY"),
-                "bucket_name": env("AWS_STORAGE_STATIC_BUCKET_NAME"),
+                "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
                 "region_name": env("AWS_S3_REGION_NAME"),
                 "default_acl": "public-read",
                 "location": "staticfiles",
