@@ -173,16 +173,16 @@ if DEBUG is False:
         "default": {
             "BACKEND": "storages.backends.s3.S3Storage",
             "OPTIONS": {
-                "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
-                "region_name": env("AWS_S3_REGION_NAME"),
+                "bucket_name": "elasticbeanstalk-us-east-1-590184037645",
+                "region_name": "us-east-1",
                 "file_overwrite": False,
             },
         },
         "PublicMediaStorage": {
             "BACKEND": "storages.backends.s3.S3Storage",
             "OPTIONS": {
-                "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
-                "region_name": env("AWS_S3_REGION_NAME"),
+                "bucket_name": "elasticbeanstalk-us-east-1-590184037645",
+                "region_name": "us-east-1",
                 "default_acl": "public-read",
                 "location": "media/public",
                 "querystring_auth": False,
@@ -192,8 +192,8 @@ if DEBUG is False:
         "staticfiles": {
             "BACKEND": "storages.backends.s3.S3Storage",
             "OPTIONS": {
-                "bucket_name": env("AWS_STORAGE_STATIC_BUCKET_NAME"),
-                "region_name": env("AWS_S3_REGION_NAME"),
+                "bucket_name": "elasticbeanstalk-us-east-1-590184037645",
+                "region_name": "us-east-1",
                 "default_acl": "public-read",
                 "location": "staticfiles",
                 "querystring_auth": False,
