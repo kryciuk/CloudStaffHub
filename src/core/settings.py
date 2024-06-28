@@ -159,15 +159,47 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 if DEBUG is False:
+    # STORAGES = {
+    #     "default": {
+    #         "BACKEND": "storages.backends.s3.S3Storage",
+    #     },
+    #     "staticfiles": {
+    #         "STORAGES": "storages.backends.s3.S3Storage",
+    #     },
+    # }
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
     STORAGES = {
         "default": {
             "BACKEND": "storages.backends.s3.S3Storage",
+            "OPTIONS": {
+                "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
+                "region_name": env("AWS_S3_REGION_NAME"),
+                "file_overwrite": False,
+            },
+        },
+        "PublicMediaStorage": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+            "OPTIONS": {
+                "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
+                "region_name": env("AWS_S3_REGION_NAME"),
+                "default_acl": "public-read",
+                "location": "media/public",
+                "querystring_auth": False,
+                "file_overwrite": False,
+            },
         },
         "staticfiles": {
-            "STORAGES": "storages.backends.s3.S3Storage",
+            "BACKEND": "storages.backends.s3.S3Storage",
+            "OPTIONS": {
+                "bucket_name": env("AWS_STORAGE_STATIC_BUCKET_NAME"),
+                "region_name": env("AWS_S3_REGION_NAME"),
+                "default_acl": "public-read",
+                "location": "staticfiles",
+                "querystring_auth": False,
+            },
         },
     }
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATIC_URL = "static/"
 
