@@ -18,7 +18,8 @@ from .env import env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env.read_env(os.path.join(BASE_DIR.parent, ".env"))
+env.read_env(os.path.join(BASE_DIR, ".env"))
+# print(os.path.join(BASE_DIR.parent, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
@@ -166,6 +167,7 @@ if DEBUG is False:
                 "secret_key": env("AWS_SECRET_ACCESS_KEY"),
                 "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
                 "region_name": env("AWS_S3_REGION_NAME"),
+                "file_overwrite": False,
             },
         },
         "PublicMediaStorage": {
@@ -175,6 +177,10 @@ if DEBUG is False:
                 "secret_key": env("AWS_SECRET_ACCESS_KEY"),
                 "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
                 "region_name": env("AWS_S3_REGION_NAME"),
+                "default_acl": "public-read",
+                "location": "media/public",
+                "querystring_auth": False,
+                "file_overwrite": False,
             },
         },
         "staticfiles": {
@@ -184,6 +190,9 @@ if DEBUG is False:
                 "secret_key": env("AWS_SECRET_ACCESS_KEY"),
                 "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
                 "region_name": env("AWS_S3_REGION_NAME"),
+                "default_acl": "public-read",
+                "location": "staticfiles",
+                "querystring_auth": False,
             },
         },
     }
