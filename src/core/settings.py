@@ -258,5 +258,3 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "guardian.backends.ObjectPermissionBackend",
 )
-
-SECURE_CROSS_ORIGIN_OPENER_POLICY = None
