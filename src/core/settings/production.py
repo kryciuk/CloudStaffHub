@@ -18,6 +18,8 @@ SMTP_PASSWORD = env("SMTP_PASSWORD")
 
 ALLOWED_HOSTS = ("cloudstaffhub.eu-west-1.elasticbeanstalk.com",)
 
+SECRET_KEY = env("SECRET_KEY")
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
