@@ -13,21 +13,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-from .env import env
+from core.env import env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env.read_env(os.path.join(BASE_DIR, ".env"))
-
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG")
-
-ALLOWED_HOSTS = ("cloudstaffhub.eu-west-1.elasticbeanstalk.com",)
+env.read_env(os.path.join(BASE_DIR, "../../.env"))
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
@@ -101,29 +92,6 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG is True:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": env("DB_NAME"),
-            "USER": env("DB_USER"),
-            "PASSWORD": env("DB_PASSWORD"),
-            "HOST": env("DB_HOST"),
-            "PORT": env("DB_PORT"),
-        }
-    }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv('RDS_DB_NAME'),
-            "USER": os.getenv('RDS_USERNAME'),
-            "PASSWORD": os.getenv('RDS_PASSWORD'),
-            "HOST": os.getenv('RDS_HOSTNAME'),
-            "PORT": os.getenv('RDS_PORT'),
-        }
-    }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -156,46 +124,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-if DEBUG is False:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-    STORAGES = {
-        "default": {
-            "BACKEND": "storages.backends.s3.S3Storage",
-            "OPTIONS": {
-                "access_key": env("AWS_ACCESS_KEY_ID"),
-                "secret_key": env("AWS_SECRET_ACCESS_KEY"),
-                "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
-                "region_name": env("AWS_S3_REGION_NAME"),
-                "file_overwrite": False,
-            },
-        },
-        "PublicMediaStorage": {
-            "BACKEND": "storages.backends.s3.S3Storage",
-            "OPTIONS": {
-                "access_key": env("AWS_ACCESS_KEY_ID"),
-                "secret_key": env("AWS_SECRET_ACCESS_KEY"),
-                "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
-                "region_name": env("AWS_S3_REGION_NAME"),
-                "default_acl": "public-read",
-                "location": "media/public",
-                "querystring_auth": False,
-                "file_overwrite": False,
-            },
-        },
-        "staticfiles": {
-            "BACKEND": "storages.backends.s3.S3Storage",
-            "OPTIONS": {
-                "access_key": env("AWS_ACCESS_KEY_ID"),
-                "secret_key": env("AWS_SECRET_ACCESS_KEY"),
-                "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
-                "region_name": env("AWS_S3_REGION_NAME"),
-                "default_acl": "public-read",
-                "location": "staticfiles",
-                "querystring_auth": False,
-            },
-        },
-    }
 
 STATIC_URL = "static/"
 
@@ -214,7 +142,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_URL = "login"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "../../media")
 
 MEDIA_URL = "/media/"
 
