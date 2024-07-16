@@ -21,8 +21,11 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
         # random company
 
         context["random_company"] = None
-        if len(Company.objects.all()) != 0:
-            random_company = randrange(1, len(Company.objects.all()) + 1)
+        companies_with_images = len(
+            Company.objects.exclude(companyprofile__company_logo="organizations/company_logo/default.jpg").all()
+        )
+        if companies_with_images != 0:
+            random_company = randrange(1, companies_with_images + 1)
             context["random_company"] = Company.objects.get(id=random_company)
 
         # job offers tailored to user

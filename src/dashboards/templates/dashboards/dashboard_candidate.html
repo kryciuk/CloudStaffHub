@@ -143,11 +143,24 @@
                     {% endif %}
                 </div>
                 <div class="info-box">
-                    <h3 class="h3-special">Learn more about {{ random_company.name }}:</h3>
-                    <img src="{{ random_company.companyprofile.company_logo.url }}"
-                         alt="Company Logo"
-                         class="company_logo img-special">
-                    {% if random_company.companyprofile.info %}<p>{{ random_company.companyprofile.info }}</p>{% endif %}
+                    {% if random_company %}
+                        <h3 class="h3-special">Learn more about...</h3>
+                        <h2 class="h3-special mb-0">{{ random_company.name }}</h2>
+                        <img src="{{ random_company.companyprofile.company_logo.url }}"
+                             alt="Company Logo"
+                             class="company_logo img-special mb-3"
+                             width="400"
+                             height="400">
+                        {% if random_company.companyprofile.info %}<p>{{ random_company.companyprofile.info }}</p>{% endif %}
+                        <small>Information about this company is currently unavailable.
+                            <br>
+                        Please check back later for updates.</small>
+                    {% else %}
+                        <h3 class="h3-special">Learn more about...</h3>
+                        <small>Currently, there are no companies to display...
+                            <br>
+                        Please come back later!</small>
+                    {% endif %}
                 </div>
             </div>
         </div>
