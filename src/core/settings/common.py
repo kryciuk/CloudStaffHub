@@ -18,7 +18,7 @@ from core.env import env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env.read_env(os.path.join(BASE_DIR, "../../.env"))
+env.read_env(os.path.join(BASE_DIR, ".env"))
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
@@ -156,8 +156,6 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = env("SMTP_HOST")
-EMAIL_HOST_PASSWORD = env("SMTP_PASSWORD")
 
 # automatic logout
 
