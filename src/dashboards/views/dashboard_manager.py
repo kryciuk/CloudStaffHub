@@ -2,9 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView
 
 from core.base import has_group
+from core.settings.common import BASE_DIR
 from evaluation.models import Evaluation
 from recruitment.models import JobApplication
-from core.settings.common import BASE_DIR
 
 
 class UserHasManagerOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
