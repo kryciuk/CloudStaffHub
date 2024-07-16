@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from core.base import has_group
 from evaluation.models import Evaluation
 from recruitment.models import JobApplication
+from core.settings.common import BASE_DIR
 
 
 class UserHasManagerOrHigherGroup(LoginRequiredMixin, UserPassesTestMixin):
@@ -23,6 +24,7 @@ class ManagerDashboardView(UserHasManagerOrHigherGroup, TemplateView):
 
         # evaluations
 
+        print(BASE_DIR)
         assigned_evaluations = Evaluation.objects.filter(manager=self.request.user, status_manager=False).order_by(
             "-date_end"
         )[:5]

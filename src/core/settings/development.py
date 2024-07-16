@@ -19,3 +19,6 @@ DATABASES = {
         "PORT": env("DB_PORT"),
     }
 }
+
+SMTP_HOST = env("SMTP_HOST")
+SMTP_PASSWORD = env("SMTP_PASSWORD")

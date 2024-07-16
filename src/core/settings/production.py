@@ -1,6 +1,6 @@
 from core.settings.common import *
 
-env.read_env(os.path.join(BASE_DIR, "../../.env"))
+env.read_env(os.path.join(BASE_DIR, ".env"))
 
 DEBUG = False
 AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
