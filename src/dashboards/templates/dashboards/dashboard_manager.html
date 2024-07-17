@@ -74,7 +74,9 @@
                     </div>
                     <div class="mb-4">
                         <h5 class="h3-special">Waiting for review:</h5>
-                        {% if evaluations_count == 1 %}
+                        {% if evaluations_count == 0 %}
+                            <small>No evaluations...</small>
+                        {% elif evaluations_count == 1 %}
                             <small>There is {{ evaluations_count }} employee waiting for your review.</small>
                             {% for evaluation in assigned_evaluations %}
                                 <p class="mt-2">
@@ -82,7 +84,7 @@
                                        href="{% url 'evaluation-detail' evaluation.id %}">{{ evaluation }}</a>
                                 </p>
                             {% endfor %}
-                        {% elif number_of_applications > 1 %}
+                        {% else %}
                             <small>There are {{ evaluations_count }} employees waiting for your review.</small>
                             {% for evaluation in assigned_evaluations %}
                                 <p class="mt-2">
@@ -90,15 +92,12 @@
                                        href="{% url 'evaluation-detail' evaluation.id %}">{{ evaluation }}</a>
                                 </p>
                             {% endfor %}
-                        {% else %}
-                            <small>No evaluations...</small>
                         {% endif %}
-                        <div class="mb-4">
-                            <br>
-                            <h5 class="h3-special">Last completed:</h5>
+                        <div class="mt-2">
+                            <h5 class="h3-special">Completed:</h5>
                             {% if completed_evaluations %}
                                 {% for evaluation in completed_evaluations %}
-                                    <p class="mt-2">
+                                    <p class="mt-0">
                                         <a class="btn btn-info"
                                            href="{% url "evaluation-complete" evaluation.id %}">{{ evaluation }}</a>
                                     </p>

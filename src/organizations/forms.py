@@ -2,6 +2,8 @@ from django import forms
 
 from organizations.models import Company, CompanyProfile, Industry
 
+from .consts import email_domains_exclude_list
+
 
 class CompanyForm(forms.ModelForm):
     class Meta:
@@ -13,6 +15,7 @@ class CompanyForm(forms.ModelForm):
             "domain_taken": "Company with this domain already exists.",
             "company_name_taken": "Company with this name already exists.",
             "company_name_missing": "Company name is required.",
+            "domain_invalid": "The specified domain is not supported for registration.",
         }
 
     def clean_name(self):
@@ -28,6 +31,8 @@ class CompanyForm(forms.ModelForm):
             email_domain = self.cleaned_data["email_domain"]
             if Company.objects.filter(email_domain=email_domain).exists():
                 raise forms.ValidationError(self.Meta.error_messages["domain_taken"], code="domain_taken")
+            elif email_domain in email_domains_exclude_list:
+                raise forms.ValidationError(self.Meta.error_messages["domain_invalid"], code="domain_invalid")
             elif "." not in email_domain:
                 raise forms.ValidationError(self.Meta.error_messages["domain_incorrect"], code="domain_incorrect")
             return email_domain.lower()

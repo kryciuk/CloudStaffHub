@@ -47,11 +47,11 @@ class TestDepartmentCreateView(TransactionTestCase):
         response = self.client.get(reverse("department-create"))
         self.assertEqual(len(response.context["form"].fields["manager"].queryset), 1)
 
-    def test_if_title_if_correct(self):
+    def test_if_title_is_correct(self):
         self.client.force_login(self.user_owner)
         response = self.client.get(reverse("department-create"))
         title = response.context["title"]
-        self.assertEqual(title, "Department Create - CloudStaffHub")
+        self.assertEqual(title, "Create Department - CloudStaffHub")
 
     def test_if_correct_template_used(self):
         self.client.force_login(self.user_owner)
@@ -103,11 +103,11 @@ class TestDepartmentListView(TransactionTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(message.message, "You don't have the required permissions to access this page.")
 
-    def test_if_title_if_correct(self):
+    def test_if_title_is_correct(self):
         self.client.force_login(self.user_owner)
         response = self.client.get(reverse("department-list"))
         title = response.context["title"]
-        self.assertEqual(title, "Manage Departments - CloudStaffHub")
+        self.assertEqual(title, "Departments - CloudStaffHub")
 
     def test_if_correct_template_used(self):
         self.client.force_login(self.user_owner)

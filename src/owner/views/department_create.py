@@ -31,7 +31,7 @@ class DepartmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         ]
         managers = User.objects.filter(pk__in=managers_ids)
         context["form"].fields["manager"].queryset = managers
-        context["title"] = "Department Create - CloudStaffHub"
+        context["title"] = "Create Department - CloudStaffHub"
         return context
 
     def form_valid(self, form):

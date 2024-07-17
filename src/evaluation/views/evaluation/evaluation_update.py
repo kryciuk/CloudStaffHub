@@ -10,7 +10,7 @@ from evaluation.models import Evaluation
 class EvaluationUpdateEmployeeView(UpdateView):
     model = Evaluation
     form_class = EvaluationUpdateEmployeeForm
-    template_name = "evaluation/evaluation_update.html"
+    template_name = "evaluation/evaluation/evaluation_update.html"
     context_object_name = "evaluation"
 
     def form_valid(self, form):
@@ -26,7 +26,7 @@ class EvaluationUpdateEmployeeView(UpdateView):
 class EvaluationUpdateManagerView(UpdateView):
     model = Evaluation
     form_class = EvaluationUpdateManagerForm
-    template_name = "evaluation/evaluation_update.html"
+    template_name = "evaluation/evaluation/evaluation_update.html"
     context_object_name = "evaluation"
 
     def form_valid(self, form):

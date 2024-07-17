@@ -38,6 +38,9 @@ class AssignmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         month = timezone.now().month
         context["year"] = year
         context["month"] = month
+
+        context["title"] = "Create Assignment - CloudStaffHub"
+
         return context
 
     def get_success_url(self):

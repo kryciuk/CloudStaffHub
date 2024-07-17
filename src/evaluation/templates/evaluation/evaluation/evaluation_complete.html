@@ -47,16 +47,16 @@
                             <fieldset class="form-group">
                                 <legend class="border-bottom mb-4 legend-heading">Evaluation ID: {{ evaluation.id }}</legend>
                                 <div style="text-align:left">
-                                    <a class="text-muted" style="text-align: left"> Employee: {{ evaluation.employee.first_name }} {{ evaluation.employee.last_name }}</a>
+                                    <a class="text-muted" style="text-align: left"><strong>Employee:</strong> {{ evaluation.employee.first_name }} {{ evaluation.employee.last_name }}</a>
                                 </div>
                                 <div style="text-align:left">
-                                    <a class="text-muted" style="text-align: left"> Manager: {{ evaluation.manager.first_name }} {{ evaluation.manager.last_name }}</a>
+                                    <a class="text-muted" style="text-align: left"><strong>Manager:</strong> {{ evaluation.manager.first_name }} {{ evaluation.manager.last_name }}</a>
                                 </div>
                                 <div style="text-align:left">
-                                    <a class="text-muted" style="text-align: left">Created: {{ evaluation.date_created }}</a>
+                                    <a class="text-muted" style="text-align: left"><strong>Created:</strong> {{ evaluation.date_created }}</a>
                                 </div>
                                 <div style="text-align:left">
-                                    <a class="text-muted" style="text-align: left">Deadline: {{ evaluation.date_end }}</a>
+                                    <a class="text-muted" style="text-align: left"><strong>Deadline:</strong> {{ evaluation.date_end }}</a>
                                 </div>
                             </fieldset>
                             <fieldset class="form-group">

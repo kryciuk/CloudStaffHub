@@ -57,4 +57,38 @@ class RecruiterDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVi
 
         # statistics job applications
 
+        company_job_applications = len(
+            JobApplication.objects.filter(job_offer__company=self.request.user.profile.company)
+        )
+        company_job_applications_received = len(
+            JobApplication.objects.filter(
+                job_offer__company=self.request.user.profile.company, status=JobApplication.Status.RECEIVED
+            )
+        )
+        company_job_applications_under_review = len(
+            JobApplication.objects.filter(
+                job_offer__company=self.request.user.profile.company, status=JobApplication.Status.UNDER_REVIEW
+            )
+        )
+        company_job_applications_closed = len(
+            JobApplication.objects.filter(
+                job_offer__company=self.request.user.profile.company, status=JobApplication.Status.CLOSED
+            )
+        )
+        company_job_applications_approved = len(
+            JobApplication.objects.filter(
+                job_offer__company=self.request.user.profile.company, status=JobApplication.Status.APPROVED
+            )
+        )
+
+        context["company_job_applications"] = company_job_applications
+        context["company_job_applications_received"] = company_job_applications_received
+        context["company_job_applications_under_review"] = company_job_applications_under_review
+        context["company_job_applications_closed"] = company_job_applications_closed
+        context["company_job_applications_approved"] = company_job_applications_approved
+
+        # title
+
+        context["title"] = "Recruiter's Dashboard - CloudStaffHub"
+
         return context

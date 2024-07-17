@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView
 
 from core.base import has_group
+from core.settings.common import BASE_DIR
 from evaluation.models import Evaluation
 from recruitment.models import JobApplication
 
@@ -23,6 +24,7 @@ class ManagerDashboardView(UserHasManagerOrHigherGroup, TemplateView):
 
         # evaluations
 
+        print(BASE_DIR)
         assigned_evaluations = Evaluation.objects.filter(manager=self.request.user, status_manager=False).order_by(
             "-date_end"
         )[:5]
@@ -46,5 +48,7 @@ class ManagerDashboardView(UserHasManagerOrHigherGroup, TemplateView):
         context["number_of_applications"] = len(review_job_applications)
 
         context["review_job_applications"] = review_job_applications
+
+        context["title"] = "Manager's Dashboard - CloudStaffHub"
 
         return context

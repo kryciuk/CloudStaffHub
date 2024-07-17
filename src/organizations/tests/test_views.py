@@ -69,7 +69,7 @@ class TestCompanyProfileView(TransactionTestCase):
         response = self.client.get(reverse("company-profile", kwargs={"pk": self.user_employee.profile.company.id}))
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
-    def test_if_title_if_correct(self):
+    def test_if_title_is_correct(self):
         self.client.force_login(self.user_owner1)
         response = self.client.get(reverse("company-profile", kwargs={"pk": self.user_employee.profile.company.id}))
         title = response.context["title"]
@@ -121,7 +121,7 @@ class TestCompanyRegisterView(TransactionTestCase):
         self.assertEqual(len(Company.objects.all()), 1)
         self.assertContains(response, "Company with this name already exists.")
 
-    def test_if_title_if_correct(self):
+    def test_if_title_is_correct(self):
         response = self.client.get(reverse("register-company"))
         title = response.context["title"]
         self.assertEqual(title, "Register Company - Cloud Staff Hub")

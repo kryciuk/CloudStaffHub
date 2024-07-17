@@ -38,7 +38,7 @@ class TestUrls(TransactionTestCase):
             "positions-list": reverse("positions-list"),
             "city-create": reverse("city-create"),
         }
-        for name, url in self.urls.items():
+        for name, url in urls.items():
             with self.subTest(url_name=name):
                 res = self.client.get(url)
                 self.assertNotEqual(res.status_code, status.HTTP_200_OK)

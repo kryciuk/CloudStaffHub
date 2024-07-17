@@ -45,7 +45,7 @@ jobs:
     - name: Run Tests
       run: |
         cd src
-        poetry run python manage.py test
+        poetry run python manage.py test --settings=core.settings.development
       env:
         DB_NAME: ${{ vars.DB_NAME }}
         DB_USER: ${{ vars.DB_USER }}
@@ -54,11 +54,9 @@ jobs:
         DB_HOST: ${{ secrets.DB_HOST }}
         SMTP_HOST: ${{ vars.SMTP_HOST }}
         SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-      continue-on-error: true
     - name: Run Bandit
       run: |
         poetry run bandit -c pyproject.toml -r .
-      continue-on-error: true
     - name: Run Safety
       run: |
         poetry run safety check
@@ -66,4 +64,3 @@ jobs:
     - name: Run Ruff
       run: |
         poetry run ruff src
-      continue-on-error: true

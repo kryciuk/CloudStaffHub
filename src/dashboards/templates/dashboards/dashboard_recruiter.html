@@ -117,17 +117,17 @@
             <small>Total offers posted: <strong>{{ company_job_offers_all }}</strong></small>
             <br>
             <small>Percentage share on CloudStaffHub: <strong>{{ company_job_offers_percentage | stringformat:"d%%" }}</strong></small>
-            <h5 class="h3-special">Job applications:</h5>
+            <h5 class="h3-special mt-3">Job applications:</h5>
             <p>
-                <small>Total job applications: <strong>{{ company_job_offers_all }}</strong></small>
+                <small>Total job applications: <strong>{{ company_job_applications }}</strong></small>
                 <br>
-                <small>Received: <strong>{{ number_of_departments }}</strong></small>
+                <small>Received: <strong>{{ company_job_applications_received }}</strong></small>
                 <br>
-                <small>Under review: <strong>{{ number_of_departments }}</strong></small>
+                <small>Under review: <strong>{{ company_job_applications_under_review }}</strong></small>
                 <br>
-                <small>Closed: <strong>{{ number_of_departments }}</strong></small>
+                <small>Closed: <strong>{{ company_job_applications_closed }}</strong></small>
                 <br>
-                <small>Approved: <strong>{{ number_of_departments }}</strong></small>
+                <small>Approved: <strong>{{ company_job_applications_approved }}</strong></small>
                 <br>
             </p>
         </div>

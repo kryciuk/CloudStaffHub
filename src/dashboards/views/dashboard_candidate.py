@@ -21,8 +21,11 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
         # random company
 
         context["random_company"] = None
-        if len(Company.objects.all()) != 0:
-            random_company = randrange(1, len(Company.objects.all()) + 1)
+        companies_with_images = len(
+            Company.objects.exclude(companyprofile__company_logo="organizations/company_logo/default.jpg").all()
+        )
+        if companies_with_images != 0:
+            random_company = randrange(1, companies_with_images + 1)
             context["random_company"] = Company.objects.get(id=random_company)
 
         # job offers tailored to user
@@ -67,10 +70,12 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
         results_tips = requests.get(
             "https://newsapi.org/v2/everything?q=job+hunting+tips&apiKey=063c8ff3b9ab476297774505a481006d", timeout=5
         ).json()
-        articles_tips = results_tips["articles"]
-        random_article_tips = random.randrange(0, len(articles_tips))
-        article_tips = articles_tips[random_article_tips]
-        context["article_tips"] = article_tips
+        context["article_tips"] = "Currently there are no articles..."
+        if results_tips["status"] != "error":
+            articles_tips = results_tips["articles"]
+            random_article_tips = random.randrange(0, len(articles_tips))
+            article_tips = articles_tips[random_article_tips]
+            context["article_tips"] = article_tips
 
         # articles interested in
 
@@ -89,10 +94,14 @@ class CandidateDashboardView(LoginRequiredMixin, TemplateView):
             f"https://newsapi.org/v2/everything?q={industry}&sortby=relevancy&language=en&from={oldest_article_date}&apiKey=063c8ff3b9ab476297774505a481006d",
             timeout=5,
         ).json()
-        articles_industry = results_industry["articles"]
-        most_relevant = round(len(articles_industry) * 0.3)
-        random_article_industry = random.randrange(0, most_relevant)
-        article_industry = articles_industry[random_article_industry]
-        context["article_industry"] = article_industry
+        context["article_industry"] = "Currently there are no articles..."
+        if results_industry["status"] != "error":
+            articles_industry = results_industry["articles"]
+            most_relevant = round(len(articles_industry) * 0.3)
+            random_article_industry = random.randrange(0, most_relevant)
+            article_industry = articles_industry[random_article_industry]
+            context["article_industry"] = article_industry
+
+        context["title"] = "Candidate's Dashboard - CloudStaffHub"
 
         return context

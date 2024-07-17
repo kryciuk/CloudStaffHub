@@ -8,3 +8,14 @@ from .profile.profile_detail import ProfileDetailView
 from .profile.profile_edit_by_owner import UserInfoEditByOwnerView
 from .profile.profile_update import ProfileUpdateView
 
+__all__ = [
+    "UserLoginView",
+    "RegisterView",
+    "UserPasswordResetView",
+    "UserPasswordResetCompleteView",
+    "UserPasswordResetConfirmView",
+    "UserPasswordResetDoneView",
+    "ProfileDetailView",
+    "UserInfoEditByOwnerView",
+    "ProfileUpdateView",
+]

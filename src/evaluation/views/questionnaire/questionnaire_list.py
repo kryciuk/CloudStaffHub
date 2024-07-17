@@ -8,7 +8,7 @@ from evaluation.models import Questionnaire
 class QuestionnaireListByUserView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Questionnaire
     context_object_name = "questionnaires"
-    template_name = "evaluation/questionnaire_list.html"
+    template_name = "evaluation/questionnaire/questionnaire_list.html"
     queryset = Questionnaire.objects.all()
     permission_required = "evaluation.add_questionnaire"
 

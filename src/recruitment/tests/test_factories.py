@@ -1,8 +1,7 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
 
-from recruitment.factories import JobOfferFactory, JobApplicationFactory
-from recruitment.models import JobOffer, JobApplication
+from recruitment.factories import JobApplicationFactory, JobOfferFactory
+from recruitment.models import JobApplication, JobOffer
 
 
 class TestUserFactories(TestCase):
@@ -21,4 +20,3 @@ class TestUserFactories(TestCase):
     def test_job_application_batch_factory(self):
         JobApplicationFactory.create_batch(5)
         self.assertEqual(JobApplication.objects.count(), 5)
-

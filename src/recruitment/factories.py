@@ -1,12 +1,12 @@
-from django.utils import timezone
 from random import choice, randint
 
 import factory
-import pytz
+from django.utils import timezone
 
-from .models import JobOffer, JobApplication
-from organizations.factories import PositionFactory, CityFactory, CompanyFactory
+from organizations.factories import CityFactory, CompanyFactory, PositionFactory
 from users.factories import CandidateFactory
+
+from .models import JobApplication, JobOffer
 
 
 class JobOfferFactory(factory.django.DjangoModelFactory):
@@ -36,6 +36,7 @@ class JobApplicationFactory(factory.django.DjangoModelFactory):
     cv = "cv.pdf"
     consent_processing_data = True
     status = 0
+
 
 # python manage.py shell
 # from recruitment.factories import JobOfferFactory, JobApplicationFactory

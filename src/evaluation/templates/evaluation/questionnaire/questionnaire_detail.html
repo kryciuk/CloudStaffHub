@@ -36,18 +36,18 @@
                                         </ul>
                                     {% endfor %}
                                 </fieldset>
-                                <div class="form-group">
-                                    {% csrf_token %}
+                                <div class="form-group d-flex justify-content-between align-items-center">
                                     <form method="post"
                                           action="{% url "questionnaire-close" questionnaire.id %}">
-                                        <button type="button" class="btn btn-outline-danger">Close Questionnaire</button>
-                                        <div class="float-right">
-                                            <a class="btn btn-outline-secondary"
-                                               href="{% url "questionnaire-create" %}">Add Questionnaire</a>
-                                            <a class="btn btn-outline-secondary"
-                                               href="{% url "questionnaire-list" %}">All Questionnaires</a>
-                                        </div>
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-danger">Close Questionnaire</button>
                                     </form>
+                                    <div class="float-right">
+                                        <a class="btn btn-outline-secondary"
+                                           href="{% url "questionnaire-create" %}">Add Questionnaire</a>
+                                        <a class="btn btn-outline-secondary"
+                                           href="{% url "questionnaire-list" %}">All Questionnaires</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

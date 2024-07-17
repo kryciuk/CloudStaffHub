@@ -9,7 +9,7 @@ class LandingConfig(AppConfig):
     name = "landing"
 
     def ready(self):
-        from users.signals import create_profile
+        from users.signals import create_profile  # noqa: F401
 
         post_migrate.connect(self.populate_models, sender=self)
         post_migrate.connect(self.create_industries, sender=self)

@@ -95,4 +95,6 @@ class OwnerDashboardView(UserHasOwnerOrHigherGroup, TemplateView):
         chart1 = fig1.to_html()
         context["fig1"] = chart1
 
+        context["title"] = "Owner's Dashboard - CloudStaffHub"
+
         return context

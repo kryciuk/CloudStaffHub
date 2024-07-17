@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <title>{{ title }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet"
@@ -9,23 +10,22 @@
               href="{% static 'landing/base.css' %}" />
         <style>
             body {
-                background-image: url('https://i.ibb.co/vh7qx9D/background.jpg');
+                background-image: url('https://images.unsplash.com/photo-1501618669935-18b6ecb13d6d?q=80&w=2049&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
                 }
-		    .user_card {
-			    width: 500px;
-                margin-top: 100px;
+            .user_card {
+                width: 500px;
+                margin-top: 300px;
                 margin-bottom: auto;
-                background: #f8f9fa;
+                background: linear-gradient(145deg, #ffffff, #e6e6e6);
                 position: relative;
                 display: flex;
                 justify-content: center;
                 flex-direction: column;
-                padding: 10px;
-                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 30px 0 rgba(0, 0, 0, 0.19);
-                -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                border-radius: 5px;
-                }
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+                border-radius: 15px;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -43,6 +43,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

@@ -23,6 +23,9 @@ class AssignmentListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         month = timezone.now().month
         context["year"] = year
         context["month"] = month
+
+        context["title"] = "Assignment List - CloudStaffHub"
+
         return context
 
     def handle_no_permission(self):

@@ -9,14 +9,6 @@ class Company(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-    # def save(self, *args, **kwargs):
-    #     if not self.pk:
-    #         company_profile = CompanyProfile.objects.create(company=self)
-    #         company_profile.save()
-
-
-# INDSUTRY (IT) -> DATA_ANALYTISCT / DESIGN itd.
-
 
 class Department(models.Model):
     class DepartmentChoices(models.TextChoices):
