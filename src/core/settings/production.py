@@ -20,7 +20,7 @@ ALLOWED_HOSTS = ("cloudstaffhub.eu-west-1.elasticbeanstalk.com",)
 
 SECRET_KEY = env("SECRET_KEY")
 
-MEDIA_ROOT = os.path.join(BASE_DIR.parent.parent, "media")
+MEDIA_ROOT = os.path.join(BASE_DIR.parent, "media")
 
 DATABASES = {
     "default": {
