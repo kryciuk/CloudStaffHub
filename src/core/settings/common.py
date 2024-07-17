@@ -140,8 +140,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_URL = "login"
 
-MEDIA_ROOT = os.path.join(BASE_DIR.parent.parent, "src", "media")
-
 MEDIA_URL = "/media/"
 
 GROUPS_MANAGER = {

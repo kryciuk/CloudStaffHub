@@ -22,3 +22,5 @@ DATABASES = {
 
 SMTP_HOST = env("SMTP_HOST")
 SMTP_PASSWORD = env("SMTP_PASSWORD")
+
+MEDIA_ROOT = os.path.join(BASE_DIR.parent.parent, "src", "media")
