@@ -45,7 +45,7 @@ jobs:
     - name: Run Tests
       run: |
         cd src
-        poetry run python manage.py test
+        poetry run python manage.py test --settings=core.settings.development
       env:
         DB_NAME: ${{ vars.DB_NAME }}
         DB_USER: ${{ vars.DB_USER }}
