@@ -1,4 +1,3 @@
-from core.env import env
 from core.settings.common import *
 
 env.read_env(os.path.join(BASE_DIR, "../../.env"))
